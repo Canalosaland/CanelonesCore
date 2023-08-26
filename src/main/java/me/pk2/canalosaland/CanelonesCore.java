@@ -6,10 +6,7 @@ import me.pk2.canalosaland.command.*;
 import me.pk2.canalosaland.config.ConfigLoader;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.dependencies.*;
-import me.pk2.canalosaland.listeners.ATMListener;
-import me.pk2.canalosaland.listeners.HalalListener;
-import me.pk2.canalosaland.listeners.InterfaceListener;
-import me.pk2.canalosaland.listeners.PlayerListener;
+import me.pk2.canalosaland.listeners.*;
 import me.pk2.canalosaland.reflections.ReflectionsManager;
 import me.pk2.canalosaland.runnables.BalanceTopRunnable;
 import me.pk2.canalosaland.runnables.TablistRunnable;
@@ -99,6 +96,7 @@ public class CanelonesCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InterfaceListener(), this);
         Bukkit.getPluginManager().registerEvents(new ATMListener(), this);
         Bukkit.getPluginManager().registerEvents(new HalalListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BountyListener(), this);
 
         // Register users if it was a reload
         _LOG("Users", "Registering...");
@@ -126,6 +124,8 @@ public class CanelonesCore extends JavaPlugin {
         getCommand("halal").setExecutor(new CommandHalalToggle());
 
         getCommand("lightning").setExecutor(new CommandLightning());
+
+        getCommand("bounty").setExecutor(new CommandBounty());
 
         //getCommand("npctest").setExecutor(new CommandNPCTest());
 

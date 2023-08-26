@@ -1,6 +1,7 @@
 package me.pk2.canalosaland.util;
 
 import me.pk2.canalosaland.CanelonesCore;
+import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.dependencies.DependencyPAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -29,12 +30,14 @@ public class Wrapper {
         );
     }
     public static World _WORLD_OR_DEFAULT(String worldName) { return Bukkit.getWorld(worldName) == null ? Bukkit.getWorlds().get(0) : Bukkit.getWorld(worldName); }
+    public static void _GLOBAL_MESSAGE(String message) { Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(_COLOR(ConfigMainBuffer.buffer.server_prefix + message))); }
     public static void _SOUND_OPEN(Player player) { player.playSound(player.getLocation(), "block.ender_chest.open", 1.0f, 1.2f); }
     public static void _SOUND_CLOSE(Player player) { player.playSound(player.getLocation(), "block.ender_chest.close", 1.0f, 1.2f); }
     public static void _SOUND_CLICK(Player player) { player.playSound(player.getLocation(), "ui.button.click", 1.0f, 1.8f); }
     public static void _SOUND_EXP(Player player) { player.playSound(player.getLocation(), "entity.experience_orb.pickup", 1.0f, 1.5f); }
     public static void _SOUND_PAGE(Player player) { player.playSound(player.getLocation(), "item.book.page_turn", 1f, 1.5f); }
     public static void _SOUND_NOTIFICATION(Player player) { player.playSound(player.getLocation(), "block.note_block.chime", 1f, 1.8f); }
+    public static void _SOUND_BOUNTY(Player player) { player.playSound(player.getLocation(), "block.chest.locked", 1f, 1.5f);}
     public static void _SOUND_ERROR(Player player) { player.playSound(player.getLocation(), "block.note_block.bass", 1f, 0f); }
 
     public static String _HASH(String text) {

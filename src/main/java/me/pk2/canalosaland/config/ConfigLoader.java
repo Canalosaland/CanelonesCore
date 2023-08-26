@@ -3,6 +3,7 @@ package me.pk2.canalosaland.config;
 import static me.pk2.canalosaland.CanelonesCore.INSTANCE;
 
 import me.pk2.canalosaland.config.buff.ConfigAtmBuffer;
+import me.pk2.canalosaland.config.buff.ConfigBountyBuffer;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.webapi.WebAPI;
 
@@ -10,6 +11,7 @@ public class ConfigLoader {
     public static void load() {
         ConfigMainBuffer.load();
         ConfigAtmBuffer.load();
+        ConfigBountyBuffer.load();
 
         if(INSTANCE.webAPI != null)
             if (ConfigMainBuffer.buffer.webapi.enabled)
@@ -24,5 +26,6 @@ public class ConfigLoader {
     public static void save() {
         ConfigMainBuffer.save();
         ConfigAtmBuffer.save();
+        ConfigBountyBuffer.save();
     }
 }

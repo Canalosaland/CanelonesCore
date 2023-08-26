@@ -59,10 +59,8 @@ public class ConfigMainBuffer {
         _LOG("config.yml", "Loading...");
 
         File file = new File(_CONFIG("config.yml"));
-        if(!file.exists()) {
+        if(!file.exists())
             saveDefault();
-            return;
-        }
 
         CONFIG = YamlConfiguration.loadConfiguration(file);
         // Tablist

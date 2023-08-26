@@ -42,3 +42,6 @@ commands:
   lightning:
     description: Strike a player with lightning
     usage: /<command> <player>
+  bounty:
+    description: Set a bounty on a player
+    usage: /<command> <player> <amount>

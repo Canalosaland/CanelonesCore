@@ -76,10 +76,8 @@ public class ConfigAtmBuffer {
         _LOG("atm.yml", "Loading...");
 
         File file = new File(_CONFIG("atm.yml"));
-        if(!file.exists()) {
+        if(!file.exists())
             saveDefault();
-            return;
-        }
 
         CONFIG = YamlConfiguration.loadConfiguration(file);
         buffer.prices.rabbit_foot = CONFIG.getDouble("prices.rabbit_foot");
