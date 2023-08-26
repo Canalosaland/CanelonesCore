@@ -1,0 +1,24 @@
+tablist:
+  enabled: true
+  update: 1
+  header:
+    - '&cHEADER'
+  footer:
+    - '&cFOOTER'
+messages:
+  join:
+    enabled: true
+    message: '&e%prefix%%player%%suffix% &ejoined the game'
+  leave:
+    enabled: true
+    message: '&e%prefix%%player%%suffix% &eleft the game'
+  chat:
+    enabled: true
+    message: '&e%prefix%%player%%suffix%&r: %message%'
+pm_tcom:
+  enabled: true
+baltop:
+  update: 2 # In minutes
+webapi: # API for app
+  enabled: false
+  port: 8080

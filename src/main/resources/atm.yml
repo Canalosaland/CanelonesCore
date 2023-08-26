@@ -1,0 +1,37 @@
+prices:
+  rabbit_foot: 0.05
+  coal_ore: 1
+  iron_ore: 2
+  gold_ore: 3
+  redstone_ore: 4
+  gold_horse_armor: 5
+  nether_quartz_ore: 6
+  golden_apple: 8
+  nether_gold_ore: 9
+  iron_horse_ore: 10
+  lapis_ore: 15
+  diamond_horse_armor: 20
+  emerald: 25
+  shulker_shell: 35
+  diamond: 50
+  diamond_ore: 65
+  heart_of_the_sea: 80
+  emerald_ore: 100
+  conduit: 110
+  ancient_debris: 125
+  netherite_scrap: 130
+  music_disc_pigstep: 200
+  piglin_banner_pattern: 250
+  gilded_blackstone: 350
+  dragon_head: 400
+  netherite_ingot: 530
+  mojang_banner_pattern: 750
+  enchanted_golden_apple: 1000
+atms:
+  0:
+    enabled: true
+    location:
+      world: world
+      x: 0
+      y: 0
+      z: 0

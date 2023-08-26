@@ -1,0 +1,32 @@
+name: CanelonesCore
+version: 2.1.2
+main: me.pk2.canalosaland.CanelonesCore
+author: PK2_Stimpy
+description: CanelonesCore
+api-version: 1.16
+softdepend: [PlaceholderAPI, LuckPerms, Telecom, Vault, ProtocolLib, AuthMe]
+commands:
+  canelones-reload:
+    description: Reloads the plugin
+    usage: /<command>
+  pm:
+    description: Private message
+    usage: /<command> <player> <message>
+  msg:
+    description: Private message
+    usage: /<command> <player> <message>
+  tell:
+    description: Private message
+    usage: /<command> <player> <message>
+  r:
+    description: Reply to a private message
+    usage: /<command> <message>
+  iphone:
+    description: Open the iPhone menu
+    usage: /<command>
+  atm-manage:
+    description: Manage the ATMs
+    usage: /<command>
+  baltop:
+    description: See the richest players
+    usage: /<command>
