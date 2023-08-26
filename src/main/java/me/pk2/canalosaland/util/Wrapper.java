@@ -3,6 +3,8 @@ package me.pk2.canalosaland.util;
 import me.pk2.canalosaland.CanelonesCore;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.dependencies.DependencyPAPI;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -17,6 +19,7 @@ public class Wrapper {
     public static void _LOG(String prefix, String message) { CanelonesCore.INSTANCE.getLogger().info("[" + prefix + "] " + message); }
     public static void _LOG(String message) { CanelonesCore.INSTANCE.getLogger().info(message); }
     public static String _COLOR(String text) { return ChatColor.translateAlternateColorCodes('&', text); }
+    public static TextComponent _COMP(String text) { return new TextComponent(_COLOR(text)); }
     public static String _UUID(Player player) { return player.getUniqueId().toString().toLowerCase(); }
     public static String _PLACEHOLDER(Player player, String text) {
         return DependencyPAPI.parse(player, text

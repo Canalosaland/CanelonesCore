@@ -30,3 +30,15 @@ commands:
   baltop:
     description: See the richest players
     usage: /<command>
+  say:
+    description: Global server message
+    usage: /<command> <message>
+  soundall:
+    description: Play a sound to all players
+    usage: /<command> <sound> [volume] [pitch]
+  halal:
+    description: Halal mode
+    usage: /<command> [on/off]
+  lightning:
+    description: Strike a player with lightning
+    usage: /<command> <player>

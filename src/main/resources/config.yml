@@ -22,3 +22,12 @@ baltop:
 webapi: # API for app
   enabled: false
   port: 8080
+server_prefix: '&e&l[&6&lSYSTEM&e&l] &r'
+halal_mode:
+  enabled: false
+  activate:
+    pork: true
+  action: # Console commands
+    - 'say &c&l%player% &chas %action%!'
+    - 'soundall block.chain.fall 1 0.5'
+    - 'lightning %player%'

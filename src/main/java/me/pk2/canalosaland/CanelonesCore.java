@@ -7,6 +7,7 @@ import me.pk2.canalosaland.config.ConfigLoader;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.dependencies.*;
 import me.pk2.canalosaland.listeners.ATMListener;
+import me.pk2.canalosaland.listeners.HalalListener;
 import me.pk2.canalosaland.listeners.InterfaceListener;
 import me.pk2.canalosaland.listeners.PlayerListener;
 import me.pk2.canalosaland.reflections.ReflectionsManager;
@@ -97,6 +98,7 @@ public class CanelonesCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
         Bukkit.getPluginManager().registerEvents(new InterfaceListener(), this);
         Bukkit.getPluginManager().registerEvents(new ATMListener(), this);
+        Bukkit.getPluginManager().registerEvents(new HalalListener(), this);
 
         // Register users if it was a reload
         _LOG("Users", "Registering...");
@@ -116,6 +118,14 @@ public class CanelonesCore extends JavaPlugin {
         getCommand("atm-manage").setExecutor(new CommandATMManage());
 
         getCommand("baltop").setExecutor(new CommandBaltop());
+
+        getCommand("say").setExecutor(new CommandSay());
+
+        getCommand("soundall").setExecutor(new CommandSoundAll());
+
+        getCommand("halal").setExecutor(new CommandHalalToggle());
+
+        getCommand("lightning").setExecutor(new CommandLightning());
 
         //getCommand("npctest").setExecutor(new CommandNPCTest());
 

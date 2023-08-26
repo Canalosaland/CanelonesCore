@@ -45,6 +45,14 @@ public class ConfigMainBuffer {
             public static boolean enabled;
             public static int port;
         }
+        public static String server_prefix;
+        public static class halal_mode {
+            public static boolean enabled;
+            public static class activate {
+                public static boolean pork;
+            }
+            public static List<String> action;
+        }
     }
 
     public static void load() {
@@ -78,6 +86,14 @@ public class ConfigMainBuffer {
         // WebAPI
         buffer.webapi.enabled = CONFIG.getBoolean("webapi.enabled");
         buffer.webapi.port = CONFIG.getInt("webapi.port");
+        // Server prefix
+        buffer.server_prefix = CONFIG.getString("server_prefix");
+        // Halal mode
+        buffer.halal_mode.enabled = CONFIG.getBoolean("halal_mode.enabled");
+
+        buffer.halal_mode.activate.pork = CONFIG.getBoolean("halal_mode.activate.pork");
+
+        buffer.halal_mode.action = CONFIG.getStringList("halal_mode.action");
 
         _LOG("config.yml", "Config loaded!");
     }
@@ -106,6 +122,14 @@ public class ConfigMainBuffer {
         // WebAPI
         CONFIG.set("webapi.enabled", buffer.webapi.enabled);
         CONFIG.set("webapi.port", buffer.webapi.port);
+        // Server prefix
+        CONFIG.set("server_prefix", buffer.server_prefix);
+        // Halal mode
+        CONFIG.set("halal_mode.enabled", buffer.halal_mode.enabled);
+
+        CONFIG.set("halal_mode.activate.pork", buffer.halal_mode.activate.pork);
+
+        CONFIG.set("halal_mode.action", buffer.halal_mode.action);
 
         try {
             CONFIG.save(_CONFIG("config.yml"));
