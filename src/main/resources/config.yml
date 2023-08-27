@@ -27,6 +27,7 @@ halal_mode:
   enabled: false
   activate:
     pork: true
+    day_food: true
   action: # Console commands
     - 'say &c&l%player% &chas %action%!'
     - 'soundall block.chain.fall 1 0.5'

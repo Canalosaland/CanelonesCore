@@ -50,6 +50,7 @@ public class ConfigMainBuffer {
             public static boolean enabled;
             public static class activate {
                 public static boolean pork;
+                public static boolean day_food;
             }
             public static List<String> action;
         }
@@ -90,6 +91,7 @@ public class ConfigMainBuffer {
         buffer.halal_mode.enabled = CONFIG.getBoolean("halal_mode.enabled");
 
         buffer.halal_mode.activate.pork = CONFIG.getBoolean("halal_mode.activate.pork");
+        buffer.halal_mode.activate.day_food = CONFIG.getBoolean("halal_mode.activate.day_food");
 
         buffer.halal_mode.action = CONFIG.getStringList("halal_mode.action");
 
@@ -126,6 +128,7 @@ public class ConfigMainBuffer {
         CONFIG.set("halal_mode.enabled", buffer.halal_mode.enabled);
 
         CONFIG.set("halal_mode.activate.pork", buffer.halal_mode.activate.pork);
+        CONFIG.set("halal_mode.activate.day_food", buffer.halal_mode.activate.day_food);
 
         CONFIG.set("halal_mode.action", buffer.halal_mode.action);
 
