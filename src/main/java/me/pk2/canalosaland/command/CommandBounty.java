@@ -58,7 +58,7 @@ public class CommandBounty implements CommandExecutor {
         String senderUUID = (sender instanceof Player) ? ((Player)sender).getUniqueId().toString() : "ffffffff-ffff-ffff-ffff-ffffffffffff";
         String senderName = (sender instanceof Player) ? ((Player)sender).getName() : "CONSOLE";
 
-        if(ConfigBountyBuffer.getBounty(target.getName()) > 0)
+        if(ConfigBountyBuffer.getBounty(_UUID(target)) > 0)
             _GLOBAL_MESSAGE("&c" + senderName + " &7has added a &e" + amount + "$ &7bounty on &c" + target.getName() + "&7!");
         else _GLOBAL_MESSAGE("&c" + senderName + " &7has put a &e" + amount + "$ &7bounty on &c" + target.getName() + "&7!");
 
