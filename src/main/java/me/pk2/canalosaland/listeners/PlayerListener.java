@@ -33,7 +33,7 @@ public class PlayerListener implements Listener {
 
             double bounty = ConfigBountyBuffer.getBounty(player.getUniqueId().toString());
             if(bounty > 0)
-                Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(_COLOR("&7" + p.getName() + " &8has a &7" + bounty + "$ &8bounty.")));
+                Bukkit.getOnlinePlayers().forEach(p -> player.sendMessage(_COLOR("&7" + p.getName() + " &8has a &7" + bounty + "$ &8bounty.")));
         }, 100L);
     }
 
