@@ -1,5 +1,6 @@
 package me.pk2.canalosaland.listeners;
 
+import me.pk2.canalosaland.CanelonesCore;
 import me.pk2.canalosaland.config.buff.ConfigBountyBuffer;
 import me.pk2.canalosaland.dependencies.DependencyVault;
 import me.pk2.canalosaland.util.Wrapper;
@@ -24,9 +25,13 @@ public class BountyListener implements Listener {
             ConfigBountyBuffer.save();
             DependencyVault.deposit(killer, bounty);
 
-            _GLOBAL_MESSAGE("&a" + killer.getName() + " &7has claimed the &e" + bounty + "$ &7bounty on &c" + target.getName() + "&7!");
+            String killerName = killer.getName();
+            String targetName = target.getName();
 
-            Bukkit.getOnlinePlayers().forEach(Wrapper::_SOUND_BOUNTY);
+            Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
+                _GLOBAL_MESSAGE("&a" + killerName + " &7has claimed the &e" + bounty + "$ &7bounty on &c" + targetName + "&7!");
+                Bukkit.getOnlinePlayers().forEach(Wrapper::_SOUND_BOUNTY);
+            }, 20L);
         }
     }
 }
