@@ -29,7 +29,7 @@ public class GInterfacePhoneProviders extends GInterface {
             case 26: {
                 owner.player.closeInventory();
                 Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
-                    owner.interfaces.get(GInterfacePhone.class).open();
+                    owner.openI(GInterfacePhone.class);
                 }, 2L);
             } break;
         }
@@ -47,7 +47,7 @@ public class GInterfacePhoneProviders extends GInterface {
                 owner.player.closeInventory();
 
                 Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
-                    owner.interfaces.get(GInterfacePhone.class).open();
+                    owner.openI(GInterfacePhone.class);
                 }, 2L);
             }
     }

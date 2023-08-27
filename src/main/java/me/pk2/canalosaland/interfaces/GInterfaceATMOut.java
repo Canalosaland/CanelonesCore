@@ -27,7 +27,7 @@ public class GInterfaceATMOut extends GInterface {
         switch(slot) {
             case 53 -> {
                 owner.player.closeInventory();
-                owner.interfaces.get(GInterfaceATM.class).open();
+                owner.openI(GInterfaceATM.class);
 
                 _SOUND_CLOSE(owner.player);
                 return;

@@ -42,6 +42,13 @@ public class User {
         this.team.setSuffix(_COLOR(DependencyLP.getSuffix(player)));
     }
 
+    public void openI(Class<? extends GInterface> iClass) {
+        GInterface gui = interfaces.get(iClass);
+        if(gui == null)
+            return;
+        gui.open();
+    }
+
     public void handleJoin() {
         for(GInterface gui : interfaces.values())
             gui.init();

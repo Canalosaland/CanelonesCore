@@ -28,6 +28,6 @@ public class ATMListener implements Listener {
             return;
 
         event.setCancelled(true);
-        user.interfaces.get(GInterfaceATM.class).open();
+        user.openI(GInterfaceATM.class);
     }
 }

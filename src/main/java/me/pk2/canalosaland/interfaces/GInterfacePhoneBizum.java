@@ -113,7 +113,7 @@ public class GInterfacePhoneBizum extends GInterface {
             case 53 -> {
                 owner.player.closeInventory();
                 Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
-                    owner.interfaces.get(GInterfacePhone.class).open();
+                    owner.openI(GInterfacePhone.class);
                 }, 2L);
 
                 _SOUND_CLOSE(owner.player);

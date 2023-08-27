@@ -26,7 +26,7 @@ public class GInterfaceATM extends GInterface {
         switch(slot) {
             case 3 -> {
                 owner.player.closeInventory();
-                Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> owner.interfaces.get(GInterfaceATMIn.class).open(), 2L);
+                Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> owner.openI(GInterfaceATMIn.class), 2L);
 
                 _SOUND_CLICK(owner.player);
             }
@@ -35,7 +35,7 @@ public class GInterfaceATM extends GInterface {
 
             case 5 -> {
                 owner.player.closeInventory();
-                Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> owner.interfaces.get(GInterfaceATMOut.class).open(), 2L);
+                Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> owner.openI(GInterfaceATMOut.class), 2L);
 
                 _SOUND_CLICK(owner.player);
             }

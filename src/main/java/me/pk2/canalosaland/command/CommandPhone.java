@@ -25,7 +25,7 @@ public class CommandPhone implements CommandExecutor {
             return true;
         }
 
-        user.interfaces.get(GInterfacePhone.class).open();
+        user.openI(GInterfacePhone.class);
         return true;
     }
 }

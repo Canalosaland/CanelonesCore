@@ -127,6 +127,8 @@ public class CanelonesCore extends JavaPlugin {
 
         getCommand("bounty").setExecutor(new CommandBounty());
 
+        getCommand("interface").setExecutor(new CommandInterface());
+
         //getCommand("npctest").setExecutor(new CommandNPCTest());
 
         _LOG("Enabled!");

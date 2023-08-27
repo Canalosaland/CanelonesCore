@@ -48,7 +48,7 @@ public class GInterfacePhone extends GInterface {
                 if(carrier == null) {
                     owner.player.closeInventory();
                     Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
-                        owner.interfaces.get(GInterfacePhoneProviders.class).open();
+                        owner.openI(GInterfacePhoneProviders.class);
                     }, 2L);
                     return;
                 }
@@ -65,19 +65,19 @@ public class GInterfacePhone extends GInterface {
                 _SOUND_EXP(owner.player);
 
                 Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
-                    owner.interfaces.get(GInterfacePhone.class).open();
+                    owner.openI(GInterfacePhone.class);
                 }, 2L);
             } break;
             case 4: {
                 owner.player.closeInventory();
                 Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
-                    owner.interfaces.get(GInterfacePhoneProviders.class).open();
+                    owner.openI(GInterfacePhoneProviders.class);
                 }, 2L);
             } break;
             case 5: {
                 owner.player.closeInventory();
                 Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
-                    owner.interfaces.get(GInterfacePhoneBizum.class).open();
+                    owner.openI(GInterfacePhoneBizum.class);
                 }, 2L);
             } break;
             case 8: {

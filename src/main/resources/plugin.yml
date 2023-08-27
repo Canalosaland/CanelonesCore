@@ -45,3 +45,6 @@ commands:
   bounty:
     description: Set a bounty on a player
     usage: /<command> <player> <amount>
+  interface:
+    description: Open a interface
+    usage: /<command> <interface>
