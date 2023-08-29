@@ -1,5 +1,8 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("java")
+    id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
 group = "me.pk2.canalosaland"
@@ -30,8 +33,24 @@ dependencies {
     compileOnly("com.mojang:authlib:1.5.21")
     compileOnly("com.comphenix.protocol:ProtocolLib:4.8.0")
     compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
+    compileOnly(files("libs/Telecom-Release.jar"))
 
-    implementation(files("libs/Telecom-Release.jar"))
+    implementation("org.xerial:sqlite-jdbc:3.42.0.1")
+}
+
+tasks.withType<ShadowJar> {
+    dependencies {
+        exclude(dependency("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"))
+        exclude(dependency("me.clip:placeholderapi:2.11.3"))
+        exclude(dependency("net.luckperms:api:5.4"))
+        exclude(dependency("com.github.MilkBowl:VaultAPI:1.7"))
+        exclude(dependency("com.mojang:authlib:1.5.21"))
+        exclude(dependency("com.comphenix.protocol:ProtocolLib:4.8.0"))
+        exclude(dependency("fr.xephi:authme:5.6.0-SNAPSHOT"))
+        exclude(dependency(files("libs/Telecom-Release.jar")))
+
+        include(dependency("org.xerial:sqlite-jdbc:3.42.0.1"))
+    }
 }
 
 tasks.test {

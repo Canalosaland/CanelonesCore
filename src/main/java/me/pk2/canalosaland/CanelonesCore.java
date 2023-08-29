@@ -5,6 +5,7 @@ import static me.pk2.canalosaland.util.Wrapper.*;
 import me.pk2.canalosaland.command.*;
 import me.pk2.canalosaland.config.ConfigLoader;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
+import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.dependencies.*;
 import me.pk2.canalosaland.listeners.*;
 import me.pk2.canalosaland.reflections.ReflectionsManager;
@@ -71,6 +72,9 @@ public class CanelonesCore extends JavaPlugin {
 
         // Load config
         ConfigLoader.load();
+
+        // Load database
+        DBApi.init();
 
         // Register sign menu factory
         _LOG("SignMenuFactory", "Registering...");
@@ -143,9 +147,4 @@ public class CanelonesCore extends JavaPlugin {
 
         _LOG("Disabled!");
     }
-
-    /* TODO: JUST IN CASE I FORGOT
-    *   - Add NPCs
-    *   - Add money exchange menu
-    * */
 }
