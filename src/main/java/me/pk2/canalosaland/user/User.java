@@ -2,6 +2,8 @@ package me.pk2.canalosaland.user;
 
 import static me.pk2.canalosaland.util.Wrapper.*;
 
+import me.pk2.canalosaland.db.DBApi;
+import me.pk2.canalosaland.db.obj.DBUserKitObj;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.interfaces.*;
 import org.apache.commons.lang.RandomStringUtils;
@@ -9,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
+import java.sql.Connection;
 import java.util.HashMap;
 
 public class User {
@@ -17,8 +20,13 @@ public class User {
     public String lastMessageFrom = null;
     // Interfaces
     public HashMap<Class<? extends GInterface>, GInterface> interfaces;
+
+    private int userId;
+    private DBUserKitObj[] kits;
     public User(Player player) {
         this.player = player;
+
+        fetchData();
 
         String teamName = "can_" + RandomStringUtils.randomAlphanumeric(12);
         while(SCORE.getTeam(teamName) != null)
@@ -32,6 +40,22 @@ public class User {
         this.interfaces.put(GInterfaceATM.class, new GInterfaceATM(this));
         this.interfaces.put(GInterfaceATMIn.class, new GInterfaceATMIn(this));
         this.interfaces.put(GInterfaceATMOut.class, new GInterfaceATMOut(this));
+    }
+
+    public void fetchData() {
+        String uuid = _UUID(player);
+
+        _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Sending data job");
+        DBApi.enqueue(() -> {
+            _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Fetching data from database");
+            Connection conn = DBApi.connect();
+
+            this.userId = DBApi.API.users.getId(conn, uuid);
+            this.kits = DBApi.API.users_kits.getByUid(conn, this.userId);
+
+            DBApi.disconnect(conn);
+            _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Data fetched from database");
+        });
     }
 
     public void updateTeam() {

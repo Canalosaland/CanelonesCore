@@ -59,19 +59,27 @@ public class DBApi {
         return connection;
     }
 
+    public static void disconnect(Connection conn) {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            _LOG("DBApi", "Could not disconnect from database! " + e.getMessage());
+        }
+    }
+
     public static void enqueue(Runnable runnable) {
         API_QUEUE.submit(runnable);
     }
 
     public static class API {
         public static class users {
-            public static int register(Connection conn, Player player) {
+            public static int register(Connection conn, String name, String uuid) {
                 if(conn == null)
                     return -1;
                 try {
                     PreparedStatement stmt = conn.prepareStatement("INSERT INTO users(username,uuid) VALUES(?,?)");
-                    stmt.setString(1, player.getName());
-                    stmt.setString(2, _UUID(player));
+                    stmt.setString(1, name);
+                    stmt.setString(2, uuid);
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not register user! " + e.getMessage());
                     return 0;
@@ -79,24 +87,24 @@ public class DBApi {
 
                 return 1;
             }
-            public static int exists(Connection conn, Player player) {
+            public static int exists(Connection conn, String uuid) {
                 if(conn == null)
                     return -1;
                 try {
                     PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE uuid=?");
-                    stmt.setString(1, _UUID(player));
+                    stmt.setString(1, uuid);
                     return stmt.executeQuery().next() ? 1 : 0;
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not check if user exists! " + e.getMessage());
                     return 0;
                 }
             }
-            public static int getId(Connection conn, Player player) {
+            public static int getId(Connection conn, String uuid) {
                 if(conn == null)
                     return -1;
                 try {
                     PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE uuid=?");
-                    stmt.setString(1, _UUID(player));
+                    stmt.setString(1, uuid);
                     return stmt.executeQuery().getInt("id");
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not get user id! " + e.getMessage());
