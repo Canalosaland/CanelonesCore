@@ -32,3 +32,8 @@ halal_mode:
     - 'say &c&l%player% &chas %action%!'
     - 'soundall block.chain.fall 1 0.5'
     - 'lightning %player%'
+database:
+  host: 'localhost:3306'
+  schema: 'canelones'
+  username: '1234'
+  password: '1234'

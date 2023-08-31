@@ -54,6 +54,12 @@ public class ConfigMainBuffer {
             }
             public static List<String> action;
         }
+        public static class database {
+            public static String host;
+            public static String schema;
+            public static String username;
+            public static String password;
+        }
     }
 
     public static void load() {
@@ -94,6 +100,11 @@ public class ConfigMainBuffer {
         buffer.halal_mode.activate.day_food = CONFIG.getBoolean("halal_mode.activate.day_food");
 
         buffer.halal_mode.action = CONFIG.getStringList("halal_mode.action");
+        // Database
+        buffer.database.host = CONFIG.getString("database.host");
+        buffer.database.schema = CONFIG.getString("database.schema");
+        buffer.database.username = CONFIG.getString("database.username");
+        buffer.database.password = CONFIG.getString("database.password");
 
         _LOG("config.yml", "Config loaded!");
     }
@@ -131,6 +142,11 @@ public class ConfigMainBuffer {
         CONFIG.set("halal_mode.activate.day_food", buffer.halal_mode.activate.day_food);
 
         CONFIG.set("halal_mode.action", buffer.halal_mode.action);
+        // Database
+        CONFIG.set("database.host", buffer.database.host);
+        CONFIG.set("database.schema", buffer.database.schema);
+        CONFIG.set("database.username", buffer.database.username);
+        CONFIG.set("database.password", buffer.database.password);
 
         try {
             CONFIG.save(_CONFIG("config.yml"));

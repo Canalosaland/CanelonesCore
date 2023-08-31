@@ -48,3 +48,15 @@ commands:
   interface:
     description: Open a interface
     usage: /<command> <interface>
+  kits:
+    description: Open the kit viewer menu
+    usage: /<command>
+  kits-remove:
+    description: Remove a kit
+    usage: /<command> <id>
+  kits-create:
+    description: Create a kit
+    usage: /<command> <name>
+  kits-give:
+    description: Give a kit to a player
+    usage: /<command> <player> <kit_id> [amount]

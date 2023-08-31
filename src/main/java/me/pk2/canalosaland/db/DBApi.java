@@ -1,5 +1,6 @@
 package me.pk2.canalosaland.db;
 
+import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.obj.DBKitObj;
 import me.pk2.canalosaland.db.obj.DBUserKitObj;
 import me.pk2.canalosaland.util.BukkitSerialization;
@@ -12,6 +13,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,6 +28,7 @@ public class DBApi {
 
         API_QUEUE = Executors.newFixedThreadPool(1);
 
+        /* SQLITE HAS PROBLEMS WITH LOCKS AND STUFF I DONT LIKE IT
         _LOG("DBApi", "Checking for file...");
 
         File file = new File(_CONFIG("data/canelones.db"));
@@ -43,7 +46,7 @@ public class DBApi {
             } catch (Exception ex) {
                 _LOG("DBApi", "Could not create file! " + ex.getMessage());
             }
-        }
+        }*/
 
         _LOG("DBApi", "API started!");
     }
@@ -51,7 +54,8 @@ public class DBApi {
     public static Connection connect() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:"+_CONFIG("data/canelones.db"));
+            //connection = DriverManager.getConnection("jdbc:sqlite:"+_CONFIG("data/canelones.db"));
+            connection = DriverManager.getConnection("jdbc:mysql://" + ConfigMainBuffer.buffer.database.host + "/" + ConfigMainBuffer.buffer.database.schema + "?useSSL=false", ConfigMainBuffer.buffer.database.username, ConfigMainBuffer.buffer.database.password);
         } catch (SQLException e) {
             _LOG("DBApi", "Could not connect to database! " + e.getMessage());
         }
@@ -80,6 +84,7 @@ public class DBApi {
                     PreparedStatement stmt = conn.prepareStatement("INSERT INTO users(username,uuid) VALUES(?,?)");
                     stmt.setString(1, name);
                     stmt.setString(2, uuid);
+                    stmt.executeUpdate();
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not register user! " + e.getMessage());
                     return 0;
@@ -105,7 +110,11 @@ public class DBApi {
                 try {
                     PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE uuid=?");
                     stmt.setString(1, uuid);
-                    return stmt.executeQuery().getInt("id");
+
+                    ResultSet set = stmt.executeQuery();
+                    if(!set.next())
+                        throw new SQLException("User not found.");
+                    return set.getInt("id");
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not get user id! " + e.getMessage());
                     return 0;
@@ -121,16 +130,15 @@ public class DBApi {
                 byte[] items = BukkitSerialization.serializeItems(slots);
                 byte[] material = BukkitSerialization.serializeItems(mat);
                 try {
-                    Blob blobItems = conn.createBlob();
-                    blobItems.setBytes(1, items);
-
                     PreparedStatement stmt = conn.prepareStatement("INSERT INTO kits(name,slots,material) VALUES(?,?,?)");
                     stmt.setString(1, name);
-                    stmt.setBlob(2, blobItems);
+                    stmt.setBytes(2, items);
+                    stmt.setBytes(3, material);
                     stmt.executeUpdate();
                     return 1;
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not register kit! " + e.getMessage());
+                    e.printStackTrace();
                     return 0;
                 }
             }
@@ -153,23 +161,36 @@ public class DBApi {
                     PreparedStatement stmt = conn.prepareStatement("SELECT * FROM kits");
                     ResultSet rs = stmt.executeQuery();
 
-                    DBKitObj[] kits = new DBKitObj[rs.getFetchSize()];
+                    ArrayList<DBKitObj> kits = new ArrayList<>();
 
                     int i = 0;
                     while(rs.next()) {
                         int id = rs.getInt("id");
                         String name = rs.getString("name");
-                        ItemStack[] slots = BukkitSerialization.deserializeItems(rs.getBlob("slots").getBytes(1, (int) rs.getBlob("slots").length()));
-                        ItemStack material = BukkitSerialization.deserializeItems(rs.getBlob("material").getBytes(1, (int) rs.getBlob("material").length()))[0];
+                        ItemStack[] slots = BukkitSerialization.deserializeItems(rs.getBytes("slots"));
+                        ItemStack material = BukkitSerialization.deserializeItems(rs.getBytes("material"))[0];
 
-                        kits[i] = new DBKitObj(id, name, slots, material);
+                        kits.add(new DBKitObj(id, name, slots, material));
                         i++;
                     }
 
-                    return kits;
+                    return kits.toArray(new DBKitObj[0]);
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not get kits! " + e.getMessage());
                     return new DBKitObj[0];
+                }
+            }
+            public static int remove(Connection conn, int id) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("DELETE FROM kits WHERE id=?");
+                    stmt.setInt(1, id);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not remove kit! " + e.getMessage());
+                    return 0;
                 }
             }
         }
@@ -183,7 +204,7 @@ public class DBApi {
                     stmt.setInt(1, uid);
                     ResultSet rs = stmt.executeQuery();
 
-                    DBUserKitObj[] kits = new DBUserKitObj[rs.getFetchSize()];
+                    ArrayList<DBUserKitObj> kits = new ArrayList<>();
 
                     int i = 0;
                     while(rs.next()) {
@@ -192,11 +213,11 @@ public class DBApi {
                         int kitId = rs.getInt("kid");
                         int amount = rs.getInt("amount");
 
-                        kits[i] = new DBUserKitObj(id, uid2, kitId, amount);
+                        kits.add(new DBUserKitObj(id, uid2, kitId, amount));
                         i++;
                     }
 
-                    return kits;
+                    return kits.toArray(new DBUserKitObj[0]);
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not get user kits! " + e.getMessage());
                     return new DBUserKitObj[0];
@@ -259,6 +280,19 @@ public class DBApi {
                     return 0;
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not remove user kit! " + e.getMessage());
+                    return 0;
+                }
+            }
+            public static int deleteAll(Connection conn, int kitId) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("DELETE FROM users_kits WHERE kid=?");
+                    stmt.setInt(1, kitId);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not delete all user kits! " + e.getMessage());
                     return 0;
                 }
             }

@@ -29,6 +29,18 @@ public class ConfigBountyBuffer {
         return count;
     }
 
+    public static BountyObject[] getBountiesPlayer(String player) {
+        return buffer.bounties.stream().filter(bounty -> bounty.getPlayer().equalsIgnoreCase(player)).toArray(BountyObject[]::new);
+    }
+
+    public static BountyObject[] getBountiesTarget(String player) {
+        return buffer.bounties.stream().filter(bounty -> bounty.getTarget().equalsIgnoreCase(player)).toArray(BountyObject[]::new);
+    }
+
+    public static BountyObject[] getBountiesPlayerTarget(String player, String target) {
+        return buffer.bounties.stream().filter(bounty -> bounty.getPlayer().equalsIgnoreCase(player) && bounty.getTarget().equalsIgnoreCase(target)).toArray(BountyObject[]::new);
+    }
+
     public static void addBounty(String target, String player, double amount) {
         amount = Math.round(amount * 100.0) / 100.0;
         buffer.bounties.add(new BountyObject(target, player, amount));

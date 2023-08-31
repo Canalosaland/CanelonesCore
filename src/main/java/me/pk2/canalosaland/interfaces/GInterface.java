@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.Arrays;
 
 public abstract class GInterface {
-    private final Inventory inv;
+    protected final Inventory inv;
     protected final User owner;
 
     public GInterface(User user, String name, int cols) {
@@ -35,11 +35,11 @@ public abstract class GInterface {
         return inv;
     }
 
-    protected ItemStack _item(final Material material, final short damage, final String name, final String... lore) {
+    protected ItemStack _item(final Material material, final short damage, final int amount, final String name, final String... lore) {
         for(int i = 0; i < lore.length; i++)
             lore[i] = _COLOR(lore[i]);
 
-        final ItemStack item = new ItemStack(material, 1, damage);
+        final ItemStack item = new ItemStack(material, amount, damage);
         final ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(_COLOR(name));
@@ -48,6 +48,10 @@ public abstract class GInterface {
         item.setItemMeta(meta);
 
         return item;
+    }
+
+    protected ItemStack _item(final Material material, final short damage, final String name, final String... lore) {
+        return _item(material, damage, 1, name, lore);
     }
 
     protected ItemStack _head(final Player player, final String name, final String... lore) {
@@ -66,8 +70,16 @@ public abstract class GInterface {
         return item;
     }
 
+    protected void setItem(int idx, ItemStack item) {
+        inv.setItem(idx, item);
+    }
+
     protected void setItem(int idx, Material mat, int dam, String name, String... lore) {
         inv.setItem(idx, _item(mat, (short)dam, name, lore));
+    }
+
+    protected void setItem(int idx, Material mat, int dam, int amount, String name, String... lore) {
+        inv.setItem(idx, _item(mat, (short)dam, amount, name, lore));
     }
 
     protected void setHead(int idx, Player player, String name, String... lore) {

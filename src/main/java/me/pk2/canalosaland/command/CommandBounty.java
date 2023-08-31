@@ -1,5 +1,6 @@
 package me.pk2.canalosaland.command;
 
+import me.pk2.canalosaland.CanelonesCore;
 import me.pk2.canalosaland.config.buff.ConfigBountyBuffer;
 import me.pk2.canalosaland.dependencies.DependencyVault;
 import me.pk2.canalosaland.util.Wrapper;
@@ -47,6 +48,11 @@ public class CommandBounty implements CommandExecutor {
         }
 
         if(!sender.hasPermission("canalosaland.bounty") && sender instanceof Player p) {
+            if (ConfigBountyBuffer.getBountiesPlayerTarget(_UUID(p), _UUID(target)).length >= 2) {
+                sender.sendMessage(_COLOR("&cYou can't put more than 2 bounties on the same player!"));
+                return true;
+            }
+
             if (DependencyVault.has(p, amount))
                 DependencyVault.withdraw(p, amount);
             else {
@@ -55,16 +61,19 @@ public class CommandBounty implements CommandExecutor {
             }
         }
 
-        String senderUUID = (sender instanceof Player) ? ((Player)sender).getUniqueId().toString() : "ffffffff-ffff-ffff-ffff-ffffffffffff";
-        String senderName = (sender instanceof Player) ? ((Player)sender).getName() : "CONSOLE";
+        String senderUUID = (sender instanceof Player) ? _UUID((Player)sender) : "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        String senderName = (sender instanceof Player) ? sender.getName() : "CONSOLE";
 
         if(ConfigBountyBuffer.getBounty(_UUID(target)) > 0)
             _GLOBAL_MESSAGE("&c" + senderName + " &7has added a &e" + amount + "$ &7bounty on &c" + target.getName() + "&7!");
         else _GLOBAL_MESSAGE("&c" + senderName + " &7has put a &e" + amount + "$ &7bounty on &c" + target.getName() + "&7!");
 
-
-        ConfigBountyBuffer.addBounty(target.getUniqueId().toString(), senderUUID, amount);
-        ConfigBountyBuffer.save();
+        String targetUUID = _UUID(target);
+        double finalAmount = amount;
+        Bukkit.getScheduler().runTaskAsynchronously(CanelonesCore.INSTANCE, () -> {
+            ConfigBountyBuffer.addBounty(targetUUID, senderUUID, finalAmount);
+            ConfigBountyBuffer.save();
+        });
 
         Bukkit.getOnlinePlayers().forEach(Wrapper::_SOUND_BOUNTY);
         return true;

@@ -35,7 +35,7 @@ dependencies {
     compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
     compileOnly(files("libs/Telecom-Release.jar"))
 
-    implementation("org.xerial:sqlite-jdbc:3.42.0.1")
+    implementation("mysql:mysql-connector-java:8.0.33")
 }
 
 tasks.withType<ShadowJar> {
@@ -49,7 +49,7 @@ tasks.withType<ShadowJar> {
         exclude(dependency("fr.xephi:authme:5.6.0-SNAPSHOT"))
         exclude(dependency(files("libs/Telecom-Release.jar")))
 
-        include(dependency("org.xerial:sqlite-jdbc:3.42.0.1"))
+        include(dependency("mysql:mysql-connector-java:8.0.33"))
     }
 }
 

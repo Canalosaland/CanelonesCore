@@ -37,10 +37,16 @@ public class User {
         this.interfaces.put(GInterfacePhone.class, new GInterfacePhone(this));
         this.interfaces.put(GInterfacePhoneProviders.class, new GInterfacePhoneProviders(this));
         this.interfaces.put(GInterfacePhoneBizum.class, new GInterfacePhoneBizum(this));
+        this.interfaces.put(GInterfacePhoneKits.class, new GInterfacePhoneKits(this));
         this.interfaces.put(GInterfaceATM.class, new GInterfaceATM(this));
         this.interfaces.put(GInterfaceATMIn.class, new GInterfaceATMIn(this));
         this.interfaces.put(GInterfaceATMOut.class, new GInterfaceATMOut(this));
+        this.interfaces.put(GInterfaceKits.class, new GInterfaceKits(this));
+        this.interfaces.put(GInterfaceKitsOpen.class, new GInterfaceKitsOpen(this));
     }
+
+    public int getUserId() { return userId; }
+    public DBUserKitObj[] getKits() { return kits; }
 
     public void fetchData() {
         String uuid = _UUID(player);
@@ -50,6 +56,8 @@ public class User {
             _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Fetching data from database");
             Connection conn = DBApi.connect();
 
+            if(DBApi.API.users.exists(conn, uuid) != 1)
+                DBApi.API.users.register(conn, player.getName(), uuid);
             this.userId = DBApi.API.users.getId(conn, uuid);
             this.kits = DBApi.API.users_kits.getByUid(conn, this.userId);
 

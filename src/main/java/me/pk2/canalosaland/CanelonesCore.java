@@ -6,6 +6,7 @@ import me.pk2.canalosaland.command.*;
 import me.pk2.canalosaland.config.ConfigLoader;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
+import me.pk2.canalosaland.db.buffer.DBBufferKits;
 import me.pk2.canalosaland.dependencies.*;
 import me.pk2.canalosaland.listeners.*;
 import me.pk2.canalosaland.reflections.ReflectionsManager;
@@ -74,7 +75,10 @@ public class CanelonesCore extends JavaPlugin {
         ConfigLoader.load();
 
         // Load database
+        _LOG("Database", "Loading...");
         DBApi.init();
+        _LOG("Database", "Updating kits...");
+        DBBufferKits.BUFFER.updateKits();
 
         // Register sign menu factory
         _LOG("SignMenuFactory", "Registering...");
@@ -132,6 +136,11 @@ public class CanelonesCore extends JavaPlugin {
         getCommand("bounty").setExecutor(new CommandBounty());
 
         getCommand("interface").setExecutor(new CommandInterface());
+
+        getCommand("kits").setExecutor(new CommandKits());
+        getCommand("kits-remove").setExecutor(new CommandKitsRemove());
+        getCommand("kits-create").setExecutor(new CommandKitsCreate());
+        getCommand("kits-give").setExecutor(new CommandKitsGive());
 
         //getCommand("npctest").setExecutor(new CommandNPCTest());
 

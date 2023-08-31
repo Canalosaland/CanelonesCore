@@ -32,8 +32,9 @@ public class GInterfacePhone extends GInterface {
 
     @Override
     public void init() {
-        setItem(3, Material.REDSTONE_TORCH, 0, "&e&lProveedor", lores[1]);
-        setItem(4, Material.BOOK, 0, "&a&lProveedores", "&7Clic para ver los proveedores.");
+        setItem(0, Material.RED_SHULKER_BOX, 0, "&9&lKits", "&7Clic para ver tus kits.");
+        setItem(2, Material.REDSTONE_TORCH, 0, "&e&lProveedor", lores[1]);
+        setItem(3, Material.BOOK, 0, "&a&lProveedores", "&7Clic para ver los proveedores.");
         setItem(5, Material.GOLD_INGOT, 0, "&6&lSaldo", "&e0.00$", "", "&7Clic para abrir menu de Bizum.");
         setItem(8, Material.BARRIER, 0, "&c&lSalir", "&7Clic para salir.");
     }
@@ -43,7 +44,13 @@ public class GInterfacePhone extends GInterface {
         _SOUND_CLICK(owner.player);
 
         switch(slot) {
-            case 3: {
+            case 0: {
+                owner.player.closeInventory();
+                Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
+                    owner.openI(GInterfacePhoneKits.class);
+                }, 2L);
+            } break;
+            case 2: {
                 Carrier carrier = DependencyTCom.getCarrierByPlayer(owner.player);
                 if(carrier == null) {
                     owner.player.closeInventory();
@@ -68,7 +75,7 @@ public class GInterfacePhone extends GInterface {
                     owner.openI(GInterfacePhone.class);
                 }, 2L);
             } break;
-            case 4: {
+            case 3: {
                 owner.player.closeInventory();
                 Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
                     owner.openI(GInterfacePhoneProviders.class);
@@ -96,8 +103,8 @@ public class GInterfacePhone extends GInterface {
 
         Carrier carrier = DependencyTCom.getCarrierByPlayer(owner.player);
         if(carrier == null) {
-            setItem(3, Material.REDSTONE_TORCH, 0, "&e&lProveedor", lores[1]);
-        } else setItem(3, Material.REDSTONE_TORCH, 0, "&e&lProveedor", DependencyPAPI.parse(owner.player, String.join("\n", lores[0])
+            setItem(2, Material.REDSTONE_TORCH, 0, "&e&lProveedor", lores[1]);
+        } else setItem(2, Material.REDSTONE_TORCH, 0, "&e&lProveedor", DependencyPAPI.parse(owner.player, String.join("\n", lores[0])
                 .replace("%name%", carrier.getName())
                 .replace("%price%", String.format("%.2f", carrier.getPricePerText())))
                         .split("\n")
