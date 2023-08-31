@@ -29,7 +29,7 @@ public class Wrapper {
                 .replace("%suffix%", DependencyLP.getSuffix(player))
         );
     }
-    public static World _WORLD_OR_DEFAULT(String worldName) { return Bukkit.getWorld(worldName) == null ? Bukkit.getWorlds().get(0) : Bukkit.getWorld(worldName); }
+    public static World _WORLD_OR_DEFAULT(String worldName) { return (worldName == null || Bukkit.getWorld(worldName) == null) ? Bukkit.getWorlds().get(0) : Bukkit.getWorld(worldName); }
     public static void _GLOBAL_MESSAGE(String message) { Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(_COLOR(ConfigMainBuffer.buffer.server_prefix + message))); }
     public static void _SOUND_OPEN(Player player) { player.playSound(player.getLocation(), "block.ender_chest.open", 1.0f, 1.2f); }
     public static void _SOUND_CLOSE(Player player) { player.playSound(player.getLocation(), "block.ender_chest.close", 1.0f, 1.2f); }

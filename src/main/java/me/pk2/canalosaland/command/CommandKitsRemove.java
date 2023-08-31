@@ -2,6 +2,8 @@ package me.pk2.canalosaland.command;
 
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.buffer.DBBufferKits;
+import me.pk2.canalosaland.user.User;
+import me.pk2.canalosaland.user.UserManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -50,7 +52,12 @@ public class CommandKitsRemove implements CommandExecutor {
             int exCode = DBApi.API.kits.remove(conn, id);
 
             if(exCode == 1) {
+                DBApi.API.users_kits.deleteAll(conn, id);
                 DBBufferKits.BUFFER.updateKits();
+
+                _LOG("Database", "Updating users...");
+                for(User user : UserManager.users.values())
+                    user.fetchData();
                 sender.sendMessage(_COLOR("&aKit eliminado correctamente."));
             } else sender.sendMessage(_COLOR("&cOcurrio un error al eliminar el kit. [" + exCode + "]"));
 

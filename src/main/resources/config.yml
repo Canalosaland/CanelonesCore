@@ -37,3 +37,16 @@ database:
   schema: 'canelones'
   username: '1234'
   password: '1234'
+spawn:
+  world: 'world'
+  x: 0
+  y: 0
+  z: 0
+  yaw: 0.0
+  pitch: 0.0
+first_join:
+  commands:
+    enabled: true
+    execute:
+      - 'lp user %player% parent add invitado'
+      - 'kits-give %player% 4'

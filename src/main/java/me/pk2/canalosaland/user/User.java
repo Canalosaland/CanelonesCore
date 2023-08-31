@@ -2,6 +2,7 @@ package me.pk2.canalosaland.user;
 
 import static me.pk2.canalosaland.util.Wrapper.*;
 
+import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.obj.DBUserKitObj;
 import me.pk2.canalosaland.dependencies.DependencyLP;

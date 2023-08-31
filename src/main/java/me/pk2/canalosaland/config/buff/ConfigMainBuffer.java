@@ -3,6 +3,8 @@ package me.pk2.canalosaland.config.buff;
 import static me.pk2.canalosaland.util.Wrapper.*;
 
 import me.pk2.canalosaland.CanelonesCore;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -10,6 +12,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 
 public class ConfigMainBuffer {
     public static YamlConfiguration CONFIG = null;
@@ -60,6 +63,13 @@ public class ConfigMainBuffer {
             public static String username;
             public static String password;
         }
+        public static Location spawn;
+        public static class first_join {
+            public static class commands {
+                public static boolean enabled;
+                public static List<String> execute;
+            }
+        }
     }
 
     public static void load() {
@@ -105,6 +115,17 @@ public class ConfigMainBuffer {
         buffer.database.schema = CONFIG.getString("database.schema");
         buffer.database.username = CONFIG.getString("database.username");
         buffer.database.password = CONFIG.getString("database.password");
+        // Spawn
+        World world = _WORLD_OR_DEFAULT(CONFIG.getString("spawn.world"));
+        double x = CONFIG.getDouble("spawn.x");
+        double y = CONFIG.getDouble("spawn.y");
+        double z = CONFIG.getDouble("spawn.z");
+        float yaw = (float) CONFIG.getDouble("spawn.yaw");
+        float pitch = (float) CONFIG.getDouble("spawn.pitch");
+        buffer.spawn = new Location(world, x, y, z, yaw, pitch);
+        // First join
+        buffer.first_join.commands.enabled = CONFIG.getBoolean("first_join.commands.enabled");
+        buffer.first_join.commands.execute = CONFIG.getStringList("first_join.commands.execute");
 
         _LOG("config.yml", "Config loaded!");
     }
@@ -147,6 +168,16 @@ public class ConfigMainBuffer {
         CONFIG.set("database.schema", buffer.database.schema);
         CONFIG.set("database.username", buffer.database.username);
         CONFIG.set("database.password", buffer.database.password);
+        // Spawn
+        CONFIG.set("spawn.world", buffer.spawn.getWorld().getName());
+        CONFIG.set("spawn.x", buffer.spawn.getX());
+        CONFIG.set("spawn.y", buffer.spawn.getY());
+        CONFIG.set("spawn.z", buffer.spawn.getZ());
+        CONFIG.set("spawn.yaw", buffer.spawn.getYaw());
+        CONFIG.set("spawn.pitch", buffer.spawn.getPitch());
+        // First join
+        CONFIG.set("first_join.commands.enabled", buffer.first_join.commands.enabled);
+        CONFIG.set("first_join.commands.execute", buffer.first_join.commands.execute);
 
         try {
             CONFIG.save(_CONFIG("config.yml"));

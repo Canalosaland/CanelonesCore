@@ -142,6 +142,25 @@ public class DBApi {
                     return 0;
                 }
             }
+            public static int modify(Connection conn, int kid, ItemStack[] slots, ItemStack mat) {
+                if(conn == null)
+                    return -1;
+
+                byte[] items = BukkitSerialization.serializeItems(slots);
+                byte[] material = BukkitSerialization.serializeItems(mat);
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("UPDATE kits SET slots=?,material=? WHERE id=?");
+                    stmt.setBytes(1, items);
+                    stmt.setBytes(2, material);
+                    stmt.setInt(3, kid);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not modify kit! " + e.getMessage());
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
             public static int exists(Connection conn, String name) {
                 if(conn == null)
                     return -1;

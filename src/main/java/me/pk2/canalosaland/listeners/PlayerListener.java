@@ -19,6 +19,15 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+        if(!event.getPlayer().hasPlayedBefore()) {
+            event.getPlayer().teleport(ConfigMainBuffer.buffer.spawn);
+            event.getPlayer().sendMessage(_COLOR("&aBienvenido a &7CanalosaLand&a, esperamos que disfrutes tu estancia."));
+
+            if(ConfigMainBuffer.buffer.first_join.commands.enabled)
+                for(String command : ConfigMainBuffer.buffer.first_join.commands.execute)
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), _PLACEHOLDER(event.getPlayer(), command));
+        }
+
         UserManager.add(event.getPlayer());
         UserManager.get(event.getPlayer()).handleJoin();
 

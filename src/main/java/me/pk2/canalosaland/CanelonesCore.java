@@ -141,6 +141,12 @@ public class CanelonesCore extends JavaPlugin {
         getCommand("kits-remove").setExecutor(new CommandKitsRemove());
         getCommand("kits-create").setExecutor(new CommandKitsCreate());
         getCommand("kits-give").setExecutor(new CommandKitsGive());
+        getCommand("kits-modify").setExecutor(new CommandKitsModify());
+
+        getCommand("spawn").setExecutor(new CommandSpawn());
+        getCommand("spawn-set").setExecutor(new CommandSpawnSet());
+
+        getCommand("rename").setExecutor(new CommandRename());
 
         //getCommand("npctest").setExecutor(new CommandNPCTest());
 

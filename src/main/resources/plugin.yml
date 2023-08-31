@@ -60,3 +60,15 @@ commands:
   kits-give:
     description: Give a kit to a player
     usage: /<command> <player> <kit_id> [amount]
+  kits-modify:
+    description: Modify a kit
+    usage: /<command> <kit_id>
+  spawn:
+    description: Teleport to spawn
+    usage: /<command>
+  spawn-set:
+    description: Set the spawn
+    usage: /<command>
+  rename:
+    description: Rename an item
+    usage: /<command> <name>
