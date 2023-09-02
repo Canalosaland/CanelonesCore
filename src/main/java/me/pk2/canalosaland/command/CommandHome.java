@@ -1,5 +1,6 @@
 package me.pk2.canalosaland.command;
 
+import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.obj.DBHomeObj;
 import me.pk2.canalosaland.user.User;
 import me.pk2.canalosaland.user.UserManager;
@@ -26,7 +27,7 @@ public class CommandHome implements CommandExecutor {
         }
 
         if(user.getHomes().length == 0) {
-            player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7No tienes ninguna casa."));
+            player.sendMessage(_COLOR(ConfigMainBuffer.buffer.test + "&7No tienes ninguna casa."));
             return true;
         }
 

@@ -52,3 +52,4 @@ first_join:
       - 'kits-give %player% 4'
 homes:
   max_homes: 4
+test: '&8(&a!&8) &aCasas &8» '

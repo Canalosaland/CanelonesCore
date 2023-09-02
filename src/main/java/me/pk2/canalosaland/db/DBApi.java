@@ -122,6 +122,23 @@ public class DBApi {
                     return 0;
                 }
             }
+
+            public static String getLocale(Connection conn, int uid) {
+                if(conn == null)
+                    return null;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE id=?");
+                    stmt.setInt(1, uid);
+
+                    ResultSet set = stmt.executeQuery();
+                    if(!set.next())
+                        throw new SQLException("User not found.");
+                    return set.getString("locale");
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not get user locale! " + e.getMessage());
+                    return null;
+                }
+            }
         }
 
         public static class kits {

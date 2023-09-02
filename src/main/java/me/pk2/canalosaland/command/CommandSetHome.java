@@ -1,5 +1,6 @@
 package me.pk2.canalosaland.command;
 
+import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.user.User;
 import me.pk2.canalosaland.user.UserManager;
@@ -29,6 +30,11 @@ public class CommandSetHome implements CommandExecutor {
         User user = UserManager.get(player);
         if(user == null) {
             player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7No se ha podido encontrar tu usuario."));
+            return true;
+        }
+
+        if(user.getKits().length >= ConfigMainBuffer.buffer.homes.max_homes) {
+            player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7Has alcanzado el limite de casas."));
             return true;
         }
 

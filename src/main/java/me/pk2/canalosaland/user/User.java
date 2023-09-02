@@ -2,6 +2,7 @@ package me.pk2.canalosaland.user;
 
 import static me.pk2.canalosaland.util.Wrapper.*;
 
+import me.pk2.canalosaland.config.buff.ConfigLangBuffer;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.obj.DBHomeObj;
@@ -20,6 +21,7 @@ public class User {
     public final Player player;
     public Team team;
     public String lastMessageFrom = null;
+    public String locale;
     // Interfaces
     public HashMap<Class<? extends GInterface>, GInterface> interfaces;
 
@@ -65,11 +67,15 @@ public class User {
             this.userId = DBApi.API.users.getId(conn, uuid);
             this.kits = DBApi.API.users_kits.getByUid(conn, this.userId);
             this.homes = DBApi.API.homes.getByUid(conn, this.userId);
+            this.locale = DBApi.API.users.getLocale(conn, this.userId);
 
             DBApi.disconnect(conn);
             _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Data fetched from database");
         });
     }
+
+    public String translate(String key) { return ConfigLangBuffer.translate(this, key); }
+    public String translateC(String key) { return ConfigLangBuffer.translateC(this, key); }
 
     public void updateTeam() {
         if(this.team == null)
