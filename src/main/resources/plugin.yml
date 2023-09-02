@@ -72,3 +72,12 @@ commands:
   rename:
     description: Rename an item
     usage: /<command> <name>
+  home:
+    description: Teleport to a home
+    usage: /<command> [home]
+  sethome:
+    description: Set a home
+    usage: /<command> <home>
+  delhome:
+    description: Delete a home
+    usage: /<command> <home>

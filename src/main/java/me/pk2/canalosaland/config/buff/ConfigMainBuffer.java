@@ -70,6 +70,9 @@ public class ConfigMainBuffer {
                 public static List<String> execute;
             }
         }
+        public static class homes {
+            public static int max_homes;
+        }
     }
 
     public static void load() {
@@ -126,6 +129,8 @@ public class ConfigMainBuffer {
         // First join
         buffer.first_join.commands.enabled = CONFIG.getBoolean("first_join.commands.enabled");
         buffer.first_join.commands.execute = CONFIG.getStringList("first_join.commands.execute");
+        // Homes
+        buffer.homes.max_homes = CONFIG.getInt("homes.max_homes");
 
         _LOG("config.yml", "Config loaded!");
     }
@@ -178,6 +183,8 @@ public class ConfigMainBuffer {
         // First join
         CONFIG.set("first_join.commands.enabled", buffer.first_join.commands.enabled);
         CONFIG.set("first_join.commands.execute", buffer.first_join.commands.execute);
+        // Homes
+        CONFIG.set("homes.max_homes", buffer.homes.max_homes);
 
         try {
             CONFIG.save(_CONFIG("config.yml"));

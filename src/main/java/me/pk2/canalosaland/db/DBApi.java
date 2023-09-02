@@ -1,10 +1,12 @@
 package me.pk2.canalosaland.db;
 
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
+import me.pk2.canalosaland.db.obj.DBHomeObj;
 import me.pk2.canalosaland.db.obj.DBKitObj;
 import me.pk2.canalosaland.db.obj.DBUserKitObj;
 import me.pk2.canalosaland.util.BukkitSerialization;
 import org.apache.commons.lang3.SerializationUtils;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -216,7 +218,7 @@ public class DBApi {
 
         public static class users_kits {
             public static DBUserKitObj[] getByUid(Connection conn, int uid) {
-                if(conn == null)
+                if (conn == null)
                     return new DBUserKitObj[0];
                 try {
                     PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users_kits WHERE uid=?");
@@ -226,7 +228,7 @@ public class DBApi {
                     ArrayList<DBUserKitObj> kits = new ArrayList<>();
 
                     int i = 0;
-                    while(rs.next()) {
+                    while (rs.next()) {
                         int id = rs.getInt("id");
                         int uid2 = rs.getInt("uid");
                         int kitId = rs.getInt("kid");
@@ -243,7 +245,7 @@ public class DBApi {
                 }
             }
             public static int add(Connection conn, int uid, int kitId, int amount) {
-                if(conn == null)
+                if (conn == null)
                     return -1;
                 try {
                     PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users_kits WHERE uid=? AND kid=?");
@@ -251,7 +253,7 @@ public class DBApi {
                     stmt.setInt(2, kitId);
 
                     ResultSet rs = stmt.executeQuery();
-                    if(rs.next()) {
+                    if (rs.next()) {
                         PreparedStatement stmt2 = conn.prepareStatement("UPDATE users_kits SET amount=? WHERE uid=? AND kid=?");
                         stmt2.setInt(1, rs.getInt("amount") + amount);
                         stmt2.setInt(2, uid);
@@ -272,7 +274,7 @@ public class DBApi {
                 }
             }
             public static int remove(Connection conn, int uid, int kitId, int amount) {
-                if(conn == null)
+                if (conn == null)
                     return -1;
                 try {
                     PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users_kits WHERE uid=? AND kid=?");
@@ -280,14 +282,14 @@ public class DBApi {
                     stmt.setInt(2, kitId);
 
                     ResultSet rs = stmt.executeQuery();
-                    if(rs.next()) {
+                    if (rs.next()) {
                         PreparedStatement stmt2 = conn.prepareStatement("UPDATE users_kits SET amount=? WHERE uid=? AND kid=?");
                         stmt2.setInt(1, rs.getInt("amount") - amount);
                         stmt2.setInt(2, uid);
                         stmt2.setInt(3, kitId);
                         stmt2.executeUpdate();
 
-                        if(rs.getInt("amount") - amount <= 0) {
+                        if (rs.getInt("amount") - amount <= 0) {
                             PreparedStatement stmt3 = conn.prepareStatement("DELETE FROM users_kits WHERE uid=? AND kid=?");
                             stmt3.setInt(1, uid);
                             stmt3.setInt(2, kitId);
@@ -303,7 +305,7 @@ public class DBApi {
                 }
             }
             public static int deleteAll(Connection conn, int kitId) {
-                if(conn == null)
+                if (conn == null)
                     return -1;
                 try {
                     PreparedStatement stmt = conn.prepareStatement("DELETE FROM users_kits WHERE kid=?");
@@ -312,6 +314,88 @@ public class DBApi {
                     return 1;
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not delete all user kits! " + e.getMessage());
+                    return 0;
+                }
+            }
+        }
+
+        public static class homes {
+            public static DBHomeObj[] getByUid(Connection conn, int uid) {
+                if(conn == null)
+                    return new DBHomeObj[0];
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM homes WHERE uid=?");
+                    stmt.setInt(1, uid);
+                    ResultSet rs = stmt.executeQuery();
+
+                    ArrayList<DBHomeObj> homes = new ArrayList<>();
+
+                    int i = 0;
+                    while(rs.next()) {
+                        int id = rs.getInt("id");
+                        int uid2 = rs.getInt("uid");
+                        String name = rs.getString("name");
+                        String world = rs.getString("world");
+                        double x = rs.getDouble("x");
+                        double y = rs.getDouble("y");
+                        double z = rs.getDouble("z");
+                        float yaw = rs.getFloat("yaw");
+                        float pitch = rs.getFloat("pitch");
+
+                        homes.add(new DBHomeObj(id, uid2, name, new Location(_WORLD_OR_DEFAULT(world), x, y, z, yaw, pitch)));
+                        i++;
+                    }
+
+                    return homes.toArray(new DBHomeObj[0]);
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not get homes! " + e.getMessage());
+                    return new DBHomeObj[0];
+                }
+            }
+            public static int existsHome(Connection conn, int uid, String name) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM homes WHERE uid=? AND name=?");
+                    stmt.setInt(1, uid);
+                    stmt.setString(2, name);
+                    return stmt.executeQuery().next() ? 1 : 0;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not check if home exists! " + e.getMessage());
+                    return 0;
+                }
+            }
+            public static int addHome(Connection conn, int uid, String name, Location loc) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("INSERT INTO homes(uid,name,world,x,y,z,yaw,pitch) VALUES(?,?,?,?,?,?,?,?)");
+                    stmt.setInt(1, uid);
+                    stmt.setString(2, name);
+                    stmt.setString(3, loc.getWorld().getName());
+                    stmt.setDouble(4, loc.getX());
+                    stmt.setDouble(5, loc.getY());
+                    stmt.setDouble(6, loc.getZ());
+                    stmt.setFloat(7, loc.getYaw());
+                    stmt.setFloat(8, loc.getPitch());
+                    stmt.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not add home! " + e.getMessage());
+                    return 0;
+                }
+            }
+            public static int removeHome(Connection conn, int uid, String name) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("DELETE FROM homes WHERE uid=? AND name=?");
+                    stmt.setInt(1, uid);
+                    stmt.setString(2, name);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not remove home! " + e.getMessage());
                     return 0;
                 }
             }

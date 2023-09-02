@@ -39,6 +39,7 @@ public class Wrapper {
     public static void _SOUND_NOTIFICATION(Player player) { player.playSound(player.getLocation(), "block.note_block.chime", 1f, 1.8f); }
     public static void _SOUND_BOUNTY(Player player) { player.playSound(player.getLocation(), "block.chest.locked", 1f, 1.5f);}
     public static void _SOUND_ERROR(Player player) { player.playSound(player.getLocation(), "block.note_block.bass", 1f, 0f); }
+    public static void _SOUND_TELEPORT(Player player) { player.playSound(player.getLocation(), "entity.enderman.teleport", 1f, 1.2f); }
 
     public static String _HASH(String text) {
         String SALT = "9Y^#h6o8K*j!WpNQw7R@d4g5XvE$bLSCJnFzA2O1Ty0qVxmZtfuDlIicr3GsH+";

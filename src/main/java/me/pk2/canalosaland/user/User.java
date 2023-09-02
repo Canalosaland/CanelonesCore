@@ -4,6 +4,7 @@ import static me.pk2.canalosaland.util.Wrapper.*;
 
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
+import me.pk2.canalosaland.db.obj.DBHomeObj;
 import me.pk2.canalosaland.db.obj.DBUserKitObj;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.interfaces.*;
@@ -24,6 +25,7 @@ public class User {
 
     private int userId;
     private DBUserKitObj[] kits;
+    private DBHomeObj[] homes;
     public User(Player player) {
         this.player = player;
 
@@ -48,6 +50,7 @@ public class User {
 
     public int getUserId() { return userId; }
     public DBUserKitObj[] getKits() { return kits; }
+    public DBHomeObj[] getHomes() { return homes; }
 
     public void fetchData() {
         String uuid = _UUID(player);
@@ -61,6 +64,7 @@ public class User {
                 DBApi.API.users.register(conn, player.getName(), uuid);
             this.userId = DBApi.API.users.getId(conn, uuid);
             this.kits = DBApi.API.users_kits.getByUid(conn, this.userId);
+            this.homes = DBApi.API.homes.getByUid(conn, this.userId);
 
             DBApi.disconnect(conn);
             _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Data fetched from database");
