@@ -44,12 +44,6 @@ public class GInterfacePhone extends GInterface {
     @Override
     public void init() {
         String[][] lores = translateLore();
-
-        setItem(0, Material.RED_SHULKER_BOX, 0, "&9&lKits", owner.translateC("INTERFACE_PHONE_KITS_LORE1"));
-        setItem(2, Material.REDSTONE_TORCH, 0, owner.translateC("INTERFACE_PHONE_PROVIDER_NAME"), lores[1]);
-        setItem(3, Material.BOOK, 0, owner.translateC("INTERFACE_PHONE_PROVIDERS_NAME"), owner.translateC("INTERFACE_PHONE_PROVIDERS_LORE1"));
-        setItem(5, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$", "", owner.translateC("INTERFACE_PHONE_BALANCE_LORE1"));
-        setItem(8, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
     }
 
     @Override
@@ -113,6 +107,11 @@ public class GInterfacePhone extends GInterface {
     @Override
     public void open() {
         super.open();
+        setItem(0, Material.RED_SHULKER_BOX, 0, "&9&lKits", owner.translateC("INTERFACE_PHONE_KITS_LORE1"));
+        setItem(2, Material.REDSTONE_TORCH, 0, owner.translateC("INTERFACE_PHONE_PROVIDER_NAME"), lores[1]);
+        setItem(3, Material.BOOK, 0, owner.translateC("INTERFACE_PHONE_PROVIDERS_NAME"), owner.translateC("INTERFACE_PHONE_PROVIDERS_LORE1"));
+        setItem(5, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$", "", owner.translateC("INTERFACE_PHONE_BALANCE_LORE1"));
+        setItem(8, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
         _SOUND_OPEN(owner.player);
 
         String[][] lores = translateLore();

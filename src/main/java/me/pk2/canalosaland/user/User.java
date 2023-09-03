@@ -49,6 +49,7 @@ public class User {
         this.interfaces.put(GInterfaceATMOut.class, new GInterfaceATMOut(this));
         this.interfaces.put(GInterfaceKits.class, new GInterfaceKits(this));
         this.interfaces.put(GInterfaceKitsOpen.class, new GInterfaceKitsOpen(this));
+        this.interfaces.put(GInterfaceLanguage.class, new GInterfaceLanguage(this));
     }
 
     public int getUserId() { return userId; }

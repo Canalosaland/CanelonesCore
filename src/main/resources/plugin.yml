@@ -81,3 +81,6 @@ commands:
   delhome:
     description: Delete a home
     usage: /<command> <home>
+  lang:
+    description: Change your language
+    usage: /<command>

@@ -152,6 +152,8 @@ public class CanelonesCore extends JavaPlugin {
         getCommand("sethome").setExecutor(new CommandSetHome());
         getCommand("delhome").setExecutor(new CommandDelHome());
 
+        getCommand("lang").setExecutor(new CommandLang());
+
         //getCommand("npctest").setExecutor(new CommandNPCTest());
 
         _LOG("Enabled!");

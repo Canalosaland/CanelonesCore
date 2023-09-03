@@ -14,6 +14,7 @@ public class ConfigLangBuffer {
         _LOG("Lang", "Loading...");
         locales.clear();
         locales.put("es", new ConfigLangLocaleBuffer("es"));
+        locales.put("en", new ConfigLangLocaleBuffer("en"));
 
         for(ConfigLangLocaleBuffer locale : locales.values())
             locale.load();

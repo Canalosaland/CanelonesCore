@@ -139,6 +139,20 @@ public class DBApi {
                     return null;
                 }
             }
+            public static int changeLocale(Connection conn, int uid, String locale) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("UPDATE users SET locale=? WHERE id=?");
+                    stmt.setString(1, locale);
+                    stmt.setInt(2, uid);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not change user locale! " + e.getMessage());
+                    return 0;
+                }
+            }
         }
 
         public static class kits {

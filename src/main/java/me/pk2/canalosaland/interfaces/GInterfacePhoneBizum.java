@@ -27,11 +27,6 @@ public class GInterfacePhoneBizum extends GInterface {
     @Override
     public void init() {
         // 0 - 44 > Player selection
-        setItem(45, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$");
-        setItem(48, Material.SUNFLOWER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_PREVIOUS_NAME"), owner.translateC("INTERFACE_PHONE_BIZUM_PREVIOUS_LORE1"));
-        setItem(49, Material.PAPER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_PAGE_NAME"), "&e1/1");
-        setItem(50, Material.SUNFLOWER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_NEXT_NAME"), owner.translateC("INTERFACE_PHONE_BIZUM_NEXT_LORE1"));
-        setItem(53, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
     }
 
     @Override
@@ -129,6 +124,11 @@ public class GInterfacePhoneBizum extends GInterface {
     }
 
     public void updatePage() {
+        setItem(45, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$");
+        setItem(48, Material.SUNFLOWER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_PREVIOUS_NAME"), owner.translateC("INTERFACE_PHONE_BIZUM_PREVIOUS_LORE1"));
+        setItem(49, Material.PAPER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_PAGE_NAME"), "&e1/1");
+        setItem(50, Material.SUNFLOWER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_NEXT_NAME"), owner.translateC("INTERFACE_PHONE_BIZUM_NEXT_LORE1"));
+        setItem(53, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
         users.clear();
         users.addAll(UserManager.users.values());
 

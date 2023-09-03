@@ -18,6 +18,7 @@ public class GInterfaceKitsOpen extends GInterface {
     @Override
     public void open() {
         super.open();
+        setItem(35, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
         _SOUND_OPEN(owner.player);
 
         // RESET
@@ -52,7 +53,7 @@ public class GInterfaceKitsOpen extends GInterface {
 
     @Override
     public void init() {
-        setItem(35, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
+
     }
 
     @Override

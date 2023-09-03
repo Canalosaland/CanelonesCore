@@ -19,7 +19,7 @@ public class GInterfacePhoneProviders extends GInterface {
 
     @Override
     public void init() {
-        setItem(26, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
+
     }
 
     @Override
@@ -56,6 +56,7 @@ public class GInterfacePhoneProviders extends GInterface {
     public void open() {
         super.open();
         _SOUND_OPEN(owner.player);
+        setItem(26, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
 
         Carrier current = DependencyTCom.getCarrierByPlayer(owner.player);
 

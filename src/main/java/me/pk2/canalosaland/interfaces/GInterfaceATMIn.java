@@ -17,8 +17,7 @@ public class GInterfaceATMIn extends GInterface {
     public void init() {
         for(int i = 0; i < 54; i++)
             setItem(i, Material.WHITE_STAINED_GLASS_PANE, 0, "&r");
-        setItem(45, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$");
-        setItem(53, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
+
     }
 
     @Override
@@ -84,6 +83,7 @@ public class GInterfaceATMIn extends GInterface {
         double balance = DependencyVault.getBalance(owner.player);
 
         setItem(45, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), String.format("&e%.2f$", balance));
+        setItem(53, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
 
         setItem(10, Material.MUSIC_DISC_PIGSTEP, 0, "&e&lDisco Pigstep", String.format("&e&lValor: &e%.2f$", ConfigAtmBuffer.buffer.prices.music_disc_pigstep), String.format("&e&lBalance despues: &e%.2f$", ConfigAtmBuffer.buffer.prices.music_disc_pigstep + balance), "", "&7Clic para depositar.");
         setItem(11, Material.PIGLIN_BANNER_PATTERN, 0, "&e&lBanner Piglin", String.format("&e&lValor: &e%.2f$", ConfigAtmBuffer.buffer.prices.piglin_banner_pattern), String.format("&e&lBalance despues: &e%.2f$", ConfigAtmBuffer.buffer.prices.piglin_banner_pattern + balance), "", "&7Clic para depositar.");
