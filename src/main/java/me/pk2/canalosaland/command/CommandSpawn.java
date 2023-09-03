@@ -18,6 +18,7 @@ public class CommandSpawn implements CommandExecutor {
         }
 
         player.teleport(ConfigMainBuffer.buffer.spawn);
+        _SOUND_TELEPORT(player);
         return true;
     }
 }

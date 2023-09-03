@@ -8,11 +8,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 
+import static me.pk2.canalosaland.util.Wrapper.*;
+
 public class HalalListener implements Listener {
-    public static void _EXECUTE_ACTION(Player player, String act) {
+    public static void _EXECUTE_ACTION(Player player, String actLocale) {
         for(String action : ConfigMainBuffer.buffer.halal_mode.action) {
+            if(action.contentEquals("notify-everyone")) {
+                for(Player p : Bukkit.getOnlinePlayers())
+                    p.sendMessage(_COLOR(ConfigMainBuffer.buffer.server_prefix) +
+                            _SENDER_TRANSLATE(p, "LISTENER_HALAL_NOTIFICATION")
+                                .replace("%player%", player.getName())
+                                .replace("%action%", _SENDER_TRANSLATE(p, actLocale)));
+                continue;
+            }
             action = action.replace("%player%", player.getName());
-            action = action.replace("%action%", act);
+            action = action.replace("%action%", _SENDER_TRANSLATE(player, actLocale));
 
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), action);
         }
@@ -69,10 +79,10 @@ public class HalalListener implements Listener {
 
         if((event.getItem().getType() == org.bukkit.Material.PORKCHOP || event.getItem().getType() == org.bukkit.Material.COOKED_PORKCHOP)
                 && ConfigMainBuffer.buffer.halal_mode.activate.pork)
-            _EXECUTE_ACTION(event.getPlayer(), "eaten pork"); // Suffer the consequences
+            _EXECUTE_ACTION(event.getPlayer(), "LISTENER_HALAL_ACTION_PORK"); // Suffer the consequences
         else if(_IS_FOOD(event.getItem().getType())
                 && ConfigMainBuffer.buffer.halal_mode.activate.day_food
                 && event.getPlayer().getWorld().getTime()<13000)
-            _EXECUTE_ACTION(event.getPlayer(), "eaten food during the day"); // Suffer the consequences
+            _EXECUTE_ACTION(event.getPlayer(), "LISTENER_HALAL_ACTION_DAYTIME"); // Suffer the consequences
     }
 }

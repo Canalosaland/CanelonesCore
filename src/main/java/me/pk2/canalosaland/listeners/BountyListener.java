@@ -29,7 +29,7 @@ public class BountyListener implements Listener {
             String targetName = target.getName();
 
             Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
-                _GLOBAL_MESSAGE("&a" + killerName + " &7has claimed the &e" + bounty + "$ &7bounty on &c" + targetName + "&7!");
+                _GLOBAL_MESSAGE_LOCALE("LISTENER_BOUNTY_CLAIMED", killerName, bounty, targetName);
                 Bukkit.getOnlinePlayers().forEach(Wrapper::_SOUND_BOUNTY);
             }, 20L);
         }

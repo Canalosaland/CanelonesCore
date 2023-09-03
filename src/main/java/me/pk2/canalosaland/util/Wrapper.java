@@ -1,14 +1,18 @@
 package me.pk2.canalosaland.util;
 
 import me.pk2.canalosaland.CanelonesCore;
+import me.pk2.canalosaland.config.buff.ConfigLangBuffer;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.dependencies.DependencyPAPI;
+import me.pk2.canalosaland.user.User;
+import me.pk2.canalosaland.user.UserManager;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -29,8 +33,34 @@ public class Wrapper {
                 .replace("%suffix%", DependencyLP.getSuffix(player))
         );
     }
+    public static String _SENDER_LOCALE(CommandSender sender) {
+        String locale = "es";
+        if(sender instanceof Player player) {
+            User user = UserManager.get(player);
+            if(user != null)
+                locale = user.locale;
+        }
+
+        return locale;
+    }
+    public static String _SENDER_TRANSLATE(CommandSender sender, String key) {
+        if(sender instanceof Player player) {
+            User user = UserManager.get(player);
+            if(user != null)
+                return user.translateC(key);
+        }
+
+        return ConfigLangBuffer.translateC("es", key);
+    }
     public static World _WORLD_OR_DEFAULT(String worldName) { return (worldName == null || Bukkit.getWorld(worldName) == null) ? Bukkit.getWorlds().get(0) : Bukkit.getWorld(worldName); }
     public static void _GLOBAL_MESSAGE(String message) { Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(_COLOR(ConfigMainBuffer.buffer.server_prefix + message))); }
+    public static void _GLOBAL_MESSAGE_LOCALE(String locale, Object... args) {
+        Bukkit.getOnlinePlayers().forEach(p -> {
+            if(args != null && args.length > 0)
+                p.sendMessage(_COLOR(ConfigMainBuffer.buffer.server_prefix) + String.format(_SENDER_TRANSLATE(p, locale), args));
+            else p.sendMessage(_COLOR(ConfigMainBuffer.buffer.server_prefix) + _SENDER_TRANSLATE(p, locale));
+        });
+    }
     public static void _SOUND_OPEN(Player player) { player.playSound(player.getLocation(), "block.ender_chest.open", 1.0f, 1.2f); }
     public static void _SOUND_CLOSE(Player player) { player.playSound(player.getLocation(), "block.ender_chest.close", 1.0f, 1.2f); }
     public static void _SOUND_CLICK(Player player) { player.playSound(player.getLocation(), "ui.button.click", 1.0f, 1.8f); }

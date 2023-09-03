@@ -16,18 +16,18 @@ public class CommandHome implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player player)) {
-            sender.sendMessage(_COLOR("&cEste comando solo puede ser ejecutado por un jugador."));
+            sender.sendMessage(_SENDER_TRANSLATE(sender, "COMMAND_ONLY_PLAYER"));
             return true;
         }
 
         User user = UserManager.get(player);
         if(user == null) {
-            player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7No se ha podido encontrar tu usuario."));
+            player.sendMessage(_SENDER_TRANSLATE(sender, "COMMAND_HOME_USER_NOT_FOUND"));
             return true;
         }
 
         if(user.getHomes().length == 0) {
-            player.sendMessage(_COLOR(ConfigMainBuffer.buffer.test + "&7No tienes ninguna casa."));
+            player.sendMessage(user.translateC("COMMAND_HOME_NO_HOMES"));
             return true;
         }
 
@@ -39,7 +39,7 @@ public class CommandHome implements CommandExecutor {
                 builder.append("&7").append(home.name).append("&8, ");
 
             String homesString = builder.substring(0, builder.length() - 2);
-            player.sendMessage(_COLOR("&8(&a!&8) &aCasas &8» " + homesString));
+            player.sendMessage(user.translateC("COMMAND_HOME_LIST") + _COLOR(homesString));
             return true;
         }
 
@@ -53,12 +53,12 @@ public class CommandHome implements CommandExecutor {
         }
 
         if(home == null) {
-            player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7No tienes una casa con ese nombre."));
+            player.sendMessage(user.translateC("COMMAND_HOME_NOT_FOUND"));
             return true;
         }
 
         player.teleport(home.location);
-        player.sendMessage(_COLOR("&8(&a!&8) &aCasa &8» &7Te has teletransportado a tu casa &e" + home.name + "&7."));
+        player.sendMessage(user.translateC("COMMAND_HOME_TELEPORTED").replace("%name%", home.name));
         _SOUND_TELEPORT(player);
         return true;
     }

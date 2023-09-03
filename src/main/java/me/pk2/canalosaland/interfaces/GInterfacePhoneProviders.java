@@ -19,7 +19,7 @@ public class GInterfacePhoneProviders extends GInterface {
 
     @Override
     public void init() {
-        setItem(26, Material.BARRIER, 0, "&c&lSalir", "&7Clic para ir atras.");
+        setItem(26, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
     }
 
     @Override
@@ -62,18 +62,18 @@ public class GInterfacePhoneProviders extends GInterface {
         int maxCarrier = DependencyTCom.API.getAllCarriers().size();
         for(int i = 0; i < 26; i++) {
             if(i >= maxCarrier) {
-                setItem(i, Material.RED_STAINED_GLASS_PANE, 0, "&c&lNo hay mas proveedores.", "&7No hay mas proveedores.");
+                setItem(i, Material.RED_STAINED_GLASS_PANE, 0, owner.translateC("INTERFACE_PHONE_PROVIDERS_NO_MORE_NAME"), owner.translateC("INTERFACE_PHONE_PROVIDERS_NO_MORE_LORE1"));
                 continue;
             }
 
             Carrier carrier = DependencyTCom.API.getAllCarriers().get(i);
             setItem(i, Material.PAPER, 0, "&e&l" + carrier.getName(),
-                    "&6Mensajes: &e" + carrier.getPricePerText() + "$",
-                    "&6Personas: &e" + carrier.getSubscribers().size(),
+                    owner.translateC("INTERFACE_PHONE_LORE1_MESSAGES")+"&e" + carrier.getPricePerText() + "$",
+                    owner.translateC("INTERFACE_PHONE_PROVIDERS_PEOPLE")+"&e" + carrier.getSubscribers().size(),
                     "",
                     current==null?
-                            "&a&lClic para darte de alta.":
-                            "&c&lYa estas suscrito a un proveedor.");
+                            owner.translateC("INTERFACE_PHONE_PROVIDERS_SUBSCRIBE"):
+                            owner.translateC("INTERFACE_PHONE_PROVIDERS_ALREADY"));
         }
     }
 }

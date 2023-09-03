@@ -27,11 +27,11 @@ public class GInterfacePhoneBizum extends GInterface {
     @Override
     public void init() {
         // 0 - 44 > Player selection
-        setItem(45, Material.GOLD_INGOT, 0, "&6&lSaldo", "&e0.00$");
-        setItem(48, Material.SUNFLOWER, 0, "&aAnterior", "&7Clic para ir a la pagina anterior.");
-        setItem(49, Material.PAPER, 0, "&ePagina", "&e1/1");
-        setItem(50, Material.SUNFLOWER, 0, "&aSiguiente", "&7Clic para ir a la pagina siguiente.");
-        setItem(53, Material.BARRIER, 0, "&c&lSalir", "&7Clic para salir.");
+        setItem(45, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$");
+        setItem(48, Material.SUNFLOWER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_PREVIOUS_NAME"), owner.translateC("INTERFACE_PHONE_BIZUM_PREVIOUS_LORE1"));
+        setItem(49, Material.PAPER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_PAGE_NAME"), "&e1/1");
+        setItem(50, Material.SUNFLOWER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_NEXT_NAME"), owner.translateC("INTERFACE_PHONE_BIZUM_NEXT_LORE1"));
+        setItem(53, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class GInterfacePhoneBizum extends GInterface {
                 return;
 
             if(user.player.getName().contentEquals(owner.player.getName())) {
-                owner.player.sendMessage(_COLOR("&7[&eBIZUM&7] &cNo puedes enviarte dinero a ti mismo."));
+                owner.player.sendMessage(owner.translateC("INTERFACE_PHONE_BIZUM_CANNOT_SELF"));
                 _SOUND_CLICK(owner.player);
                 return;
             }
@@ -55,32 +55,36 @@ public class GInterfacePhoneBizum extends GInterface {
             owner.player.closeInventory();
             Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
                 SignMenuFactory.Menu menu = CanelonesCore.INSTANCE.signMenuFactory
-                        .newMenu(Arrays.asList("&e&lBizum a:", "&e" + user.player.getName(), "&aCantidad:", "0.00"))
+                        .newMenu(Arrays.asList(owner.translateC("INTERFACE_PHONE_BIZUM_TO"), "&e" + user.player.getName(), owner.translateC("INTERFACE_PHONE_BIZUM_TO_QUANTITY"), "0.00"))
                         .reopenIfFail(false)
                         .response((player, args) -> {
                             double amount = 0.00d;
                             try {
                                 amount = Double.parseDouble(args[3]);
                             } catch (Exception ex) {
-                                player.sendMessage(_COLOR("&7[&eBIZUM&7] &cCantidad invalida."));
+                                player.sendMessage(owner.translateC("INTERFACE_PHONE_BIZUM_QUANTITY_INVALID"));
                                 return false;
                             }
 
                             if(amount <= 0) {
-                                player.sendMessage(_COLOR("&7[&eBIZUM&7] &cCantidad invalida."));
+                                player.sendMessage(owner.translateC("INTERFACE_PHONE_BIZUM_QUANTITY_INVALID"));
                                 return false;
                             }
 
                             if(!DependencyVault.has(player, amount)) {
-                                player.sendMessage(_COLOR("&7[&eBIZUM&7] &cNo tienes suficiente dinero."));
+                                player.sendMessage(owner.translateC("INTERFACE_PHONE_BIZUM_QUANTITY_NOT_ENOUGH"));
                                 return false;
                             }
 
                             DependencyVault.economy.withdrawPlayer(player, amount);
                             DependencyVault.economy.depositPlayer(user.player, amount);
 
-                            player.sendMessage(_COLOR("&7[&eBIZUM&7] &aHas enviado &e" + amount + "$ &aa &e" + user.player.getName() + "&a."));
-                            user.player.sendMessage(_COLOR("&7[&eBIZUM&7] &aHas recibido &e" + amount + "$ &ade &e" + player.getName() + "&a."));
+                            player.sendMessage(owner.translateC("INTERFACE_PHONE_BIZUM_SUCCESS_SENT")
+                                    .replace("%amount%", String.format("%.2f$", amount))
+                                    .replace("%player%", user.player.getName()));
+                            user.player.sendMessage(user.translateC("INTERFACE_PHONE_BIZUM_SUCCESS_RECEIVED")
+                                    .replace("%amount%", String.format("%.2f$", amount))
+                                    .replace("%player%", player.getName()));
 
                             _SOUND_NOTIFICATION(player);
                             _SOUND_NOTIFICATION(user.player);
@@ -134,8 +138,8 @@ public class GInterfacePhoneBizum extends GInterface {
         if(page < 1)
             page = 1;
 
-        setItem(45, Material.GOLD_INGOT, 0, "&6&lSaldo", String.format("&e%.2f$", DependencyVault.getBalance(owner.player)));
-        setItem(49, Material.PAPER, 0, "&ePagina", "&e" + page + "/" + maxPage);
+        setItem(45, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), String.format("&e%.2f$", DependencyVault.getBalance(owner.player)));
+        setItem(49, Material.PAPER, 0, owner.translateC("INTERFACE_PHONE_BIZUM_PAGE_NAME"), "&e" + page + "/" + maxPage);
 
         int fromIdx = (page - 1) * 45;
         int toIdx = fromIdx + 45;
@@ -145,17 +149,17 @@ public class GInterfacePhoneBizum extends GInterface {
         for(int i = 0; i < 45; i++) {
             int index = fromIdx + i;
             if(index >= toIdx) {
-                setItem(i, Material.RED_STAINED_GLASS_PANE, 0, "&c&lNo hay mas usuarios", "&7No hay mas usuarios para mostrar.");
+                setItem(i, Material.RED_STAINED_GLASS_PANE, 0, owner.translateC("INTERFACE_PHONE_BIZUM_NO_MORE_USERS_NAME"), owner.translateC("INTERFACE_PHONE_BIZUM_NO_MORE_USERS_LORE1"));
                 continue;
             }
 
             User user = users.get(index);
             if(user == null) {
-                setItem(i, Material.BLACK_STAINED_GLASS_PANE, 0, "&c&lError", "&7No se ha podido cargar el usuario.");
+                setItem(i, Material.BLACK_STAINED_GLASS_PANE, 0, owner.translateC("INTERFACE_PHONE_BIZUM_ERROR_NAME"), owner.translateC("INTERFACE_PHONE_BIZUM_ERROR_LORE1"));
                 continue;
             }
 
-            setHead(i, user.player, "&e" + user.player.getName(), "&6Saldo: &e" + String.format("%.2f$", DependencyVault.getBalance(user.player)));
+            setHead(i, user.player, "&e" + user.player.getName(), owner.translateC("INTERFACE_PHONE_BIZUM_BALANCE_NAME") + String.format("%.2f$", DependencyVault.getBalance(user.player)));
         }
     }
 

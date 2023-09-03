@@ -118,7 +118,7 @@ public class WebServerHandlerAPIPlayerAction extends WebServerHandler {
                 if(c == null)
                     return new WebServerResponse("Invalid carrier");
 
-                user.player.sendMessage(_COLOR("&aYou have joined the carrier &e" + c.getName() + "&a."));
+                user.player.sendMessage(user.translateC("WAPI_CARRIER_JOIN").replace("%carrier%", c.getName()));
                 c.subscribe(user.player.getName());
                 return new WebServerResponse("Joined carrier");
             }
@@ -140,7 +140,7 @@ public class WebServerHandlerAPIPlayerAction extends WebServerHandler {
                 if(c.getOwner().contentEquals(user.player.getName()))
                     return new WebServerResponse("You cannot leave your own carrier");
 
-                user.player.sendMessage(_COLOR("&cYou have left the carrier."));
+                user.player.sendMessage(user.translateC("WAPI_CARRIER_LEAVE"));
                 c.unsubscribe(user.player.getName());
                 return new WebServerResponse("Left carrier");
             }
@@ -196,8 +196,8 @@ public class WebServerHandlerAPIPlayerAction extends WebServerHandler {
                 DependencyVault.withdraw(user.player, amountDouble);
                 DependencyVault.deposit(Bukkit.getPlayer(to[1]), amountDouble);
 
-                user.player.sendMessage(_COLOR("&7[&eBIZUM&7] &aHas enviado &e" + amountDouble + "$ &aa &e" + player.getName() + "&a."));
-                player.sendMessage(_COLOR("&7[&eBIZUM&7] &aHas recibido &e" + amountDouble + "$ &ade &e" + user.player.getName() + "&a."));
+                user.player.sendMessage(user.translateC("INTERFACE_PHONE_BIZUM_SUCCESS_SENT").replace("%amount%", String.valueOf(amountDouble)).replace("%player%", player.getName()));
+                player.sendMessage(_SENDER_TRANSLATE(player, "INTERFACE_PHONE_BIZUM_SUCCESS_RECEIVED").replace("%amount%", String.valueOf(amountDouble)).replace("%player%", user.player.getName()));
 
                 _SOUND_NOTIFICATION(user.player);
                 _SOUND_NOTIFICATION(player);

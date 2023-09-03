@@ -17,46 +17,46 @@ public class CommandDelHome implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player player)) {
-            sender.sendMessage(_COLOR("&cEste comando solo puede ser ejecutado por un jugador."));
+            sender.sendMessage(_SENDER_TRANSLATE(sender, "COMMAND_ONLY_PLAYER"));
             return true;
         }
 
         if(args.length == 0) {
-            player.sendMessage(_COLOR("&cUso: /delhome <nombre>"));
+            player.sendMessage(_SENDER_TRANSLATE(sender, "COMMAND_USAGE") + "/delhome <nombre>");
             return true;
         }
 
         User user = UserManager.get(player);
         if(user == null) {
-            player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7No se ha podido encontrar tu usuario."));
+            player.sendMessage(_SENDER_TRANSLATE(sender, "COMMAND_USER_NOT_FOUND"));
             return true;
         }
 
         String name = args[0];
         if(name.length() > 24) {
-            player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7El nombre de la casa no puede ser mayor a 24 caracteres."));
+            player.sendMessage(user.translateC("COMMAND_HOME_NAME_TOO_LONG"));
             return true;
         }
 
-        player.sendMessage(_COLOR("&8(&e!&8) &aCasa &8» &7Conectando con la base de datos..."));
+        player.sendMessage(user.translateC("COMMAND_HOME_CONNECTING"));
         DBApi.enqueue(() -> {
             Connection conn = DBApi.connect();
             if(DBApi.API.homes.existsHome(conn, user.getUserId(), name) != 1) {
-                player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7No tienes una casa con ese nombre."));
+                player.sendMessage(user.translateC("COMMAND_HOME_NOT_FOUND"));
                 DBApi.disconnect(conn);
                 return;
             }
 
             int exCode = DBApi.API.homes.removeHome(conn, user.getUserId(), name);
             if(exCode != 1) {
-                player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7Ha ocurrido un error al eliminar la casa. [" + exCode + "]"));
+                player.sendMessage(user.translateC("COMMAND_HOME_ERROR") + " [" + exCode + "]");
                 DBApi.disconnect(conn);
                 return;
             }
 
             DBApi.disconnect(conn);
             user.fetchData();
-            player.sendMessage(_COLOR("&8(&a!&8) &aCasa &8» &7Has eliminado la casa con el nombre &e" + name + "&7."));
+            player.sendMessage(user.translateC("COMMAND_HOME_DELETE_SUCCESS"));
         });
         return true;
     }

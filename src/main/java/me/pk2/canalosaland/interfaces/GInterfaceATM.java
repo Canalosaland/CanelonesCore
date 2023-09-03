@@ -15,10 +15,10 @@ public class GInterfaceATM extends GInterface {
 
     @Override
     public void init() {
-        setItem(3, Material.PAPER, 0, "&6&lMeter dinero", "&7Mete dinero en tu cuenta bancaria.");
-        setItem(4, Material.COMPASS, 0, "&6&lSaldo", "&e0.00$");
-        setItem(5, Material.DIAMOND_ORE, 0, "&6&lSacar dinero", "&7Saca dinero de tu cuenta bancaria.");
-        setItem(8, Material.BARRIER, 0, "&c&lSalir", "&7Clic para salir.");
+        setItem(3, Material.PAPER, 0, owner.translateC("INTERFACE_ATM_DEPOSIT_NAME"), owner.translateC("INTERFACE_ATM_DEPOSIT_LORE1"));
+        setItem(4, Material.COMPASS, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$");
+        setItem(5, Material.DIAMOND_ORE, 0, owner.translateC("INTERFACE_ATM_WITHDRAW_NAME"), owner.translateC("INTERFACE_ATM_WITHDRAW_LORE1"));
+        setItem(8, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
     }
 
     @Override
@@ -52,6 +52,6 @@ public class GInterfaceATM extends GInterface {
         super.open();
 
         _SOUND_OPEN(owner.player);
-        setItem(4, Material.COMPASS, 0, "&6&lSaldo", String.format("&e%.2f$", DependencyVault.getBalance(owner.player)));
+        setItem(4, Material.COMPASS, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), String.format("&e%.2f$", DependencyVault.getBalance(owner.player)));
     }
 }

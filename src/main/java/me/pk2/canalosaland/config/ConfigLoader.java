@@ -5,6 +5,7 @@ import static me.pk2.canalosaland.util.Wrapper._LOG;
 
 import me.pk2.canalosaland.config.buff.ConfigAtmBuffer;
 import me.pk2.canalosaland.config.buff.ConfigBountyBuffer;
+import me.pk2.canalosaland.config.buff.ConfigLangBuffer;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.buffer.DBBufferKits;
@@ -17,6 +18,7 @@ public class ConfigLoader {
         ConfigMainBuffer.load();
         ConfigAtmBuffer.load();
         ConfigBountyBuffer.load();
+        ConfigLangBuffer.load();
 
         if(INSTANCE.webAPI != null)
             if (ConfigMainBuffer.buffer.webapi.enabled)

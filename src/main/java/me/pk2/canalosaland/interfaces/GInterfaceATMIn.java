@@ -10,15 +10,15 @@ import org.bukkit.inventory.Inventory;
 
 public class GInterfaceATMIn extends GInterface {
     public GInterfaceATMIn(User user) {
-        super(user, "&eATM - Ingresar", 6);
+        super(user, user.translateC("INTERFACE_ATMIN_NAME"), 6);
     }
 
     @Override
     public void init() {
         for(int i = 0; i < 54; i++)
             setItem(i, Material.WHITE_STAINED_GLASS_PANE, 0, "&r");
-        setItem(45, Material.GOLD_INGOT, 0, "&6&lSaldo", "&e0.00$");
-        setItem(53, Material.BARRIER, 0, "&c&lSalir", "&7Clic para salir.");
+        setItem(45, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$");
+        setItem(53, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class GInterfaceATMIn extends GInterface {
         }
 
         if(price == 0) {
-            owner.player.sendMessage(_COLOR("&cNo se pudo encontrar el precio de este item."));
+            owner.player.sendMessage(owner.translateC("INTERFACE_ATM_ITEM_NOT_FOUND"));
 
             _SOUND_ERROR(owner.player);
             return;
@@ -66,7 +66,7 @@ public class GInterfaceATMIn extends GInterface {
         }
 
         if(count == 0) {
-            owner.player.sendMessage(_COLOR("&cNo tienes este item en tu inventario."));
+            owner.player.sendMessage(owner.translateC("INTERFACE_ATM_ITEM_NOT_FOUND"));
 
             _SOUND_ERROR(owner.player);
             return;
@@ -75,7 +75,7 @@ public class GInterfaceATMIn extends GInterface {
         inv.removeItem(inv.getItem(inv.first(slotMaterial)).asOne());
         DependencyVault.deposit(owner.player, price);
 
-        owner.player.sendMessage(_COLOR("&aHas depositado &e" + price + "$ &aen tu cuenta bancaria."));
+        owner.player.sendMessage(owner.translateC("INTERFACE_ATMIN_DEPOSITED").replace("%price%", String.format("%.2f$", price)));
         updateGUI();
         _SOUND_NOTIFICATION(owner.player);
     }
@@ -83,7 +83,7 @@ public class GInterfaceATMIn extends GInterface {
     public void updateGUI() {
         double balance = DependencyVault.getBalance(owner.player);
 
-        setItem(45, Material.GOLD_INGOT, 0, "&6&lSaldo", String.format("&e%.2f$", balance));
+        setItem(45, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), String.format("&e%.2f$", balance));
 
         setItem(10, Material.MUSIC_DISC_PIGSTEP, 0, "&e&lDisco Pigstep", String.format("&e&lValor: &e%.2f$", ConfigAtmBuffer.buffer.prices.music_disc_pigstep), String.format("&e&lBalance despues: &e%.2f$", ConfigAtmBuffer.buffer.prices.music_disc_pigstep + balance), "", "&7Clic para depositar.");
         setItem(11, Material.PIGLIN_BANNER_PATTERN, 0, "&e&lBanner Piglin", String.format("&e&lValor: &e%.2f$", ConfigAtmBuffer.buffer.prices.piglin_banner_pattern), String.format("&e&lBalance despues: &e%.2f$", ConfigAtmBuffer.buffer.prices.piglin_banner_pattern + balance), "", "&7Clic para depositar.");

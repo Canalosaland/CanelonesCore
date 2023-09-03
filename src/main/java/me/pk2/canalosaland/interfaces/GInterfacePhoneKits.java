@@ -36,7 +36,7 @@ public class GInterfacePhoneKits extends GInterface {
         super.open();
         _SOUND_OPEN(owner.player);
         if(owner.getKits() == null) {
-            owner.player.sendMessage(_COLOR("&cTu cuenta esta aun siendo cargada en la base de datos. Por favor, espera unos segundos y vuelve a intentarlo."));
+            owner.player.sendMessage(owner.translateC("INTERFACE_PHONE_KITS_STILL_LOADING"));
             owner.player.closeInventory();
             _SOUND_ERROR(owner.player);
             return;
@@ -44,7 +44,7 @@ public class GInterfacePhoneKits extends GInterface {
 
         if(claiming) {
             owner.player.closeInventory();
-            owner.player.sendMessage(_COLOR("&c&lYa estas reclamando un kit!"));
+            owner.player.sendMessage(owner.translateC("INTERFACE_PHONE_KITS_ALREADY_CLAIMING"));
             _SOUND_ERROR(owner.player);
             return;
         }
@@ -60,7 +60,7 @@ public class GInterfacePhoneKits extends GInterface {
                 continue;
 
             DBKitObj kit = DBBufferKits.BUFFER.getKit(ukit.kid);
-            setItem(i, kit.material.getType(), kit.material.getDurability(), Math.min(ukit.amount, 64), _COLOR(kit.name), "&d" + ukit.amount + " uso" + ((ukit.amount>1)?"s":"") + " restante" + ((ukit.amount>1)?"s.":"."), "", "&7Haz clic para usarlo");
+            setItem(i, kit.material.getType(), kit.material.getDurability(), Math.min(ukit.amount, 64), _COLOR(kit.name), "&d" + ukit.amount + " uso" + ((ukit.amount>1)?"s":"") + " restante" + ((ukit.amount>1)?"s.":"."), "", owner.translateC("INTERFACE_PHONE_KITS_CLICK_TO_USE"));
         }
     }
 
@@ -84,7 +84,7 @@ public class GInterfacePhoneKits extends GInterface {
 
         claiming = true;
         owner.player.closeInventory();
-        owner.player.sendMessage(_COLOR("&aReclamando kit " + kit.name + "&a..."));
+        owner.player.sendMessage(owner.translateC("INTERFACE_PHONE_KITS_CLAIMING"));
         _SOUND_PAGE(owner.player);
 
         DBApi.enqueue(() -> {
@@ -105,11 +105,11 @@ public class GInterfacePhoneKits extends GInterface {
                             owner.player.getWorld().dropItem(owner.player.getLocation(), item);
                 });
 
-                owner.player.sendMessage(_COLOR("&aKit " + kit.name + " &areclamado!"));
+                owner.player.sendMessage(owner.translateC("INTERFACE_PHONE_KITS_CLAIMED").replace("%kit%", _COLOR(kit.name)));
                 _SOUND_EXP(owner.player);
             } catch (Exception ex) {
                 _LOG("GInterfacePhoneKits", "Error while claiming kit " + kit.name + " for " + owner.player.getName() + ": " + ex.getMessage());
-                owner.player.sendMessage(_COLOR("&cError al reclamar kit " + kit.name + "&c[" + kit.id + "," + ukit.id + "," + ukit.uid + "," + ukit.kid + "]! Contacta con un administrador."));
+                owner.player.sendMessage(owner.translateC("INTERFACE_PHONE_KITS_ERROR"));
                 _SOUND_ERROR(owner.player);
             }
 

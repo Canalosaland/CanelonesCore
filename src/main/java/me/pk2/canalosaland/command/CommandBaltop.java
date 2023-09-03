@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class CommandBaltop implements CommandExecutor {
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) { // No need to translate.
         Economy economy = DependencyVault.economy;
         if(economy == null) {
             sender.sendMessage(_COLOR("&cNo economy plugin found!"));

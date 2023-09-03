@@ -18,50 +18,50 @@ public class CommandSetHome implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player player)) {
-            sender.sendMessage(_COLOR("&cEste comando solo puede ser ejecutado por un jugador."));
+            sender.sendMessage(_SENDER_TRANSLATE(sender, "COMMAND_ONLY_PLAYER"));
             return true;
         }
 
         if(args.length == 0) {
-            player.sendMessage(_COLOR("&cUso: /sethome <nombre>"));
+            player.sendMessage(_SENDER_TRANSLATE(sender, "COMMAND_USAGE" + "/" + label + " <name>"));
             return true;
         }
 
         User user = UserManager.get(player);
         if(user == null) {
-            player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7No se ha podido encontrar tu usuario."));
+            player.sendMessage(_SENDER_TRANSLATE(sender, "COMMAND_HOME_USER_NOT_FOUND"));
             return true;
         }
 
         if(user.getKits().length >= ConfigMainBuffer.buffer.homes.max_homes) {
-            player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7Has alcanzado el limite de casas."));
+            player.sendMessage(user.translateC("COMMAND_HOME_MAX_HOMES"));
             return true;
         }
 
         String name = args[0];
         if(name.length() > 24) {
-            player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7El nombre de la casa no puede ser mayor a 24 caracteres."));
+            player.sendMessage(user.translateC("COMMAND_HOME_NAME_TOO_LONG"));
             return true;
         }
 
-        player.sendMessage(_COLOR("&8(&e!&8) &aCasa &8» &7Conectando con la base de datos..."));
+        player.sendMessage(user.translateC("COMMAND_HOME_CONNECTING"));
         DBApi.enqueue(() -> {
             Connection conn = DBApi.connect();
             if(DBApi.API.homes.existsHome(conn, user.getUserId(), name) == 1) {
-                player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7Ya tienes una casa con ese nombre."));
+                player.sendMessage(user.translateC("COMMAND_HOME_ALREADY_EXISTS"));
                 DBApi.disconnect(conn);
                 return;
             }
 
             int exCode = DBApi.API.homes.addHome(conn, user.getUserId(), name, player.getLocation());
             if(exCode != 1) {
-                player.sendMessage(_COLOR("&8(&c!&8) &aCasa &8» &7Ha ocurrido un error al añadir la casa. [" + exCode + "]"));
+                player.sendMessage(user.translateC("COMMAND_HOME_ADD_ERROR") + " [" + exCode + "]");
                 DBApi.disconnect(conn);
                 return;
             }
 
             user.fetchData();
-            player.sendMessage(_COLOR("&8(&a!&8) &aCasa &8» &7Has añadido una casa con el nombre &e" + name + "&7."));
+            player.sendMessage(user.translateC("COMMAND_HOME_ADDED").replace("%name%", name));
         });
         return true;
     }

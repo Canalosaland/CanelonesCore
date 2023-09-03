@@ -1,9 +1,12 @@
 package me.pk2.canalosaland.command;
 
 import static me.pk2.canalosaland.util.Wrapper.*;
+import static me.pk2.canalosaland.config.buff.ConfigLangBuffer.translateC;
 
 import me.pk2.canalosaland.config.buff.ConfigAtmBuffer;
 import me.pk2.canalosaland.config.buff.atm.ATMObj;
+import me.pk2.canalosaland.user.User;
+import me.pk2.canalosaland.user.UserManager;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,69 +18,75 @@ public class CommandATMManage implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player player)) {
-            sender.sendMessage(_COLOR("&cThis command can only be executed by players."));
+            sender.sendMessage(translateC("es", "COMMAND_ONLY_PLAYER"));
+            return true;
+        }
+
+        User user = UserManager.get(player);
+        if(user == null) {
+            player.sendMessage(translateC("es", "COMMAND_USER_NOT_FOUND"));
             return true;
         }
 
         if(!player.hasPermission("canalosaland.atm")) {
-            player.sendMessage(_COLOR("&cYou do not have permission to execute this command."));
+            player.sendMessage(user.translateC("COMMAND_NO_PERMISSION"));
             return true;
         }
 
         if(args.length < 1) {
-            player.sendMessage(_COLOR("&cUsage: /atm-manage <list|create|delete|change>"));
+            player.sendMessage(user.translateC("COMMAND_USAGE") + "/atm-manage <list|create|delete|change>");
             return true;
         }
 
         switch(args[0].toLowerCase()) {
             case "list" -> {
-                player.sendMessage(_COLOR("&eATM List:"));
+                player.sendMessage(user.translateC("COMMAND_ATM_LIST"));
                 for(int i = 0; i < ConfigAtmBuffer.buffer.atms.size(); i++) {
                     ATMObj atm = ConfigAtmBuffer.buffer.atms.get(i);
-                    player.sendMessage(_COLOR("&e" + i + ". &f" + atm.location.getWorld().getName() + " &7(" + atm.location.getBlockX() + "," + atm.location.getBlockY() + "," + atm.location.getBlockZ() + ")"));
+                    player.sendMessage(user.translateC("GLOBAL_EXCLAMATION_INFO") + _COLOR("&e" + i + ". &f" + atm.location.getWorld().getName() + " &7(" + atm.location.getBlockX() + "," + atm.location.getBlockY() + "," + atm.location.getBlockZ() + ")"));
                 }
             }
 
             case "create" -> {
                 Block block = player.getTargetBlock(5);
                 if(block == null) {
-                    player.sendMessage(_COLOR("&cYou must be looking at a block."));
+                    player.sendMessage(user.translateC("COMMAND_ATM_CREATE_MUST_LOOK"));
                     return true;
                 }
 
                 if(ConfigAtmBuffer.buffer.atms.stream().anyMatch(atm -> atm.location.equals(block.getLocation()))) {
-                    player.sendMessage(_COLOR("&cThere is already an ATM at this location."));
+                    player.sendMessage(user.translateC("COMMAND_ATM_CREATE_ALREADY_EXISTS"));
                     return true;
                 }
 
                 ConfigAtmBuffer.buffer.atms.add(new ATMObj(true, block.getLocation()));
                 ConfigAtmBuffer.save();
 
-                player.sendMessage(_COLOR("&aSuccessfully created ATM."));
+                player.sendMessage(user.translateC("COMMAND_ATM_CREATE_SUCCESS"));
             }
 
             case "delete" -> {
                 Block block = player.getTargetBlock(5);
                 if(block == null) {
-                    player.sendMessage(_COLOR("&cYou must be looking at a block."));
+                    player.sendMessage(user.translateC("COMMAND_ATM_DELETE_MUST_LOOK"));
                     return true;
                 }
 
                 ATMObj atm = ConfigAtmBuffer.get(block.getLocation());
                 if(atm == null) {
-                    player.sendMessage(_COLOR("&cThere is no ATM at this location."));
+                    player.sendMessage(user.translateC("COMMAND_ATM_DELETE_NOT_FOUND"));
                     return true;
                 }
 
                 ConfigAtmBuffer.remove(atm.location);
                 ConfigAtmBuffer.save();
 
-                player.sendMessage(_COLOR("&aSuccessfully deleted ATM."));
+                player.sendMessage(user.translateC("COMMAND_ATM_DELETE_SUCCESS"));
             }
 
             case "change" -> {
                 if(args.length < 2) {
-                    player.sendMessage(_COLOR("&cUsage: /atm-manage change <id>"));
+                    player.sendMessage(user.translateC("COMMAND_USAGE") + "/atm-manage change <id>");
                     return true;
                 }
 
@@ -85,12 +94,12 @@ public class CommandATMManage implements CommandExecutor {
                 try {
                     id = Integer.parseInt(args[1]);
                 } catch(NumberFormatException e) {
-                    player.sendMessage(_COLOR("&cInvalid ID."));
+                    player.sendMessage(user.translateC("COMMAND_ATM_CHANGE_INVALID_ID"));
                     return true;
                 }
 
                 if(id < 0 || id >= ConfigAtmBuffer.buffer.atms.size()) {
-                    player.sendMessage(_COLOR("&cInvalid ID."));
+                    player.sendMessage(user.translateC("COMMAND_ATM_CHANGE_INVALID_ID"));
                     return true;
                 }
 
@@ -98,18 +107,18 @@ public class CommandATMManage implements CommandExecutor {
 
                 Block block = player.getTargetBlock(5);
                 if(block == null) {
-                    player.sendMessage(_COLOR("&cYou must be looking at a block."));
+                    player.sendMessage(user.translateC("COMMAND_ATM_CHANGE_MUST_LOOK"));
                     return true;
                 }
 
                 atm.location = block.getLocation();
                 ConfigAtmBuffer.save();
 
-                player.sendMessage(_COLOR("&aSuccessfully changed ATM " + id + "."));
+                player.sendMessage(user.translateC("COMMAND_ATM_CHANGE_SUCCESS").replace("%id%", String.valueOf(id)));
             }
 
             default -> {
-                player.sendMessage(_COLOR("&cUsage: /atm-manage <list|create|delete|change>"));
+                player.sendMessage(user.translateC("COMMAND_USAGE") + "/atm-manage <list|create|delete|change>");
             }
         }
         return true;

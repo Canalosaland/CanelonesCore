@@ -30,6 +30,7 @@ public class User {
     private DBHomeObj[] homes;
     public User(Player player) {
         this.player = player;
+        this.locale = "es";
 
         fetchData();
 

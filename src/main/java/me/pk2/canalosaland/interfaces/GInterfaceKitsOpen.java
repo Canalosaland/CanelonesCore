@@ -52,7 +52,7 @@ public class GInterfaceKitsOpen extends GInterface {
 
     @Override
     public void init() {
-        setItem(35, Material.BARRIER, 0, "&c&lSalir", "&7Clic para salir.");
+        setItem(35, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
     }
 
     @Override

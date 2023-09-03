@@ -9,7 +9,7 @@ import org.bukkit.Material;
 
 import static me.pk2.canalosaland.util.Wrapper._SOUND_OPEN;
 
-public class GInterfaceKits extends GInterface{
+public class GInterfaceKits extends GInterface {
     public int kid;
     public GInterfaceKits(User user) {
         super(user, "&9&lTodos los kits", 3);
@@ -33,7 +33,7 @@ public class GInterfaceKits extends GInterface{
             if(kit == null)
                 continue;
 
-            setItem(i, kit.material.getType(), kit.material.getDurability(), 1, kit.name, "&eReclama el kit con &l/iphone", "", "&7Haz clic para ver el contenido", "&8id=" + kit.id);
+            setItem(i, kit.material.getType(), kit.material.getDurability(), 1, kit.name, owner.translateC("INTERFACE_KITS_CLAIM_LORE1"), "", owner.translateC("INTERFACE_KITS_CLAIM_LORE2"), "&8id=" + kit.id);
         }
     }
 

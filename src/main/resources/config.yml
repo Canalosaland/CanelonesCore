@@ -29,7 +29,7 @@ halal_mode:
     pork: true
     day_food: true
   action: # Console commands
-    - 'say &c&l%player% &chas %action%!'
+    - 'notify-everyone'
     - 'soundall block.chain.fall 1 0.5'
     - 'lightning %player%'
 database:
