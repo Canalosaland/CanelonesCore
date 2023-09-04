@@ -69,7 +69,7 @@ public class GInterfaceATMOut extends GInterface {
         inv.addItem(new ItemStack(slotMaterial, 1));
         DependencyVault.economy.withdrawPlayer(owner.player, price);
 
-        owner.player.sendMessage(owner.translateC("INTERFACE_ATMOUT_SUCCESS").replace("%item", slotMaterial.name()).replace("%price", String.format("%.2f$", price)));
+        owner.player.sendMessage(owner.translateC("INTERFACE_ATMOUT_SUCCESS").replace("%item%", slotMaterial.name()).replace("%price%", String.format("%.2f$", price)));
         updateGUI();
         _SOUND_NOTIFICATION(owner.player);
     }
