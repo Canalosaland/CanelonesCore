@@ -23,9 +23,21 @@ public class PlayerListener implements Listener {
             event.getPlayer().teleport(ConfigMainBuffer.buffer.spawn);
             event.getPlayer().sendMessage(_COLOR("&aBienvenido a &7CanalosaLand&a, esperamos que disfrutes tu estancia."));
 
-            if(ConfigMainBuffer.buffer.first_join.commands.enabled)
-                for(String command : ConfigMainBuffer.buffer.first_join.commands.execute)
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), _PLACEHOLDER(event.getPlayer(), command));
+            Bukkit.getScheduler().runTaskAsynchronously(CanelonesCore.INSTANCE, () -> {
+                while(event.getPlayer().isValid() && UserManager.get(event.getPlayer()) == null) {
+                    try {
+                        Thread.sleep(100L);
+                    } catch (InterruptedException exception) {
+                        exception.printStackTrace();
+                    }
+                }
+
+                if(!event.getPlayer().isValid())
+                    return;
+                if(ConfigMainBuffer.buffer.first_join.commands.enabled)
+                    for(String command : ConfigMainBuffer.buffer.first_join.commands.execute)
+                        Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", event.getPlayer().getName())), 5L);
+            });
         }
 
         UserManager.add(event.getPlayer());

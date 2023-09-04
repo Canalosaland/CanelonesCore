@@ -1,5 +1,6 @@
 package me.pk2.canalosaland.interfaces;
 
+import me.pk2.canalosaland.config.buff.ConfigLangBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.user.User;
 
@@ -33,7 +34,7 @@ public class GInterfaceLanguage extends GInterface{
 
                     DBApi.API.users.changeLocale(conn, owner.getUserId(), "es");
                     owner.fetchData();
-                    owner.player.sendMessage(_COLOR("&a&lIdioma cambiado a español! Es posible que tengas que reconectarte para que algunos cambios tengan efecto!"));
+                    owner.player.sendMessage(ConfigLangBuffer.translateC("es", "LANG_CHANGED")); // Setting the locale since we don't know if the user already has the data cached.
                     _SOUND_NOTIFICATION(owner.player);
 
                     DBApi.disconnect(conn);
@@ -45,7 +46,7 @@ public class GInterfaceLanguage extends GInterface{
 
                     DBApi.API.users.changeLocale(conn, owner.getUserId(), "en");
                     owner.fetchData();
-                    owner.player.sendMessage(_COLOR("&a&lLanguage changed to english! You may need to rejoin for some changes to take effect!"));
+                    owner.player.sendMessage(ConfigLangBuffer.translateC("en", "LANG_CHANGED"));
                     _SOUND_NOTIFICATION(owner.player);
 
                     DBApi.disconnect(conn);

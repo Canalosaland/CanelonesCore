@@ -99,3 +99,4 @@ WAPI_CARRIER_JOIN: '&8&l(&a&l!&8&l) &aCarrier &8» &7You have joined the network
 WAPI_CARRIER_LEAVE: '&8&l(&a&l!&8&l) &aCarrier &8» &7You have left the phone network.'
 LANG_SPANISH: 'Español'
 LANG_ENGLISH: 'English'
+LANG_CHANGED: '&8&l(&a&l!&8&l) &aLanguage &8» &7Language changed to &fEnglish&7.'

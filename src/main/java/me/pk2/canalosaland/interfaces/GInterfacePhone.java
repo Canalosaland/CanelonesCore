@@ -91,6 +91,12 @@ public class GInterfacePhone extends GInterface {
             case 5 -> {
                 owner.player.closeInventory();
                 Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
+                    owner.openI(GInterfaceLanguage.class);
+                }, 2L);
+            }
+            case 7 -> {
+                owner.player.closeInventory();
+                Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
                     owner.openI(GInterfacePhoneBizum.class);
                 }, 2L);
             }
@@ -104,14 +110,25 @@ public class GInterfacePhone extends GInterface {
         }
     }
 
+    private String lastLang = "";
+
     @Override
     public void open() {
         super.open();
         setItem(0, Material.RED_SHULKER_BOX, 0, "&9&lKits", owner.translateC("INTERFACE_PHONE_KITS_LORE1"));
         setItem(2, Material.REDSTONE_TORCH, 0, owner.translateC("INTERFACE_PHONE_PROVIDER_NAME"), lores[1]);
         setItem(3, Material.BOOK, 0, owner.translateC("INTERFACE_PHONE_PROVIDERS_NAME"), owner.translateC("INTERFACE_PHONE_PROVIDERS_LORE1"));
-        setItem(5, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$", "", owner.translateC("INTERFACE_PHONE_BALANCE_LORE1"));
+        setItem(7, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), "&e0.00$", "", owner.translateC("INTERFACE_PHONE_BALANCE_LORE1"));
         setItem(8, Material.BARRIER, 0, owner.translateC("INTERFACE_ATM_EXIT_NAME"), owner.translateC("INTERFACE_ATM_EXIT_LORE1"));
+
+        String lang = owner.locale;
+        if(lastLang != lang) {
+            lastLang = lang;
+            if(lang.contentEquals("es"))
+                setHead(5, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJiZDQ1MjE5ODMzMDllMGFkNzZjMWVlMjk4NzQyODc5NTdlYzNkOTZmOGQ4ODkzMjRkYThjODg3ZTQ4NWVhOCJ9fX0=", owner.translateC("LANG_SPANISH"));
+            else if(lang.contentEquals("en"))
+                setHead(5, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGNhYzk3NzRkYTEyMTcyNDg1MzJjZTE0N2Y3ODMxZjY3YTEyZmRjY2ExY2YwY2I0YjM4NDhkZTZiYzk0YjQifX19", owner.translateC("LANG_ENGLISH"));
+        }
         _SOUND_OPEN(owner.player);
 
         String[][] lores = translateLore();
@@ -123,6 +140,6 @@ public class GInterfacePhone extends GInterface {
                 .replace("%price%", String.format("%.2f", carrier.getPricePerText())))
                         .split("\n")
             );
-        setItem(5, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), String.format("&e%.2f$", DependencyVault.getBalance(owner.player)), "", owner.translateC("INTERFACE_PHONE_BALANCE_LORE1"));
+        setItem(7, Material.GOLD_INGOT, 0, owner.translateC("INTERFACE_ATM_BALANCE_NAME"), String.format("&e%.2f$", DependencyVault.getBalance(owner.player)), "", owner.translateC("INTERFACE_PHONE_BALANCE_LORE1"));
     }
 }
