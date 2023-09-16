@@ -65,6 +65,7 @@ public class ConfigMainBuffer {
         }
         public static Location spawn;
         public static class first_join {
+            public static double money;
             public static class commands {
                 public static boolean enabled;
                 public static List<String> execute;
@@ -128,6 +129,7 @@ public class ConfigMainBuffer {
         float pitch = (float) CONFIG.getDouble("spawn.pitch");
         buffer.spawn = new Location(world, x, y, z, yaw, pitch);
         // First join
+        //buffer.first_join.money = CONFIG.getDouble("first_join.money");
         buffer.first_join.commands.enabled = CONFIG.getBoolean("first_join.commands.enabled");
         buffer.first_join.commands.execute = CONFIG.getStringList("first_join.commands.execute");
         // Homes
@@ -184,6 +186,7 @@ public class ConfigMainBuffer {
         CONFIG.set("spawn.yaw", buffer.spawn.getYaw());
         CONFIG.set("spawn.pitch", buffer.spawn.getPitch());
         // First join
+        //CONFIG.set("first_join.money", buffer.first_join.money);
         CONFIG.set("first_join.commands.enabled", buffer.first_join.commands.enabled);
         CONFIG.set("first_join.commands.execute", buffer.first_join.commands.execute);
         // Homes

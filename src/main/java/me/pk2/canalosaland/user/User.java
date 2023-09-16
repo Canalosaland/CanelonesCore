@@ -28,9 +28,11 @@ public class User {
     private int userId;
     private DBUserKitObj[] kits;
     private DBHomeObj[] homes;
+    private String lastTpa;
     public User(Player player) {
         this.player = player;
         this.locale = "es";
+        this.lastTpa = "";
 
         fetchData();
 
@@ -55,6 +57,9 @@ public class User {
     public int getUserId() { return userId; }
     public DBUserKitObj[] getKits() { return kits; }
     public DBHomeObj[] getHomes() { return homes; }
+
+    public void setLastTpa(String uuid) { this.lastTpa = uuid; }
+    public String getLastTpa() { return this.lastTpa; }
 
     public void fetchData() {
         String uuid = _UUID(player);

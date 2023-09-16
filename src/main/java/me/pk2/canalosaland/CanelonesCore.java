@@ -17,10 +17,11 @@ import me.pk2.canalosaland.util.SignMenuFactory;
 import me.pk2.canalosaland.webapi.WebAPI;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.NPC;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.util.Objects;
 
 public class CanelonesCore extends JavaPlugin {
     public static CanelonesCore INSTANCE;
@@ -105,6 +106,7 @@ public class CanelonesCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ATMListener(), this);
         Bukkit.getPluginManager().registerEvents(new HalalListener(), this);
         Bukkit.getPluginManager().registerEvents(new BountyListener(), this);
+        Bukkit.getPluginManager().registerEvents(new TPAListener(), this);
 
         // Register users if it was a reload
         _LOG("Users", "Registering...");
@@ -112,49 +114,51 @@ public class CanelonesCore extends JavaPlugin {
 
         // Register commands
         _LOG("Commands", "Registering...");
-        getCommand("canelones-reload").setExecutor(new CommandReload());
+        Objects.requireNonNull(getCommand("canelones-reload")).setExecutor(new CommandReload());
 
-        getCommand("pm").setExecutor(new CommandTCMsg());
-        getCommand("msg").setExecutor(new CommandTCMsg());
-        getCommand("tell").setExecutor(new CommandTCMsg());
-        getCommand("r").setExecutor(new CommandTCMsg());
+        Objects.requireNonNull(getCommand("pm")).setExecutor(new CommandTCMsg());
+        Objects.requireNonNull(getCommand("msg")).setExecutor(new CommandTCMsg());
+        Objects.requireNonNull(getCommand("tell")).setExecutor(new CommandTCMsg());
+        Objects.requireNonNull(getCommand("r")).setExecutor(new CommandTCMsg());
 
-        getCommand("iphone").setExecutor(new CommandPhone());
+        Objects.requireNonNull(getCommand("iphone")).setExecutor(new CommandPhone());
 
-        getCommand("atm-manage").setExecutor(new CommandATMManage());
+        Objects.requireNonNull(getCommand("atm-manage")).setExecutor(new CommandATMManage());
 
-        getCommand("baltop").setExecutor(new CommandBaltop());
+        Objects.requireNonNull(getCommand("baltop")).setExecutor(new CommandBaltop());
 
-        getCommand("say").setExecutor(new CommandSay());
+        Objects.requireNonNull(getCommand("say")).setExecutor(new CommandSay());
 
-        getCommand("soundall").setExecutor(new CommandSoundAll());
+        Objects.requireNonNull(getCommand("soundall")).setExecutor(new CommandSoundAll());
 
-        getCommand("halal").setExecutor(new CommandHalalToggle());
+        Objects.requireNonNull(getCommand("halal")).setExecutor(new CommandHalalToggle());
 
-        getCommand("lightning").setExecutor(new CommandLightning());
+        Objects.requireNonNull(getCommand("lightning")).setExecutor(new CommandLightning());
 
-        getCommand("bounty").setExecutor(new CommandBounty());
+        Objects.requireNonNull(getCommand("bounty")).setExecutor(new CommandBounty());
 
-        getCommand("interface").setExecutor(new CommandInterface());
+        Objects.requireNonNull(getCommand("interface")).setExecutor(new CommandInterface());
 
-        getCommand("kits").setExecutor(new CommandKits());
-        getCommand("kits-remove").setExecutor(new CommandKitsRemove());
-        getCommand("kits-create").setExecutor(new CommandKitsCreate());
-        getCommand("kits-give").setExecutor(new CommandKitsGive());
-        getCommand("kits-modify").setExecutor(new CommandKitsModify());
+        Objects.requireNonNull(getCommand("kits")).setExecutor(new CommandKits());
+        Objects.requireNonNull(getCommand("kits-remove")).setExecutor(new CommandKitsRemove());
+        Objects.requireNonNull(getCommand("kits-create")).setExecutor(new CommandKitsCreate());
+        Objects.requireNonNull(getCommand("kits-give")).setExecutor(new CommandKitsGive());
+        Objects.requireNonNull(getCommand("kits-modify")).setExecutor(new CommandKitsModify());
 
-        getCommand("spawn").setExecutor(new CommandSpawn());
-        getCommand("spawn-set").setExecutor(new CommandSpawnSet());
+        Objects.requireNonNull(getCommand("spawn")).setExecutor(new CommandSpawn());
+        Objects.requireNonNull(getCommand("spawn-set")).setExecutor(new CommandSpawnSet());
 
-        getCommand("rename").setExecutor(new CommandRename());
+        Objects.requireNonNull(getCommand("rename")).setExecutor(new CommandRename());
 
-        getCommand("home").setExecutor(new CommandHome());
-        getCommand("sethome").setExecutor(new CommandSetHome());
-        getCommand("delhome").setExecutor(new CommandDelHome());
+        Objects.requireNonNull(getCommand("home")).setExecutor(new CommandHome());
+        Objects.requireNonNull(getCommand("sethome")).setExecutor(new CommandSetHome());
+        Objects.requireNonNull(getCommand("delhome")).setExecutor(new CommandDelHome());
 
-        getCommand("lang").setExecutor(new CommandLang());
+        Objects.requireNonNull(getCommand("lang")).setExecutor(new CommandLang());
 
-        //getCommand("npctest").setExecutor(new CommandNPCTest());
+        Objects.requireNonNull(getCommand("tpa")).setExecutor(new CommandTpa());
+        Objects.requireNonNull(getCommand("tpaccept")).setExecutor(new CommandTpaAccept());
+        Objects.requireNonNull(getCommand("tpdeny")).setExecutor(new CommandTpaDeny());
 
         _LOG("Enabled!");
     }
@@ -162,6 +166,7 @@ public class CanelonesCore extends JavaPlugin {
     @Override
     public void onDisable() {
         tabTask.cancel();
+        balTask.cancel();
 
         Bukkit.getOnlinePlayers().forEach(UserManager::remove);
         UserManager.users.clear();

@@ -5,6 +5,7 @@ import static me.pk2.canalosaland.util.Wrapper.*;
 import me.pk2.canalosaland.CanelonesCore;
 import me.pk2.canalosaland.config.buff.ConfigBountyBuffer;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
+import me.pk2.canalosaland.dependencies.DependencyVault;
 import me.pk2.canalosaland.user.User;
 import me.pk2.canalosaland.user.UserManager;
 import org.bukkit.Bukkit;
@@ -34,6 +35,7 @@ public class PlayerListener implements Listener {
 
                 if(!event.getPlayer().isValid())
                     return;
+                //DependencyVault.deposit(event.getPlayer(), ConfigMainBuffer.buffer.first_join.money);
                 if(ConfigMainBuffer.buffer.first_join.commands.enabled)
                     for(String command : ConfigMainBuffer.buffer.first_join.commands.execute)
                         Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", event.getPlayer().getName())), 5L);

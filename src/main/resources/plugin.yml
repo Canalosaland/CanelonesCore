@@ -84,3 +84,12 @@ commands:
   lang:
     description: Change your language
     usage: /<command>
+  tpa:
+    description: Send a tpa request to someone
+    usage: /<command> <player>
+  tpaccept:
+    description: Accepts a teleport request
+    usage: /<command>
+  tpdeny:
+    description: Denies a teleport request
+    usage: /<command>
