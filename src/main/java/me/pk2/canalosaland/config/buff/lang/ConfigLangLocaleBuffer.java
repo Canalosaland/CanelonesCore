@@ -17,7 +17,7 @@ public class ConfigLangLocaleBuffer {
         this.locale = locale;
     }
 
-    public String translate(String key) { return config.getString(key); }
+    public String translate(String key) { return config.getString(key)==null?"":config.getString(key); }
     public String translate(Player player, String key) { return _PLACEHOLDER(player, translate(key)); }
 
     public String translateC(String key) { return _COLOR(translate(key)); }

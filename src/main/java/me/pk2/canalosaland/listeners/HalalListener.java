@@ -17,7 +17,7 @@ public class HalalListener implements Listener {
                 for(Player p : Bukkit.getOnlinePlayers())
                     p.sendMessage(_COLOR(ConfigMainBuffer.buffer.server_prefix) +
                             _SENDER_TRANSLATE(p, "LISTENER_HALAL_NOTIFICATION")
-                                .replace("%player%", player.getName())
+                                .replace("%user%", player.getName())
                                 .replace("%action%", _SENDER_TRANSLATE(p, actLocale)));
                 continue;
             }

@@ -56,7 +56,7 @@ public class PlayerListener implements Listener {
 
             double bounty = ConfigBountyBuffer.getBounty(player.getUniqueId().toString());
             if(bounty > 0)
-                Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(_SENDER_TRANSLATE(p, "LISTENER_PLAYER_BOUNTY_PASSIVE").replace("%player%", player.getName()).replace("%bounty%", String.format("%.2f", bounty))));
+                Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(_SENDER_TRANSLATE(p, "LISTENER_PLAYER_BOUNTY_PASSIVE").replace("%user%", player.getName()).replace("%bounty%", String.format("%.2f", bounty))));
         }, 100L);
     }
 

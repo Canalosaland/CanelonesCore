@@ -61,8 +61,8 @@ public class CommandTpa implements CommandExecutor {
         // PAListener.users.put(_UUID(player), System.currentTimeMillis()); /// WHILE TELEPORTING STATE
         targetUser.setLastTpa(_UUID(player));
 
-        player.sendMessage(user.translateC("COMMAND_TPA_SENT"));
-        target.sendMessage(targetUser.translateC("COMMAND_TPA_RECEIVED"));
+        player.sendMessage(user.translateC("COMMAND_TPA_SENT").replace("%user%", target.getName()));
+        target.sendMessage(targetUser.translateC("COMMAND_TPA_RECEIVED").replace("%user%", player.getName()));
 
         _SOUND_CLICK(player);
         _SOUND_CLICK(target);

@@ -45,8 +45,8 @@ public class CommandTpaAccept implements CommandExecutor {
         TPAListener.users.put(_UUID(fromPlayer), System.currentTimeMillis());
         user.setLastTpa("");
 
-        player.sendMessage(user.translateC("COMMAND_TPA_ACCEPT").replace("%player%", fromPlayer.getName()));
-        fromPlayer.sendMessage(_SENDER_TRANSLATE(fromPlayer, "COMMAND_TPA_TP").replace("%player%", player.getName()));
+        player.sendMessage(user.translateC("COMMAND_TPA_ACCEPT").replace("%user%", fromPlayer.getName()));
+        fromPlayer.sendMessage(_SENDER_TRANSLATE(fromPlayer, "COMMAND_TPA_TP").replace("%user%", player.getName()));
 
         String fromUUID = _UUID(fromPlayer);
         Location location = player.getLocation();

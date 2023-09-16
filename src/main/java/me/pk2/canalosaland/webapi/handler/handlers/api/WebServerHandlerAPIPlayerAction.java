@@ -196,8 +196,8 @@ public class WebServerHandlerAPIPlayerAction extends WebServerHandler {
                 DependencyVault.withdraw(user.player, amountDouble);
                 DependencyVault.deposit(Bukkit.getPlayer(to[1]), amountDouble);
 
-                user.player.sendMessage(user.translateC("INTERFACE_PHONE_BIZUM_SUCCESS_SENT").replace("%amount%", String.valueOf(amountDouble)).replace("%player%", player.getName()));
-                player.sendMessage(_SENDER_TRANSLATE(player, "INTERFACE_PHONE_BIZUM_SUCCESS_RECEIVED").replace("%amount%", String.valueOf(amountDouble)).replace("%player%", user.player.getName()));
+                user.player.sendMessage(user.translateC("INTERFACE_PHONE_BIZUM_SUCCESS_SENT").replace("%amount%", String.valueOf(amountDouble)).replace("%user%", player.getName()));
+                player.sendMessage(_SENDER_TRANSLATE(player, "INTERFACE_PHONE_BIZUM_SUCCESS_RECEIVED").replace("%amount%", String.valueOf(amountDouble)).replace("%user%", user.player.getName()));
 
                 _SOUND_NOTIFICATION(user.player);
                 _SOUND_NOTIFICATION(player);

@@ -125,9 +125,9 @@ public class GInterfacePhone extends GInterface {
         if(lastLang != lang) {
             lastLang = lang;
             if(lang.contentEquals("es"))
-                setHead(5, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzJiZDQ1MjE5ODMzMDllMGFkNzZjMWVlMjk4NzQyODc5NTdlYzNkOTZmOGQ4ODkzMjRkYThjODg3ZTQ4NWVhOCJ9fX0=", owner.translateC("LANG_SPANISH"));
+                setHead(5, GInterfaceLanguage.HEAD_SPANISH, owner.translateC("LANG_SPANISH"));
             else if(lang.contentEquals("en"))
-                setHead(5, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGNhYzk3NzRkYTEyMTcyNDg1MzJjZTE0N2Y3ODMxZjY3YTEyZmRjY2ExY2YwY2I0YjM4NDhkZTZiYzk0YjQifX19", owner.translateC("LANG_ENGLISH"));
+                setHead(5, GInterfaceLanguage.HEAD_ENGLISH, owner.translateC("LANG_ENGLISH"));
         }
         _SOUND_OPEN(owner.player);
 

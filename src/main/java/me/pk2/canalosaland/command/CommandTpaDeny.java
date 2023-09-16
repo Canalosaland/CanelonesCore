@@ -40,8 +40,8 @@ public class CommandTpaDeny implements CommandExecutor {
 
         user.setLastTpa("");
 
-        player.sendMessage(user.translateC("COMMAND_TPA_CANCEL"));
-        fromPlayer.sendMessage(_SENDER_TRANSLATE(fromPlayer, "COMMAND_TPA_CANCEL_CANCEL"));
+        player.sendMessage(user.translateC("COMMAND_TPA_CANCEL").replace("%user%", fromPlayer.getName()));
+        fromPlayer.sendMessage(_SENDER_TRANSLATE(fromPlayer, "COMMAND_TPA_CANCEL_CANCEL").replace("%user%", player.getName()));
         return true;
     }
 }

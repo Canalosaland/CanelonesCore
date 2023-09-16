@@ -76,10 +76,10 @@ public class GInterfacePhoneBizum extends GInterface {
 
                             player.sendMessage(owner.translateC("INTERFACE_PHONE_BIZUM_SUCCESS_SENT")
                                     .replace("%amount%", String.format("%.2f$", amount))
-                                    .replace("%player%", user.player.getName()));
+                                    .replace("%user%", user.player.getName()));
                             user.player.sendMessage(user.translateC("INTERFACE_PHONE_BIZUM_SUCCESS_RECEIVED")
                                     .replace("%amount%", String.format("%.2f$", amount))
-                                    .replace("%player%", player.getName()));
+                                    .replace("%user%", player.getName()));
 
                             _SOUND_NOTIFICATION(player);
                             _SOUND_NOTIFICATION(user.player);
