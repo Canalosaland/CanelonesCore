@@ -93,3 +93,6 @@ commands:
   tpdeny:
     description: Denies a teleport request
     usage: /<command>
+  mb:
+    description: MysteryBox management command
+    usage: /<command>

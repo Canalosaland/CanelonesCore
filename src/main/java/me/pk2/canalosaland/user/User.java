@@ -7,6 +7,7 @@ import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.obj.DBHomeObj;
 import me.pk2.canalosaland.db.obj.DBUserKitObj;
+import me.pk2.canalosaland.db.obj.DBUserMBObj;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.interfaces.*;
 import org.apache.commons.lang.RandomStringUtils;
@@ -28,6 +29,7 @@ public class User {
     private int userId;
     private DBUserKitObj[] kits;
     private DBHomeObj[] homes;
+    private DBUserMBObj[] boxes;
     private String lastTpa;
     public User(Player player) {
         this.player = player;
@@ -57,6 +59,7 @@ public class User {
     public int getUserId() { return userId; }
     public DBUserKitObj[] getKits() { return kits; }
     public DBHomeObj[] getHomes() { return homes; }
+    public DBUserMBObj[] getBoxes() { return boxes; }
 
     public void setLastTpa(String uuid) { this.lastTpa = uuid; }
     public String getLastTpa() { return this.lastTpa; }
@@ -75,6 +78,7 @@ public class User {
             this.kits = DBApi.API.users_kits.getByUid(conn, this.userId);
             this.homes = DBApi.API.homes.getByUid(conn, this.userId);
             this.locale = DBApi.API.users.getLocale(conn, this.userId);
+            this.boxes = DBApi.API.users_mb.getByUid(conn, this.userId);
 
             DBApi.disconnect(conn);
             _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Data fetched from database");
@@ -83,6 +87,7 @@ public class User {
 
     public String translate(String key) { return ConfigLangBuffer.translate(this, key); }
     public String translateC(String key) { return ConfigLangBuffer.translateC(this, key); }
+    public void sendLocale(String key) { player.sendMessage(translateC(key)); }
 
     public void updateTeam() {
         if(this.team == null)

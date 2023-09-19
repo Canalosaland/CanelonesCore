@@ -1,0 +1,21 @@
+----> 2
+-/mb box list
+-/mb box create <name>
+-/mb box remove <id>
+-/mb box name <id> <name>
+-/mb box item <id>
+-/mb box slot list <id>
+-/mb box slot add <id> <item/cmd> [cmd]
+-/mb box slot rem <id> <slot>
+-/mb box slot force <id> <slot>
+
+----> 3
+-/mb location list
+-/mb location create
+-/mb location delete <id>
+
+----> 4
+-/mb user list <player>
+-/mb user give <player> <id> [amount]
+-/mb user take <player> <id> [amount]
+-/mb user giveall <id> [amount]

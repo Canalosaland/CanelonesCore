@@ -21,7 +21,7 @@ import java.security.MessageDigest;
 
 public class Wrapper {
     public static String _CONFIG(String path) { return "plugins/CanelonesCore/" + path; }
-    public static void _LOG(String prefix, String message) { CanelonesCore.INSTANCE.getLogger().info("[" + prefix + "] " + message); }
+    public static void _LOG(String prefix, String message) { _LOG("[" + prefix + "] " + message); }
     public static void _LOG(String message) { CanelonesCore.INSTANCE.getLogger().info(message); }
     public static String _COLOR(String text) { return ChatColor.translateAlternateColorCodes('&', text); }
     public static TextComponent _COMP(String text) { return new TextComponent(_COLOR(text)); }

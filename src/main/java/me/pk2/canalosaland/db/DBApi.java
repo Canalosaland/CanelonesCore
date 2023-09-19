@@ -4,6 +4,10 @@ import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.obj.DBHomeObj;
 import me.pk2.canalosaland.db.obj.DBKitObj;
 import me.pk2.canalosaland.db.obj.DBUserKitObj;
+import me.pk2.canalosaland.db.obj.DBUserMBObj;
+import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxLocationObj;
+import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxObj;
+import me.pk2.canalosaland.db.obj.mb.action.MysteryBoxAction;
 import me.pk2.canalosaland.util.BukkitSerialization;
 import org.apache.commons.lang3.SerializationUtils;
 import org.bukkit.Location;
@@ -16,6 +20,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -427,6 +432,274 @@ public class DBApi {
                     return 1;
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not remove home! " + e.getMessage());
+                    return 0;
+                }
+            }
+        }
+
+        public static class mystery_boxes {
+            public static DBMysteryBoxObj[] getMysteryBoxes(Connection conn) {
+                if(conn == null)
+                    return new DBMysteryBoxObj[0];
+                try {
+                    List<DBMysteryBoxObj> ret = new ArrayList<>();
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM mystery_boxes");
+
+                    ResultSet set = stmt.executeQuery();
+                    while(set.next()) {
+                        int id = set.getInt("id");
+                        String name = set.getString("name");
+                        MysteryBoxAction[] slots = SerializationUtils.deserialize(set.getBytes("slots"));
+                        ItemStack material = BukkitSerialization.deserializeItems(set.getBytes("material"))[0];
+
+                        DBMysteryBoxObj mbObj = new DBMysteryBoxObj(id, name, slots, material);
+                        ret.add(mbObj);
+                    }
+
+                    return ret.toArray(DBMysteryBoxObj[]::new);
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not get mb! " + e.getMessage());
+                    return new DBMysteryBoxObj[0];
+                }
+            }
+            public static int register(Connection conn, DBMysteryBoxObj obj) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("INSERT INTO mystery_boxes(name,slots,material) VALUES(?,?,?)");
+                    stmt.setString(1, obj.getName());
+                    stmt.setBytes(2, SerializationUtils.serialize(obj.getSlots()));
+                    stmt.setBytes(3, BukkitSerialization.serializeItems(obj.getMaterial()));
+                    stmt.executeUpdate();
+
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not register mb! " + e.getMessage());
+                    return -1;
+                }
+            }
+            public static int modify(Connection conn, DBMysteryBoxObj obj) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("UPDATE mystery_boxes SET name=?,slots=?,material=? WHERE id=?");
+                    stmt.setString(1, obj.getName());
+                    stmt.setBytes(2, SerializationUtils.serialize(obj.getSlots()));
+                    stmt.setBytes(3, BukkitSerialization.serializeItems(obj.getMaterial()));
+                    stmt.setInt(4, obj.getId());
+                    stmt.executeUpdate();
+
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not modify mb! " + e.getMessage());
+                    return -1;
+                }
+            }
+            public static DBMysteryBoxObj get(Connection conn, int id) {
+                if(conn == null)
+                    return null;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM mystery_boxes WHERE id=?");
+                    stmt.setInt(1, id);
+
+                    ResultSet set = stmt.executeQuery();
+                    if(set.next()) {
+                        String name = set.getString("name");
+                        MysteryBoxAction[] slots = SerializationUtils.deserialize(set.getBytes("slots"));
+                        ItemStack material = BukkitSerialization.deserializeItems(set.getBytes("material"))[0];
+
+                        DBMysteryBoxObj obj = new DBMysteryBoxObj(id, name, slots, material);
+                        return obj;
+                    }
+
+                    return null;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not get mb! " + e.getMessage());
+                    return null;
+                }
+            }
+            public static int remove(Connection conn, int id) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("DELETE FROM mystery_boxes WHERE id=?");
+                    stmt.setInt(1, id);
+                    stmt.executeUpdate();
+
+                    return 1;
+                } catch(SQLException e) {
+                    _LOG("DBApi", "Could not delete mb! " + e.getMessage());
+                    return -1;
+                }
+            }
+        }
+
+        public static class mystery_boxes_location {
+            public static DBMysteryBoxLocationObj[] getLocations(Connection conn) {
+                if(conn == null)
+                    return new DBMysteryBoxLocationObj[0];
+                try {
+                    List<DBMysteryBoxLocationObj> ret = new ArrayList<>();
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM mystery_boxes_locations");
+
+                    ResultSet set = stmt.executeQuery();
+                    while(set.next())
+                        ret.add(new DBMysteryBoxLocationObj(set.getInt("id"), new Location(_WORLD_OR_DEFAULT(set.getString("world")), set.getInt("x"), set.getInt("y"), set.getInt("z"))));
+                    return ret.toArray(DBMysteryBoxLocationObj[]::new);
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not get mb locations! " + e.getMessage());
+                    return new DBMysteryBoxLocationObj[0];
+                }
+            }
+            public static int register(Connection conn, Location location) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("INSERT INTO mystery_boxes_locations(x,y,z,world) VALUES (?,?,?,?)");
+                    stmt.setInt(1, location.getBlockX());
+                    stmt.setInt(2, location.getBlockY());
+                    stmt.setInt(3, location.getBlockZ());
+                    stmt.setString(4, location.getWorld().getName());
+                    stmt.executeUpdate();
+
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not register mb location! " + e.getMessage());
+                    return -1;
+                }
+            }
+            public static int remove(Connection conn, int id) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("DELETE FROM mystery_boxes_locations WHERE id=?");
+                    stmt.setInt(1, id);
+                    stmt.executeUpdate();
+
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not remove mb location! " + e.getMessage());
+                    return -1;
+                }
+            }
+            public static int modify(Connection conn, DBMysteryBoxLocationObj obj) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("UPDATE mystery_boxes_locations SET x=?,y=?,z=?,world=? WHERE id=?");
+                    stmt.setInt(1, obj.getLocation().getBlockX());
+                    stmt.setInt(2, obj.getLocation().getBlockY());
+                    stmt.setInt(3, obj.getLocation().getBlockZ());
+                    stmt.setString(4, obj.getLocation().getWorld().getName());
+                    stmt.setInt(5, obj.getId());
+                    stmt.executeUpdate();
+
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not modify mb location! " + e.getMessage());
+                    return -1;
+                }
+            }
+        }
+
+        public static class users_mb {
+            public static DBUserMBObj[] getByUid(Connection conn, int uid) {
+                if (conn == null)
+                    return new DBUserMBObj[0];
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users_mb WHERE uid=?");
+                    stmt.setInt(1, uid);
+                    ResultSet rs = stmt.executeQuery();
+
+                    ArrayList<DBUserMBObj> kits = new ArrayList<>();
+
+                    int i = 0;
+                    while (rs.next()) {
+                        int id = rs.getInt("id");
+                        int uid2 = rs.getInt("uid");
+                        int mId = rs.getInt("mid");
+                        int amount = rs.getInt("amount");
+
+                        kits.add(new DBUserMBObj(id, uid2, mId, amount));
+                        i++;
+                    }
+
+                    return kits.toArray(new DBUserMBObj[0]);
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not get user mb! " + e.getMessage());
+                    return new DBUserMBObj[0];
+                }
+            }
+            public static int add(Connection conn, int uid, int mId, int amount) {
+                if (conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users_mb WHERE uid=? AND mid=?");
+                    stmt.setInt(1, uid);
+                    stmt.setInt(2, mId);
+
+                    ResultSet rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        PreparedStatement stmt2 = conn.prepareStatement("UPDATE users_mb SET amount=? WHERE uid=? AND mid=?");
+                        stmt2.setInt(1, rs.getInt("amount") + amount);
+                        stmt2.setInt(2, uid);
+                        stmt2.setInt(3, mId);
+                        stmt2.executeUpdate();
+                        return 1;
+                    }
+
+                    PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO users_mb(uid,mid,amount) VALUES(?,?,?)");
+                    stmt2.setInt(1, uid);
+                    stmt2.setInt(2, mId);
+                    stmt2.setInt(3, amount);
+                    stmt2.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not add user mb! " + e.getMessage());
+                    return 0;
+                }
+            }
+            public static int remove(Connection conn, int uid, int mId, int amount) {
+                if (conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users_mb WHERE uid=? AND mid=?");
+                    stmt.setInt(1, uid);
+                    stmt.setInt(2, mId);
+
+                    ResultSet rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        PreparedStatement stmt2 = conn.prepareStatement("UPDATE users_mb SET amount=? WHERE uid=? AND mid=?");
+                        stmt2.setInt(1, rs.getInt("amount") - amount);
+                        stmt2.setInt(2, uid);
+                        stmt2.setInt(3, mId);
+                        stmt2.executeUpdate();
+
+                        if (rs.getInt("amount") - amount <= 0) {
+                            PreparedStatement stmt3 = conn.prepareStatement("DELETE FROM users_mb WHERE uid=? AND mid=?");
+                            stmt3.setInt(1, uid);
+                            stmt3.setInt(2, mId);
+                            stmt3.executeUpdate();
+                        }
+                        return 1;
+                    }
+
+                    return 0;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not remove user mb! " + e.getMessage());
+                    return 0;
+                }
+            }
+            public static int deleteAll(Connection conn, int mId) {
+                if (conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("DELETE FROM users_mb WHERE mid=?");
+                    stmt.setInt(1, mId);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not delete all user mb! " + e.getMessage());
                     return 0;
                 }
             }

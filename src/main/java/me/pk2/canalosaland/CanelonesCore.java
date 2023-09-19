@@ -160,6 +160,8 @@ public class CanelonesCore extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpaccept")).setExecutor(new CommandTpaAccept());
         Objects.requireNonNull(getCommand("tpdeny")).setExecutor(new CommandTpaDeny());
 
+        Objects.requireNonNull(getCommand("mb")).setExecutor(new CommandMysteryBox());
+
         _LOG("Enabled!");
     }
 

@@ -9,6 +9,7 @@ import me.pk2.canalosaland.config.buff.ConfigLangBuffer;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.buffer.DBBufferKits;
+import me.pk2.canalosaland.db.buffer.DBBufferMB;
 import me.pk2.canalosaland.user.User;
 import me.pk2.canalosaland.user.UserManager;
 import me.pk2.canalosaland.webapi.WebAPI;
@@ -31,6 +32,8 @@ public class ConfigLoader {
 
         _LOG("Database", "Updating kits...");
         DBBufferKits.BUFFER.updateKits();
+        _LOG("Database", "Updating mystery boxes...");
+        DBBufferMB.BUFFER.updateMysteryBoxes();
         _LOG("Database", "Updating users...");
         for(User user : UserManager.users.values())
             user.fetchData();
