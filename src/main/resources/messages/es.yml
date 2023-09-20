@@ -157,4 +157,11 @@ COMMAND_MBA_USER_REMOVE_HAVE: '&8&l(&c&l!&8&l) &aMBAdmin &8» &7El usuario no ti
 COMMAND_MBA_USER_REMOVE_REMOVING: '&8&l(&e&l!&8&l) &aMBAdmin &8» &7Eliminando cajas del usuario...'
 COMMAND_MBA_USER_REMOVE_REMOVED: '&8&l(&a&l!&8&l) &aMBAdmin &8» &7Eliminadas las cajas del usuario.'
 COMMAND_MBA_USER_GIVEALL_SENDING: '&8&l(&e&l!&8&l) &aMBAdmin &8» &7Enviando caja a todos...'
-COMMAND_MBA_USER_GIVEALL_SENT: '&8&l(&e&l!&8&l) &aMBAdmin &8» &7Has enviado cajas a todos.'
+COMMAND_MBA_USER_GIVEALL_SENT: '&8&l(&a&l!&8&l) &aMBAdmin &8» &7Has enviado cajas a todos.'
+MB_REMAINING_BOXES: '&5%uses% restantes.'
+MB_CLICK_CLAIM: '&7Haz clic para usar la caja.'
+MB_IN_USE: '&8&l(&c&l!&8&l) &dMysteryBox &8» &7La caja está en uso.'
+MB_OPENING: '&8&l(&e&l!&8&l) &dMysteryBox &8» &7Abriendo caja...'
+MB_NO_EXIST: '&8&l(&c&l!&8&l) &dMysteryBox &8» &7La caja no existe, contacta un administrador.'
+MB_ERROR: '&8&l(&c&l!&8&l) &dMysteryBox &8» &7Ha ocurrido un error, contacta un administrador.'
+MB_COMPLETED: "&8&l(&c&l!&8&l) &dMysteryBox &8» &7Has ganado &f'%name%&f'&7!"

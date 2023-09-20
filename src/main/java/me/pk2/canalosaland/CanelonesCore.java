@@ -107,6 +107,7 @@ public class CanelonesCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new HalalListener(), this);
         Bukkit.getPluginManager().registerEvents(new BountyListener(), this);
         Bukkit.getPluginManager().registerEvents(new TPAListener(), this);
+        Bukkit.getPluginManager().registerEvents(new MBListener(), this);
 
         // Register users if it was a reload
         _LOG("Users", "Registering...");

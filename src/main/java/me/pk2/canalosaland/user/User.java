@@ -8,6 +8,7 @@ import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.obj.DBHomeObj;
 import me.pk2.canalosaland.db.obj.DBUserKitObj;
 import me.pk2.canalosaland.db.obj.DBUserMBObj;
+import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxLocationObj;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.interfaces.*;
 import org.apache.commons.lang.RandomStringUtils;
@@ -30,11 +31,13 @@ public class User {
     private DBUserKitObj[] kits;
     private DBHomeObj[] homes;
     private DBUserMBObj[] boxes;
+    private DBMysteryBoxLocationObj lastMB;
     private String lastTpa;
     public User(Player player) {
         this.player = player;
         this.locale = "es";
         this.lastTpa = "";
+        this.lastMB = null;
 
         fetchData();
 
@@ -54,6 +57,7 @@ public class User {
         this.interfaces.put(GInterfaceKits.class, new GInterfaceKits(this));
         this.interfaces.put(GInterfaceKitsOpen.class, new GInterfaceKitsOpen(this));
         this.interfaces.put(GInterfaceLanguage.class, new GInterfaceLanguage(this));
+        this.interfaces.put(GInterfaceMB.class, new GInterfaceMB(this));
     }
 
     public int getUserId() { return userId; }
@@ -63,6 +67,9 @@ public class User {
 
     public void setLastTpa(String uuid) { this.lastTpa = uuid; }
     public String getLastTpa() { return this.lastTpa; }
+
+    public void setLastMB(DBMysteryBoxLocationObj obj) { this.lastMB = obj; }
+    public DBMysteryBoxLocationObj getLastMB() { return this.lastMB; }
 
     public void fetchData() {
         String uuid = _UUID(player);
