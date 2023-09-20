@@ -24,6 +24,14 @@ public class PAPIExpansion extends PlaceholderExpansion {
                     return GInterfaceLanguage.HEAD_SPANISH;
                 return user.locale.equalsIgnoreCase("es")?GInterfaceLanguage.HEAD_SPANISH:GInterfaceLanguage.HEAD_ENGLISH;
             }
+            case "mb_available": {
+                User user = UserManager.get((Player)player);
+                if(user == null)
+                    return ConfigLangBuffer.getLocale("es").translateC("HOLOGRAM_MB_NOT_AVAILABLE");
+                if(user.getBoxes().length > 0)
+                    return user.translateC("HOLOGRAM_MB_AVAILABLE");
+                return user.translateC("HOLOGRAM_MB_NOT_AVAILABLE");
+            }
             default:
                 break;
         }

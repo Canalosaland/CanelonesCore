@@ -45,7 +45,7 @@ public class CommandMysteryBox implements CommandExecutor {
                 player.sendMessage(_COLOR("&8&l> &e/mb box create <name>"));
                 player.sendMessage(_COLOR("&8&l> &e/mb box remove <id>"));
                 player.sendMessage(_COLOR("&8&l> &e/mb box name <id> <name>"));
-                player.sendMessage(_COLOR("&8&l> &e/mb box icon <id>"));
+                player.sendMessage(_COLOR("&8&l> &e/mb box item <id>"));
                 player.sendMessage(_COLOR("&8&l> &e/mb box slot list <id>"));
                 player.sendMessage(_COLOR("&8&l> &e/mb box slot add <id> <item/cmd> [cmd]"));
                 player.sendMessage(_COLOR("&8&l> &e/mb box slot rem <id> <slot>"));
@@ -227,7 +227,7 @@ public class CommandMysteryBox implements CommandExecutor {
                     });
                 }
                 case "item" -> {
-                    if(args.length < 4) {
+                    if(args.length < 3) {
                         sendHelp(player, 2);
                         return true;
                     }
@@ -249,10 +249,7 @@ public class CommandMysteryBox implements CommandExecutor {
                     user.sendLocale("COMMAND_MBA_ITEM_CHANGING");
 
                     DBApi.enqueue(() -> {
-                        StringBuilder builder = new StringBuilder();
-                        for(int i = 3; i < args.length; i++)
-                            builder.append(args[i]);
-                        obj.setName(builder.toString().trim());
+                        obj.setMaterial(player.getInventory().getItemInMainHand());
 
                         Connection conn = DBApi.connect();
 
