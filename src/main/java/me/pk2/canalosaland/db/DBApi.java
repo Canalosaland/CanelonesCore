@@ -449,7 +449,7 @@ public class DBApi {
                     while(set.next()) {
                         int id = set.getInt("id");
                         String name = set.getString("name");
-                        MysteryBoxAction[] slots = SerializationUtils.deserialize(set.getBytes("slots"));
+                        MysteryBoxAction[] slots = (MysteryBoxAction[])SerializationUtils.deserialize(set.getBytes("slots"));
                         ItemStack material = BukkitSerialization.deserializeItems(set.getBytes("material"))[0];
 
                         DBMysteryBoxObj mbObj = new DBMysteryBoxObj(id, name, slots, material);
@@ -505,7 +505,7 @@ public class DBApi {
                     ResultSet set = stmt.executeQuery();
                     if(set.next()) {
                         String name = set.getString("name");
-                        MysteryBoxAction[] slots = SerializationUtils.deserialize(set.getBytes("slots"));
+                        MysteryBoxAction[] slots = (MysteryBoxAction[])SerializationUtils.deserialize(set.getBytes("slots"));
                         ItemStack material = BukkitSerialization.deserializeItems(set.getBytes("material"))[0];
 
                         DBMysteryBoxObj obj = new DBMysteryBoxObj(id, name, slots, material);

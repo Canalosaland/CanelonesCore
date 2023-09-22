@@ -4,7 +4,7 @@ main: me.pk2.canalosaland.CanelonesCore
 author: PK2_Stimpy
 description: CanelonesCore
 api-version: 1.16
-softdepend: [PlaceholderAPI, LuckPerms, Telecom, Vault, ProtocolLib, AuthMe]
+softdepend: [PlaceholderAPI, LuckPerms, Telecom, Vault, ProtocolLib, AuthMe, Jobs]
 commands:
   canelones-reload:
     description: Reloads the plugin

@@ -11,6 +11,7 @@ import me.pk2.canalosaland.db.obj.DBUserMBObj;
 import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxLocationObj;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.interfaces.*;
+import me.pk2.canalosaland.interfaces.jobs.*;
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -58,6 +59,11 @@ public class User {
         this.interfaces.put(GInterfaceKitsOpen.class, new GInterfaceKitsOpen(this));
         this.interfaces.put(GInterfaceLanguage.class, new GInterfaceLanguage(this));
         this.interfaces.put(GInterfaceMB.class, new GInterfaceMB(this));
+        this.interfaces.put(GInterfaceJobBrewer.class, new GInterfaceJobBrewer(this));
+        this.interfaces.put(GInterfaceJobEnchanter.class, new GInterfaceJobEnchanter(this));
+        this.interfaces.put(GInterfaceJobFisherman.class, new GInterfaceJobFisherman(this));
+        this.interfaces.put(GInterfaceJobHunter.class, new GInterfaceJobHunter(this));
+        this.interfaces.put(GInterfaceJobWeaponsmith.class, new GInterfaceJobWeaponsmith(this));
     }
 
     public int getUserId() { return userId; }
