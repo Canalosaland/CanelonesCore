@@ -44,6 +44,20 @@ spawn:
   z: 0
   yaw: 0.0
   pitch: 0.0
+nether:
+  world: 'world_nether'
+  x: 0
+  y: 0
+  z: 0
+  yaw: 0.0
+  pitch: 0.0
+end:
+  world: 'world_the_end'
+  x: 0
+  y: 0
+  z: 0
+  yaw: 0.0
+  pitch: 0.0
 first_join:
   commands:
     enabled: true

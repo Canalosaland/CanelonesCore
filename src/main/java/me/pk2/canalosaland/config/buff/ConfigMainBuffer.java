@@ -64,6 +64,8 @@ public class ConfigMainBuffer {
             public static String password;
         }
         public static Location spawn;
+        public static Location nether;
+        public static Location end;
         public static class first_join {
             public static double money;
             public static class commands {
@@ -128,6 +130,22 @@ public class ConfigMainBuffer {
         float yaw = (float) CONFIG.getDouble("spawn.yaw");
         float pitch = (float) CONFIG.getDouble("spawn.pitch");
         buffer.spawn = new Location(world, x, y, z, yaw, pitch);
+        // Nether
+        World worldN = _WORLD_OR_DEFAULT(CONFIG.getString("nether.world"));
+        double xN = CONFIG.getDouble("nether.x");
+        double yN = CONFIG.getDouble("nether.y");
+        double zN = CONFIG.getDouble("nether.z");
+        float yawN = (float) CONFIG.getDouble("nether.yaw");
+        float pitchN = (float) CONFIG.getDouble("nether.pitch");
+        buffer.nether = new Location(worldN, xN, yN, zN, yawN, pitchN);
+        // End
+        World worldE = _WORLD_OR_DEFAULT(CONFIG.getString("end.world"));
+        double xE = CONFIG.getDouble("end.x");
+        double yE = CONFIG.getDouble("end.y");
+        double zE = CONFIG.getDouble("end.z");
+        float yawE = (float) CONFIG.getDouble("end.yaw");
+        float pitchE = (float) CONFIG.getDouble("end.pitch");
+        buffer.end = new Location(worldE, xE, yE, zE, yawE, pitchE);
         // First join
         //buffer.first_join.money = CONFIG.getDouble("first_join.money");
         buffer.first_join.commands.enabled = CONFIG.getBoolean("first_join.commands.enabled");
@@ -185,6 +203,20 @@ public class ConfigMainBuffer {
         CONFIG.set("spawn.z", buffer.spawn.getZ());
         CONFIG.set("spawn.yaw", buffer.spawn.getYaw());
         CONFIG.set("spawn.pitch", buffer.spawn.getPitch());
+        // Nether
+        CONFIG.set("nether.world", buffer.nether.getWorld().getName());
+        CONFIG.set("nether.x", buffer.nether.getX());
+        CONFIG.set("nether.y", buffer.nether.getY());
+        CONFIG.set("nether.z", buffer.nether.getZ());
+        CONFIG.set("nether.yaw", buffer.nether.getYaw());
+        CONFIG.set("nether.pitch", buffer.nether.getPitch());
+        // End
+        CONFIG.set("end.world", buffer.end.getWorld().getName());
+        CONFIG.set("end.x", buffer.end.getX());
+        CONFIG.set("end.y", buffer.end.getY());
+        CONFIG.set("end.z", buffer.end.getZ());
+        CONFIG.set("end.yaw", buffer.end.getYaw());
+        CONFIG.set("end.pitch", buffer.end.getPitch());
         // First join
         //CONFIG.set("first_join.money", buffer.first_join.money);
         CONFIG.set("first_join.commands.enabled", buffer.first_join.commands.enabled);

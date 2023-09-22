@@ -64,6 +64,7 @@ public class User {
         this.interfaces.put(GInterfaceJobFisherman.class, new GInterfaceJobFisherman(this));
         this.interfaces.put(GInterfaceJobHunter.class, new GInterfaceJobHunter(this));
         this.interfaces.put(GInterfaceJobWeaponsmith.class, new GInterfaceJobWeaponsmith(this));
+        this.interfaces.put(GInterfaceWorlds.class, new GInterfaceWorlds(this));
     }
 
     public int getUserId() { return userId; }

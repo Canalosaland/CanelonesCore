@@ -22,7 +22,22 @@ public class CommandSpawnSet implements CommandExecutor {
             return true;
         }
 
-        ConfigMainBuffer.buffer.spawn = player.getLocation();
+        if(args.length < 1) {
+            player.sendMessage(_COLOR("&c/spawn-set <over/nether/end>"));
+            return true;
+        }
+
+        if(args[0].equalsIgnoreCase("over"))
+            ConfigMainBuffer.buffer.spawn = player.getLocation();
+        else if(args[0].equalsIgnoreCase("nether"))
+            ConfigMainBuffer.buffer.nether = player.getLocation();
+        else if(args[0].equalsIgnoreCase("end"))
+            ConfigMainBuffer.buffer.end = player.getLocation();
+        else {
+            player.sendMessage(_COLOR("&c/spawn-set <over/nether/end>"));
+            return true;
+        }
+
         ConfigMainBuffer.save();
 
         player.sendMessage(_COLOR("&aHas establecido el spawn correctamente."));
