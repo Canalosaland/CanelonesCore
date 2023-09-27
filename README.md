@@ -1,2 +1,2 @@
 # CanelonesCore
-The core plugin for Canalosaland.
+The core plugin for Canalosaland
