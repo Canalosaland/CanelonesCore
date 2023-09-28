@@ -6,6 +6,7 @@ import com.dbteku.telecom.models.Carrier;
 import com.dbteku.telecom.models.CellTower;
 import com.dbteku.telecom.models.WorldLocation;
 import com.sun.net.httpserver.HttpExchange;
+import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.dependencies.DependencyAuthMe;
 import me.pk2.canalosaland.dependencies.DependencyTCom;
 import me.pk2.canalosaland.dependencies.DependencyVault;
@@ -175,6 +176,13 @@ public class WebServerHandlerAPIPlayerAction extends WebServerHandler {
                 String[] amount = query[2].split("=");
                 if(amount.length < 2 || !amount[0].equalsIgnoreCase("amount"))
                     return new WebServerResponse(actionResponse);
+
+                if(user.getLastBizum() < ConfigMainBuffer.buffer.bizum_delay) {
+                    user.sendLocale("INTERFACE_PHONE_BIZUM_DELAY");
+                    _SOUND_ERROR(user.player);
+
+                    return new WebServerResponse("Too low delay");
+                }
 
                 Player player = Bukkit.getPlayer(to[1]);
                 if(player == null)

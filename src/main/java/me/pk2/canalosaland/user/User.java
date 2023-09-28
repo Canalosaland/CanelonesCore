@@ -34,11 +34,13 @@ public class User {
     private DBUserMBObj[] boxes;
     private DBMysteryBoxLocationObj lastMB;
     private String lastTpa;
+    private long lastBizum;
     public User(Player player) {
         this.player = player;
         this.locale = "es";
         this.lastTpa = "";
         this.lastMB = null;
+        this.lastBizum = -1L;
 
         fetchData();
 
@@ -77,6 +79,15 @@ public class User {
 
     public void setLastMB(DBMysteryBoxLocationObj obj) { this.lastMB = obj; }
     public DBMysteryBoxLocationObj getLastMB() { return this.lastMB; }
+
+    public void updateLastBizum() {
+        this.lastBizum = System.currentTimeMillis();
+    }
+    public long getLastBizum() {
+        if(lastBizum == -1L)
+            return lastBizum;
+        return System.currentTimeMillis()-lastBizum;
+    }
 
     public void fetchData() {
         String uuid = _UUID(player);

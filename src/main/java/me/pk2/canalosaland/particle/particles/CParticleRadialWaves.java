@@ -42,7 +42,7 @@ public class CParticleRadialWaves extends CParticle {
 
             @Override
             public void run() {
-                if(yes == 0) { /* Fix Location */
+                if(yes == 0) {
                     loc.setX(loc.getBlockX() + .5);
                     loc.setY(loc.getBlockY() -  1);
                     loc.setZ(loc.getBlockZ() + .5);

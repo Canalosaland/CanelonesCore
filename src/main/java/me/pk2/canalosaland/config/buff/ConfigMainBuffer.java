@@ -77,6 +77,7 @@ public class ConfigMainBuffer {
             public static int max_homes;
         }
         public static String test;
+        public static long bizum_delay;
     }
 
     public static void load() {
@@ -154,6 +155,8 @@ public class ConfigMainBuffer {
         buffer.homes.max_homes = CONFIG.getInt("homes.max_homes");
         // Test
         buffer.test = CONFIG.getString("test");
+        // Bizum Delay
+        buffer.bizum_delay = CONFIG.getLong("bizum_delay");
 
         _LOG("config.yml", "Config loaded!");
     }
@@ -225,6 +228,8 @@ public class ConfigMainBuffer {
         CONFIG.set("homes.max_homes", buffer.homes.max_homes);
         // Test
         CONFIG.set("test", buffer.test);
+        // Bizum delay
+        CONFIG.set("bizum_delay", buffer.bizum_delay);
 
         try {
             CONFIG.save(_CONFIG("config.yml"));

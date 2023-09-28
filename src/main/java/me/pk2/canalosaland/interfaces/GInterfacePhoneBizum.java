@@ -3,6 +3,7 @@ package me.pk2.canalosaland.interfaces;
 import static me.pk2.canalosaland.util.Wrapper.*;
 
 import me.pk2.canalosaland.CanelonesCore;
+import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.dependencies.DependencyVault;
 import me.pk2.canalosaland.user.User;
 import me.pk2.canalosaland.user.UserManager;
@@ -40,6 +41,12 @@ public class GInterfacePhoneBizum extends GInterface {
             User user = users.get(index);
             if(user == null || user.player == null || !user.player.isValid())
                 return;
+
+            if(owner.getLastBizum() < ConfigMainBuffer.buffer.bizum_delay) {
+                owner.sendLocale("INTERFACE_PHONE_BIZUM_DELAY");
+                _SOUND_ERROR(owner.player);
+                return;
+            }
 
             if(user.player.getName().contentEquals(owner.player.getName())) {
                 owner.player.sendMessage(owner.translateC("INTERFACE_PHONE_BIZUM_CANNOT_SELF"));

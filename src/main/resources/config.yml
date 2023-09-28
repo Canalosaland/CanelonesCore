@@ -67,3 +67,4 @@ first_join:
 homes:
   max_homes: 4
 test: '&8(&a!&8) &aCasas &8» '
+bizum_delay: 5000 # Milliseconds between every bizum. (NON BYPASSEABLE BY STAFF)
