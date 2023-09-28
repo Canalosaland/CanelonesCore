@@ -78,6 +78,8 @@ public class GInterfacePhoneBizum extends GInterface {
                                 return false;
                             }
 
+                            owner.updateLastBizum();
+
                             DependencyVault.economy.withdrawPlayer(player, amount);
                             DependencyVault.economy.depositPlayer(user.player, amount);
 

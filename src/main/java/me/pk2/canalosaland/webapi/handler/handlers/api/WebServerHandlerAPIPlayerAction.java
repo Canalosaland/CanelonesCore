@@ -201,6 +201,8 @@ public class WebServerHandlerAPIPlayerAction extends WebServerHandler {
                 if(!DependencyVault.has(user.player, amountDouble))
                     return new WebServerResponse("Insufficient funds");
 
+                user.updateLastBizum();
+
                 DependencyVault.withdraw(user.player, amountDouble);
                 DependencyVault.deposit(Bukkit.getPlayer(to[1]), amountDouble);
 
