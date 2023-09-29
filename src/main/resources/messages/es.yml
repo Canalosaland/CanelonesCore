@@ -166,6 +166,7 @@ MB_OPENING: '&8&l(&e&l!&8&l) &dMysteryBox &8» &7Abriendo caja...'
 MB_NO_EXIST: '&8&l(&c&l!&8&l) &dMysteryBox &8» &7La caja no existe, contacta un administrador.'
 MB_ERROR: '&8&l(&c&l!&8&l) &dMysteryBox &8» &7Ha ocurrido un error, contacta un administrador.'
 MB_COMPLETED: "&8&l(&a&l!&8&l) &dMysteryBox &8» &7Has ganado &f'%name%&f'&7!"
+MB_NO_BOXES: '&cSin cajas'
 HOLOGRAM_MB_ICON: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2EzMTMwZDFjMDQ0MzY1ODk1YzU4MjM5ZjdkMDYxNTUwOWZmMzhmM2Y3YTdkZmE3ZjI5YmI5NDJkYjFkZGUzZSJ9fX0='
 HOLOGRAM_MB_TITLE: '&d&lMysteryBox'
 HOLOGRAM_MB_AVAILABLE: '&dCajas disponibles'

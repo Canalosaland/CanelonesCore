@@ -41,6 +41,7 @@ public class User {
         this.lastTpa = "";
         this.lastMB = null;
         this.lastBizum = -1L;
+        this.boxes = new DBUserMBObj[0];
 
         fetchData();
 

@@ -48,10 +48,19 @@ public class GInterfaceMB extends GInterface {
             return;
         }
 
+        for(int i = 0; i < 27; i++)
+            setItem(i, new ItemStack(Material.AIR));
+
         super.open();
         _SOUND_OPEN(owner.player);
 
         final DBUserMBObj[] userMBArr = owner.getBoxes();
+        if(userMBArr.length == 0) {
+            for(int i = 0; i < 27; i++)
+                setItem(i, Material.RED_STAINED_GLASS_PANE, 0, owner.translateC("MB_NO_BOXES"));
+            return;
+        }
+
         for(int i = 0; i < userMBArr.length; i++) {
             DBUserMBObj userMB = userMBArr[i];
             DBMysteryBoxObj mysteryBox = DBBufferMB.BUFFER.getById(userMB.mid);
@@ -81,9 +90,6 @@ public class GInterfaceMB extends GInterface {
             _SOUND_ERROR(owner.player);
             return;
         }
-
-        for(int i = 0; i < 27; i++)
-            setItem(i, new ItemStack(Material.AIR));
 
         final DBMysteryBoxLocationObj location = owner.getLastMB();
         final DBUserMBObj[] userMBArr = owner.getBoxes();
