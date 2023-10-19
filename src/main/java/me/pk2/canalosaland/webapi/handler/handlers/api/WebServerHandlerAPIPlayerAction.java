@@ -177,7 +177,7 @@ public class WebServerHandlerAPIPlayerAction extends WebServerHandler {
                 if(amount.length < 2 || !amount[0].equalsIgnoreCase("amount"))
                     return new WebServerResponse(actionResponse);
 
-                if(user.getLastBizum() < ConfigMainBuffer.buffer.bizum_delay) {
+                if(user.getLastBizum() != -1L && user.getLastBizum() < ConfigMainBuffer.buffer.bizum_delay) {
                     user.sendLocale("INTERFACE_PHONE_BIZUM_DELAY");
                     _SOUND_ERROR(user.player);
 
