@@ -34,6 +34,7 @@ public class User {
     private DBUserMBObj[] boxes;
     private DBMysteryBoxLocationObj lastMB;
     private String lastTpa;
+    private String menuContext;
     private long lastBizum;
     public User(Player player) {
         this.player = player;
@@ -42,6 +43,7 @@ public class User {
         this.lastMB = null;
         this.lastBizum = -1L;
         this.boxes = new DBUserMBObj[0];
+        this.menuContext = "";
 
         fetchData();
 
@@ -80,6 +82,9 @@ public class User {
 
     public void setLastMB(DBMysteryBoxLocationObj obj) { this.lastMB = obj; }
     public DBMysteryBoxLocationObj getLastMB() { return this.lastMB; }
+
+    public void setMenuContext(String menuContext) { this.menuContext = menuContext; }
+    public String getMenuContext() { return this.menuContext; }
 
     public void updateLastBizum() {
         this.lastBizum = System.currentTimeMillis();

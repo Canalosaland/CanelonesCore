@@ -18,7 +18,7 @@ public class CommandInterface implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player) && sender.hasPermission("canalosaland.interface")) {
             if(args.length < 2) {
-                sender.sendMessage(_COLOR("&cUsage: /interface <player> <interface>"));
+                sender.sendMessage(_COLOR("&cUsage: /interface <player> <interface> [context]"));
                 return true;
             }
 
@@ -48,6 +48,13 @@ public class CommandInterface implements CommandExecutor {
                 return true;
             }
 
+            if(args.length > 3) {
+                StringBuilder builder = new StringBuilder();
+                for(int i = 2; i < args.length; i++)
+                    builder.append(args[i] + " ");
+                user.setMenuContext(builder.toString().strip());
+            }
+
             user.openI(clazz);
 
             sender.sendMessage(_COLOR("&aInterface opened for " + target.getName() + "!"));
@@ -55,7 +62,7 @@ public class CommandInterface implements CommandExecutor {
         }
 
         if(args.length < 1) {
-            sender.sendMessage(_COLOR("&cUsage: /interface <interface>"));
+            sender.sendMessage(_COLOR("&cUsage: /interface <interface> [context]"));
             return true;
         }
 
@@ -78,6 +85,13 @@ public class CommandInterface implements CommandExecutor {
         } catch (Exception exception) {
             sender.sendMessage(_COLOR("&cInterface not found!"));
             return true;
+        }
+
+        if(args.length > 2) {
+            StringBuilder builder = new StringBuilder();
+            for(int i = 1; i < args.length; i++)
+                builder.append(args[i] + " ");
+            user.setMenuContext(builder.toString().strip());
         }
 
         user.openI(clazz);
