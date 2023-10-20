@@ -42,7 +42,7 @@ public class GInterfacePhoneBizum extends GInterface {
             if(user == null || user.player == null || !user.player.isValid())
                 return;
 
-            if(owner.getLastBizum() < ConfigMainBuffer.buffer.bizum_delay) {
+            if(owner.getLastBizum() != -1L && owner.getLastBizum() < ConfigMainBuffer.buffer.bizum_delay) {
                 owner.sendLocale("INTERFACE_PHONE_BIZUM_DELAY");
                 _SOUND_ERROR(owner.player);
                 return;
