@@ -1,10 +1,7 @@
 package me.pk2.canalosaland.db;
 
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
-import me.pk2.canalosaland.db.obj.DBHomeObj;
-import me.pk2.canalosaland.db.obj.DBKitObj;
-import me.pk2.canalosaland.db.obj.DBUserKitObj;
-import me.pk2.canalosaland.db.obj.DBUserMBObj;
+import me.pk2.canalosaland.db.obj.*;
 import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxLocationObj;
 import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxObj;
 import me.pk2.canalosaland.db.obj.mb.action.MysteryBoxAction;
@@ -128,7 +125,7 @@ public class DBApi {
                 }
             }
 
-            public static String getLocale(Connection conn, int uid) {
+            public static DBUserDataObj getData(Connection conn, int uid) {
                 if(conn == null)
                     return null;
                 try {
@@ -138,7 +135,12 @@ public class DBApi {
                     ResultSet set = stmt.executeQuery();
                     if(!set.next())
                         throw new SQLException("User not found.");
-                    return set.getString("locale");
+
+                    DBUserDataObj data = new DBUserDataObj(
+                            uid,
+                            set.getString("job"),
+                            set.getString("locale"));
+                    return data;
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not get user locale! " + e.getMessage());
                     return null;
@@ -155,6 +157,21 @@ public class DBApi {
                     return 1;
                 } catch (SQLException e) {
                     _LOG("DBApi", "Could not change user locale! " + e.getMessage());
+                    return 0;
+                }
+            }
+
+            public static int changeJob(Connection conn, int uid, String job) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("UPDATE users SET job=? WHERE id=?");
+                    stmt.setString(1, job);
+                    stmt.setInt(2, uid);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not change user job! " + e.getMessage());
                     return 0;
                 }
             }

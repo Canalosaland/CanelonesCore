@@ -2,16 +2,19 @@ package me.pk2.canalosaland.user;
 
 import static me.pk2.canalosaland.util.Wrapper.*;
 
+import me.pk2.canalosaland.CanelonesCore;
 import me.pk2.canalosaland.config.buff.ConfigLangBuffer;
 import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.obj.DBHomeObj;
+import me.pk2.canalosaland.db.obj.DBUserDataObj;
 import me.pk2.canalosaland.db.obj.DBUserKitObj;
 import me.pk2.canalosaland.db.obj.DBUserMBObj;
 import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxLocationObj;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.interfaces.*;
 import me.pk2.canalosaland.interfaces.jobs.*;
+import me.pk2.canalosaland.jobs.Job;
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -36,6 +39,7 @@ public class User {
     private String lastTpa;
     private String menuContext;
     private long lastBizum;
+    private String job;
     public User(Player player) {
         this.player = player;
         this.locale = "es";
@@ -44,6 +48,7 @@ public class User {
         this.lastBizum = -1L;
         this.boxes = new DBUserMBObj[0];
         this.menuContext = "";
+        this.job = "";
 
         fetchData();
 
@@ -95,6 +100,26 @@ public class User {
         return System.currentTimeMillis()-lastBizum;
     }
 
+    public Job getJob(String jName) { return CanelonesCore.INSTANCE.jobSystem.job(jName==null?"":jName); }
+    public void newJob(Job job) {
+        String oldJob = this.job;
+        this.job = job.getName();
+
+        DBApi.enqueue(() -> {
+            Connection conn = DBApi.connect();
+
+            int exCode = DBApi.API.users.changeJob(conn, userId, this.job);
+            if(exCode != 1) {
+                this.job = oldJob;
+                sendLocale("JOBS_ERROR_DB");
+                _LOG("Jobs", "ERROR DB at " + player.getName() + " code " + exCode);
+                return;
+            }
+
+            DBApi.disconnect(conn);
+        });
+    }
+
     public void fetchData() {
         String uuid = _UUID(player);
 
@@ -108,8 +133,11 @@ public class User {
             this.userId = DBApi.API.users.getId(conn, uuid);
             this.kits = DBApi.API.users_kits.getByUid(conn, this.userId);
             this.homes = DBApi.API.homes.getByUid(conn, this.userId);
-            this.locale = DBApi.API.users.getLocale(conn, this.userId);
             this.boxes = DBApi.API.users_mb.getByUid(conn, this.userId);
+
+            DBUserDataObj data = DBApi.API.users.getData(conn, this.userId);
+            this.locale = data.locale;
+            this.job = data.job;
 
             DBApi.disconnect(conn);
             _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Data fetched from database");

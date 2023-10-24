@@ -8,6 +8,7 @@ import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.buffer.DBBufferKits;
 import me.pk2.canalosaland.dependencies.*;
+import me.pk2.canalosaland.jobs.JobSystem;
 import me.pk2.canalosaland.listeners.*;
 import me.pk2.canalosaland.reflections.ReflectionsManager;
 import me.pk2.canalosaland.runnables.BalanceTopRunnable;
@@ -28,6 +29,7 @@ public class CanelonesCore extends JavaPlugin {
     public ReflectionsManager reflectionsManager;
     public SignMenuFactory signMenuFactory;
     public WebAPI webAPI;
+    public JobSystem jobSystem;
 
     private BukkitTask tabTask;
     private BukkitTask balTask;
@@ -99,6 +101,9 @@ public class CanelonesCore extends JavaPlugin {
         _LOG("Scoreboard", "Checking...");
         if(SCORE == null)
             SCORE = Bukkit.getScoreboardManager().getMainScoreboard();
+
+        _LOG("JobSystem", "Building...");
+        jobSystem = JobSystem.build(this);
 
         _LOG("Runnables", "Registering...");
         tabTask = new TablistRunnable().runTaskTimer(this, 0L, 20L * ConfigMainBuffer.buffer.tablist.update);

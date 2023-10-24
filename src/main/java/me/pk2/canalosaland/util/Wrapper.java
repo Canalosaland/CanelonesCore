@@ -7,6 +7,7 @@ import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.dependencies.DependencyPAPI;
 import me.pk2.canalosaland.user.User;
 import me.pk2.canalosaland.user.UserManager;
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -26,6 +27,7 @@ public class Wrapper {
     public static String _COLOR(String text) { return ChatColor.translateAlternateColorCodes('&', text); }
     public static TextComponent _COMP(String text) { return new TextComponent(_COLOR(text)); }
     public static String _UUID(Player player) { return player.getUniqueId().toString().toLowerCase(); }
+    public static void _ACTION_BAR(Player player, String text) { player.sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(_COLOR(text))); }
     public static String _PLACEHOLDER(Player player, String text) {
         return DependencyPAPI.parse(player, text
                 .replace("%player%", player.getName())
@@ -65,6 +67,7 @@ public class Wrapper {
     public static void _SOUND_CLOSE(Player player) { player.playSound(player.getLocation(), "block.ender_chest.close", 1.0f, 1.2f); }
     public static void _SOUND_CLICK(Player player) { player.playSound(player.getLocation(), "ui.button.click", 1.0f, 1.8f); }
     public static void _SOUND_EXP(Player player) { player.playSound(player.getLocation(), "entity.experience_orb.pickup", 1.0f, 1.5f); }
+    public static void _SOUND_EXP2(Player player) { player.playSound(player.getLocation(), "entity.experience_orb.pickup", 1.0f, 2f); }
     public static void _SOUND_PAGE(Player player) { player.playSound(player.getLocation(), "item.book.page_turn", 1f, 1.5f); }
     public static void _SOUND_NOTIFICATION(Player player) { player.playSound(player.getLocation(), "block.note_block.chime", 1f, 1.8f); }
     public static void _SOUND_BOUNTY(Player player) { player.playSound(player.getLocation(), "block.chest.locked", 1f, 1.5f);}
