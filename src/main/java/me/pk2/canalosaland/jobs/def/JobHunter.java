@@ -43,7 +43,7 @@ public class JobHunter extends Job {
     public void entityDeath(EntityDeathEvent e) {
         LivingEntity m = e.getEntity();
         Player p = m.getKiller();
-        if(p == null)
+        if(p == null || !is(p))
             return;
         if(m instanceof Player)
             return;
