@@ -20,6 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
+import javax.annotation.Nullable;
 import java.sql.Connection;
 import java.util.HashMap;
 
@@ -100,10 +101,12 @@ public class User {
         return System.currentTimeMillis()-lastBizum;
     }
 
-    public Job getJob(String jName) { return CanelonesCore.INSTANCE.jobSystem.job(jName==null?"":jName); }
-    public void newJob(Job job) {
+    public Job getJob() { return CanelonesCore.INSTANCE.jobSystem.job(job==null?"":job); }
+    public void newJob(@Nullable Job job) {
         String oldJob = this.job;
-        this.job = job.getName();
+        if(job == null)
+            this.job = null;
+        else this.job = job.getName();
 
         DBApi.enqueue(() -> {
             Connection conn = DBApi.connect();
@@ -147,6 +150,7 @@ public class User {
     public String translate(String key) { return ConfigLangBuffer.translate(this, key); }
     public String translateC(String key) { return ConfigLangBuffer.translateC(this, key); }
     public void sendLocale(String key) { player.sendMessage(translateC(key)); }
+    public void sendLocaleArgs(String key, Object... args) { player.sendMessage(_COLOR(String.format(translate(key), args))); }
 
     public void updateTeam() {
         if(this.team == null)

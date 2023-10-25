@@ -34,7 +34,6 @@ dependencies {
     compileOnly("com.comphenix.protocol:ProtocolLib:4.8.0")
     compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
     compileOnly(files("libs/Telecom-Release.jar"))
-    compileOnly(files("libs/Jobs5.2.1.0.jar"))
 
     implementation("mysql:mysql-connector-java:8.0.33")
 }
@@ -49,7 +48,6 @@ tasks.withType<ShadowJar> {
         exclude(dependency("com.comphenix.protocol:ProtocolLib:4.8.0"))
         exclude(dependency("fr.xephi:authme:5.6.0-SNAPSHOT"))
         exclude(dependency(files("libs/Telecom-Release.jar")))
-        exclude(dependency(files("libs/Jobs5.2.1.0.jar")))
 
         include(dependency("mysql:mysql-connector-java:8.0.33"))
     }

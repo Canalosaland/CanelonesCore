@@ -74,11 +74,6 @@ public class CanelonesCore extends JavaPlugin {
             DependencyAuthMe.register();
         else getLogger().warning("AuthMe is not installed, some features will not work!");
 
-        // Check for Jobs plugin(no hook)
-        if(getServer().getPluginManager().getPlugin("Jobs") == null)
-            getLogger().warning("Jobs is not installed, some features will not work!");
-        else getLogger().info("Jobs registered!");
-
         // Load config
         ConfigLoader.load();
 

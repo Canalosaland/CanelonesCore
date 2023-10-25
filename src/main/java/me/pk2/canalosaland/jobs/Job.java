@@ -2,6 +2,7 @@ package me.pk2.canalosaland.jobs;
 
 import static me.pk2.canalosaland.util.Wrapper.*;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
@@ -19,4 +20,5 @@ public abstract class Job implements Listener {
     public void clear() { users.clear(); }
 
     public abstract String getName();
+    public abstract Material getMaterial();
 }

@@ -4,6 +4,7 @@ import static me.pk2.canalosaland.util.Wrapper.*;
 
 import me.pk2.canalosaland.dependencies.DependencyVault;
 import me.pk2.canalosaland.jobs.Job;
+import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -33,10 +34,10 @@ public class JobHunter extends Job {
         extras.put(EnderDragon.class, 399.8);
     }
 
-    @Override
-    public String getName() {
+    @Override public String getName() {
         return "Hunter";
     }
+    @Override public Material getMaterial() { return Material.BOW; }
 
     @EventHandler
     public void entityDeath(EntityDeathEvent e) {

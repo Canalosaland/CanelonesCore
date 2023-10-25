@@ -1,10 +1,10 @@
 name: CanelonesCore
-version: 2.1.2
+version: 2.4.6
 main: me.pk2.canalosaland.CanelonesCore
 author: PK2_Stimpy
 description: CanelonesCore
 api-version: 1.16
-softdepend: [PlaceholderAPI, LuckPerms, Telecom, Vault, ProtocolLib, AuthMe, Jobs]
+softdepend: [PlaceholderAPI, LuckPerms, Telecom, Vault, ProtocolLib, AuthMe]
 commands:
   canelones-reload:
     description: Reloads the plugin
