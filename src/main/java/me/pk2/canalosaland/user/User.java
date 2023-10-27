@@ -104,9 +104,16 @@ public class User {
     public Job getJob() { return CanelonesCore.INSTANCE.jobSystem.job(job==null?"":job); }
     public void newJob(@Nullable Job job) {
         String oldJob = this.job;
+		Job oldJobRef = getJob();
+		
         if(job == null)
             this.job = null;
         else this.job = job.getName();
+		
+		if(oldJobRef != null)
+			oldJobRef.quit(player);
+		if(job != null)
+			job.join(player);
 
         DBApi.enqueue(() -> {
             Connection conn = DBApi.connect();
@@ -115,6 +122,12 @@ public class User {
             if(exCode != 1) {
                 this.job = oldJob;
                 sendLocale("JOBS_ERROR_DB");
+
+                if(oldJobRef != null)
+                    oldJobRef.join(player);
+                if(job != null)
+                    job.quit(player);
+				
                 _LOG("Jobs", "ERROR DB at " + player.getName() + " code " + exCode);
                 return;
             }
@@ -173,6 +186,10 @@ public class User {
 
         team.addEntry(player.getName());
         updateTeam();
+
+        Job job = CanelonesCore.INSTANCE.jobSystem.job(this.job);
+        if(job != null)
+            job.join(player);
     }
 
     public void handleQuit() {
@@ -180,5 +197,8 @@ public class User {
         team.unregister();
 
         team = null;
+        Job job = CanelonesCore.INSTANCE.jobSystem.job(this.job);
+        if(job != null)
+            job.quit(player);
     }
 }

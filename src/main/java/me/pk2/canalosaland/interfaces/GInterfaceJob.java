@@ -21,13 +21,16 @@ public class GInterfaceJob extends GInterface {
     public void open() {
         super.open();
         _SOUND_PAGE(owner.player);
+		
+		if(guiJob == null)
+			return;
 
         Job job = owner.getJob();
         if(job == null)
-            setItem(13, job.getMaterial(), 0, "&a"+this.job, "", owner.translateC("INTERFACE_JOB_JOIN"));
+            setItem(13, guiJob.getMaterial(), 0, "&a"+this.job, "", owner.translateC("INTERFACE_JOB_JOIN"));
         else if(!job.getName().equals(this.job))
-            setItem(13, job.getMaterial(), 0, "&a"+this.job, "", owner.translateC("INTERFACE_JOB_ANOTHER"));
-        else setItem(13, job.getMaterial(), 0, "&a"+this.job, "", owner.translateC("INTERFACE_JOB_JOIN"));
+            setItem(13, guiJob.getMaterial(), 0, "&a"+this.job, "", owner.translateC("INTERFACE_JOB_ANOTHER"));
+        else setItem(13, guiJob.getMaterial(), 0, "&a"+this.job, "", owner.translateC("INTERFACE_JOB_LEAVE"));
     }
 
     @Override
