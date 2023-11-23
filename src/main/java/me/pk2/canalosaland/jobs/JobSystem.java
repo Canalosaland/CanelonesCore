@@ -1,6 +1,7 @@
 package me.pk2.canalosaland.jobs;
 
 import me.pk2.canalosaland.CanelonesCore;
+import me.pk2.canalosaland.jobs.def.JobFisherman;
 import me.pk2.canalosaland.jobs.def.JobHunter;
 import org.bukkit.Bukkit;
 
@@ -28,6 +29,7 @@ public class JobSystem {
 
         // Register jobs
         system.registerJob(new JobHunter());
+        system.registerJob(new JobFisherman());
 
         return system;
     }

@@ -51,7 +51,6 @@ public class JobHunter extends Job {
         double money = .1; // Base money for killing entity.
         if(m instanceof Monster)
             money += .1; // Plus if is a monster, resulting in 0.2$
-        System.out.println(m.getClass().getSimpleName());
         money += extras.getOrDefault(m.getClass().getSimpleName(), .0);
 
         DependencyVault.deposit(p, money);
