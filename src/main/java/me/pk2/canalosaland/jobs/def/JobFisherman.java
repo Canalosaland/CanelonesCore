@@ -35,8 +35,8 @@ public class JobFisherman extends Job {
 
         Entity m = e.getCaught();
         if (m instanceof Item) {
+            double money = .1;
             Material mat = ((Item) m).getItemStack().getType();
-
         }
     }
 }
