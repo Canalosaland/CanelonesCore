@@ -12,26 +12,26 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import java.util.HashMap;
 
 public class JobHunter extends Job {
-    private HashMap<Class<? extends LivingEntity>, Double> extras;
+    private HashMap<String, Double> extras;
     public JobHunter() {
         super();
 
         this.extras = new HashMap<>();
-        extras.put(Blaze.class, .2);
-        extras.put(ElderGuardian.class, .4);
-        extras.put(Evoker.class, .3);
-        extras.put(Ghast.class, .1);
-        extras.put(Guardian.class, .1);
-        extras.put(PiglinBrute.class, .3);
-        extras.put(Pillager.class, .1);
-        extras.put(Ravager.class, .3);
-        extras.put(Shulker.class, .1);
-        extras.put(Slime.class, .1);
-        extras.put(Vex.class, .1);
-        extras.put(Vindicator.class, .2);
-        extras.put(Zoglin.class, .1);
-        extras.put(Wither.class, 799.8);
-        extras.put(EnderDragon.class, 399.8);
+        extras.put("CraftBlaze", .2);
+        extras.put("CraftElderGuardian", .4);
+        extras.put("CraftEvoker", .3);
+        extras.put("CraftGhast", .2);
+        extras.put("CraftGuardian", .1);
+        extras.put("CraftPiglinBrute", .3);
+        extras.put("CraftPillager", .1);
+        extras.put("CraftRavager", .3);
+        extras.put("CraftShulker", .1);
+        extras.put("CraftSlime", .1);
+        extras.put("CraftVex", .1);
+        extras.put("CraftVindicator", .2);
+        extras.put("CraftZoglin", .1);
+        extras.put("CraftWither", 799.8);
+        extras.put("CraftEnderDragon", 399.8);
     }
 
     @Override public String getName() {
@@ -51,7 +51,8 @@ public class JobHunter extends Job {
         double money = .1; // Base money for killing entity.
         if(m instanceof Monster)
             money += .1; // Plus if is a monster, resulting in 0.2$
-        money += extras.getOrDefault(m.getClass(), .0);
+        System.out.println(m.getClass().getSimpleName());
+        money += extras.getOrDefault(m.getClass().getSimpleName(), .0);
 
         DependencyVault.deposit(p, money);
         _ACTION_BAR(p, String.format("&a&l+%.2f$", money));

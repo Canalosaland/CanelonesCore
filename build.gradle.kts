@@ -36,6 +36,7 @@ dependencies {
     compileOnly(files("libs/Telecom-Release.jar"))
 
     implementation("mysql:mysql-connector-java:8.0.33")
+    implementation("org.apache.commons:commons-lang3:3.14.0")
 }
 
 tasks.withType<ShadowJar> {
@@ -50,6 +51,7 @@ tasks.withType<ShadowJar> {
         exclude(dependency(files("libs/Telecom-Release.jar")))
 
         include(dependency("mysql:mysql-connector-java:8.0.33"))
+        include(dependency("org.apache.commons:commons-lang3:3.14.0"))
     }
 }
 
