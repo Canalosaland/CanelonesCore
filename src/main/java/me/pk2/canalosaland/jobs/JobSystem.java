@@ -1,6 +1,7 @@
 package me.pk2.canalosaland.jobs;
 
 import me.pk2.canalosaland.CanelonesCore;
+import me.pk2.canalosaland.jobs.def.JobBrewer;
 import me.pk2.canalosaland.jobs.def.JobEnchanter;
 import me.pk2.canalosaland.jobs.def.JobFisherman;
 import me.pk2.canalosaland.jobs.def.JobHunter;
@@ -32,6 +33,7 @@ public class JobSystem {
         system.registerJob(new JobHunter());
         system.registerJob(new JobFisherman());
         system.registerJob(new JobEnchanter());
+        system.registerJob(new JobBrewer());
 
         return system;
     }

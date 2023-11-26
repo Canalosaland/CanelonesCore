@@ -53,8 +53,6 @@ public class JobHunter extends Job {
             money += .1; // Plus if is a monster, resulting in 0.2$
         money += extras.getOrDefault(m.getClass().getSimpleName(), .0);
 
-        DependencyVault.deposit(p, money);
-        _ACTION_BAR(p, String.format("&a&l+%.2f$", money));
-        _SOUND_EXP2(p);
+        sendMoney(p, money);
     }
 }

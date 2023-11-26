@@ -35,8 +35,6 @@ public class JobEnchanter extends Job {
             else if(level > 1) money += .1 * level;
         }
 
-        DependencyVault.deposit(p, money);
-        _ACTION_BAR(p, String.format("&a&l+%.2f$", money));
-        _SOUND_EXP2(p);
+        sendMoney(p, money);
     }
 }
