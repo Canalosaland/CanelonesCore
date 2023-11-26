@@ -721,5 +721,9 @@ public class DBApi {
                 }
             }
         }
+
+        public static class shops {
+            // TODO: Make db communication.
+        }
     }
 }
