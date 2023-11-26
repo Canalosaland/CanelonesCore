@@ -1,10 +1,7 @@
 package me.pk2.canalosaland.jobs;
 
 import me.pk2.canalosaland.CanelonesCore;
-import me.pk2.canalosaland.jobs.def.JobBrewer;
-import me.pk2.canalosaland.jobs.def.JobEnchanter;
-import me.pk2.canalosaland.jobs.def.JobFisherman;
-import me.pk2.canalosaland.jobs.def.JobHunter;
+import me.pk2.canalosaland.jobs.def.*;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;

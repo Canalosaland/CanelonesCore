@@ -44,7 +44,7 @@ public class JobBrewer extends Job {
 
                         money += .36;
                         if(type == PotionType.TURTLE_MASTER)
-                            money += .17;
+                            money += 1.67;
                     }
 
                     sendMoney(player, money);
