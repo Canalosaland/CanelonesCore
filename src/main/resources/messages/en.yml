@@ -179,3 +179,6 @@ JOBS_ERROR_DB: '&8&l(&c&l!&8&l) &aJobs &8» &7Could not change the job, contact 
 JOBS_JOIN: '&8&l(&a&l!&8&l) &aJobs &8» &7Joined &f%s &7job.'
 JOBS_LEFT: '&8&l(&e&l!&8&l) &aJobs &8» &7Left &f%s &7job.'
 JOBS_MUST_LEAVE: '&8&l(&c&l!&8&l) &aJobs &8» &7You must leave &f%s &7job first.'
+INTERFACE_SHOP_ERROR_CONTEXT: '&8&l(&c&l!&8&l) &aComercio &8» &7Could not find menu context, contact an administrator.'
+INTERFACE_SHOP_ERROR_INSTANCE: '&8&l(&c&l!&8&l) &aComercio &8» &7Could not find menu instance, contact an administrator.'
+INTERFACE_SHOP_PURCHASE: '&6Click to purchase'
