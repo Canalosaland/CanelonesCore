@@ -5,7 +5,10 @@ import me.pk2.canalosaland.db.obj.*;
 import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxLocationObj;
 import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxObj;
 import me.pk2.canalosaland.db.obj.mb.action.MysteryBoxAction;
+import me.pk2.canalosaland.db.obj.shops.DBShop;
+import me.pk2.canalosaland.db.obj.shops.DBShopData;
 import me.pk2.canalosaland.util.BukkitSerialization;
+import me.pk2.canalosaland.util.ClassUtil;
 import org.apache.commons.lang3.SerializationUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -723,7 +726,91 @@ public class DBApi {
         }
 
         public static class shops {
-            // TODO: Make db communication.
+            public static DBShop[] getShops(Connection conn) {
+                if(conn == null)
+                    return new DBShop[0];
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM shops");
+                    ResultSet res = stmt.executeQuery();
+
+                    ArrayList<DBShop> shops = new ArrayList<>();
+                    while(res.next()) {
+                        int id = res.getInt("id");
+                        String name = res.getString("name");
+                        byte[] data = res.getBytes("data");
+
+                        DBShopData dataObj = SerializationUtils.deserialize(data);
+                        DBShop shop = new DBShop(id, name);
+                        shop.setData(dataObj);
+
+                        shops.add(shop);
+                    }
+
+                    return shops.toArray(DBShop[]::new);
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not obtain shop data! " + e.getMessage());
+                    return new DBShop[0];
+                }
+            }
+
+            public static int updateName(Connection conn, int id, String name) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("UPDATE shops SET name=? WHERE id=?");
+                    stmt.setString(1, name);
+                    stmt.setInt(2, id);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not update shop name " + id + "! " + e.getMessage());
+                    return 0;
+                }
+            }
+
+            public static int updateData(Connection conn, int id, DBShopData data) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("UPDATE shops SET data=? WHERE id=?");
+                    stmt.setBytes(1, SerializationUtils.serialize(data));
+                    stmt.setInt(2, id);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch(SQLException e) {
+                    _LOG("DBApi", "Could not update shop data " + id + "! " + e.getMessage());
+                    return 0;
+                }
+            }
+
+            public static int deleteShop(Connection conn, int id) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("DELETE FROM shops WHERE id=?");
+                    stmt.setInt(1, id);
+                    stmt.executeUpdate();
+                    return 1;
+                } catch(SQLException e) {
+                    _LOG("DBApi", "Could not delete shop " + id + "! " + e.getMessage());
+                    return 0;
+                }
+            }
+
+            public static int insertShop(Connection conn, String name, DBShopData data) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("INSERT INTO shops(name,data) VALUES (?,?)");
+                    stmt.setString(1, name);
+                    stmt.setBytes(2, SerializationUtils.serialize(data));
+                    stmt.executeUpdate();
+                    return 1;
+                } catch(SQLException e) {
+                    _LOG("DBApi", "Could not insert shop " + name + "! " + e.getMessage());
+                    return 0;
+                }
+            }
         }
     }
 }
