@@ -31,6 +31,12 @@ public class DBBSShopData {
     public ArrayList<DBBSShopItem> getItems() { return items; }
 
     public void updateLocal() {
-        //
+        for(DBBSShopItem item : items)
+            item.updateLocal();
+    }
+
+    public void updateDBS() {
+        for(DBBSShopItem item : items)
+            item.updateDBS();
     }
 }

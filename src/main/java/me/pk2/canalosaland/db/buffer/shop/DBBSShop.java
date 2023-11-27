@@ -13,4 +13,12 @@ public class DBBSShop {
 
     public DBShop getDbShop() { return dbShop; }
     public DBBSShopData getShopData() { return shopData; }
+
+    public void updateLocal() {
+        shopData.updateLocal();
+    }
+
+    public void updateDBS() {
+        shopData.updateDBS();
+    }
 }
