@@ -168,6 +168,8 @@ public class CanelonesCore extends JavaPlugin {
 
         Objects.requireNonNull(getCommand("mb")).setExecutor(new CommandMysteryBox());
 
+        Objects.requireNonNull(getCommand("shopmanage")).setExecutor(new CommandShopManage());
+
         _LOG("Enabled!");
     }
 

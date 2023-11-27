@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 
 public class GInterfaceShop extends GInterface {
+    private DBBSShop bufferShop;
     public GInterfaceShop(User user) {
         super(user, "&9Shop", 6);
     }
@@ -27,8 +28,6 @@ public class GInterfaceShop extends GInterface {
 
     @Override
     public void open() {
-        super.open();
-
         String menuContext = owner.getMenuContext();
         if(menuContext == null) {
             owner.sendLocale("INTERFACE_SHOP_ERROR_CONTEXT");
@@ -40,6 +39,11 @@ public class GInterfaceShop extends GInterface {
             owner.sendLocale("INTERFACE_SHOP_ERROR_INSTANCE");
             return;
         }
+
+        bufferShop = shop;
+
+        super.open();
+        _SOUND_PAGE(owner.player);
 
         DBBSShopData shopData = shop.getShopData();
         for(int i = 0; i < shopData.getItems().size(); i++) {

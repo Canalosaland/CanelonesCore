@@ -1,21 +1,13 @@
-----> 2
--/mb box list
--/mb box create <name>
--/mb box remove <id>
--/mb box name <id> <name>
--/mb box item <id>
--/mb box slot list <id>
--/mb box slot add <id> <item/cmd> [cmd]
--/mb box slot rem <id> <slot>
--/mb box slot force <id> <slot>
-
-----> 3
--/mb location list
--/mb location create
--/mb location delete <id>
-
-----> 4
--/mb user list <player>
--/mb user give <player> <id> [amount]
--/mb user take <player> <id> [amount]
--/mb user giveall <id> [amount]
+-/shopmanage list
+-/shopmanage new <name>
+/shopmanage item <shop>
+/shopmanage item <shop> clear
+/shopmanage item <shop> delete <item>
+/shopmanage item <shop> add stack <price>
+/shopmanage item <shop> add cmd <price> <command>
+/shopmanage item <shop> update price <item> <price>
+/shopmanage item <shop> update content <item> [command]
+/shopmanage shop <shop>
+/shopmanage shop <shop> delete
+/shopmanage shop <shop> rename <name>
+/shopmanage shop <shop> update <local/dbs>

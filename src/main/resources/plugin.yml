@@ -96,3 +96,6 @@ commands:
   mb:
     description: MysteryBox management command
     usage: /<command>
+  shopmanage:
+    description: Shop management command
+    usage: /<command>

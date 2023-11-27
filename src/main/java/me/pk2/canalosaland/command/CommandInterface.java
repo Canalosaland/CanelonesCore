@@ -48,11 +48,12 @@ public class CommandInterface implements CommandExecutor {
                 return true;
             }
 
-            if(args.length > 3) {
+            if(args.length > 2) {
                 StringBuilder builder = new StringBuilder();
                 for(int i = 2; i < args.length; i++)
                     builder.append(args[i] + " ");
-                user.setMenuContext(builder.toString().strip());
+                builder.deleteCharAt(builder.length()-1);
+                user.setMenuContext(builder.toString());
             }
 
             user.openI(clazz);
@@ -87,11 +88,12 @@ public class CommandInterface implements CommandExecutor {
             return true;
         }
 
-        if(args.length > 2) {
+        if(args.length > 1) {
             StringBuilder builder = new StringBuilder();
             for(int i = 1; i < args.length; i++)
                 builder.append(args[i] + " ");
-            user.setMenuContext(builder.toString().strip());
+            builder.deleteCharAt(builder.length()-1);
+            user.setMenuContext(builder.toString());
         }
 
         user.openI(clazz);
