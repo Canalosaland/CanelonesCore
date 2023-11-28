@@ -48,6 +48,7 @@ public class DBBSShopData {
         updateNeeded = true;
     }
     public ArrayList<DBBSShopItem> getItems() { return items; }
+    public DBBSShopItem getItem(int idx) { return items.get(idx); }
 
     public void updateLocal() {
         for(DBBSShopItem item : items)

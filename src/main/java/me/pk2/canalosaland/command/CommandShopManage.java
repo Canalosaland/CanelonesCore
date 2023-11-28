@@ -180,6 +180,17 @@ public class CommandShopManage implements CommandExecutor {
                     }
 
                     sendHelp(sender);
+                    break;
+                }
+
+                if(subCmd.equals("update") && args.length > 4) {
+                    DBBSShopItem item = shopData.getItem(Integer.parseInt(args[3]));
+                    if(item == null) {
+                        sender.sendMessage(_COLOR("&cCould not find item index."));
+                        break;
+                    }
+
+                    
                 }
             } break;
 
