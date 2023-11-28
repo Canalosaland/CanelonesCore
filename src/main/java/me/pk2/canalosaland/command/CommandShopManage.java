@@ -267,7 +267,7 @@ public class CommandShopManage implements CommandExecutor {
                 if(subCmd.equals("delete")) {
                     int id = dbShop.getId();
 
-                    sender.sendMessage("&eConnecting...");
+                    sender.sendMessage(_COLOR("&eConnecting..."));
                     DBApi.enqueue(() -> {
                         Connection conn = DBApi.connect();
 
