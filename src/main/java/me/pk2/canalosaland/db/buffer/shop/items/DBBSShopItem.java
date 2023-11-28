@@ -14,6 +14,8 @@ public abstract class DBBSShopItem {
         this.material = BukkitSerialization.deserializeItems(dbsItem.getMaterial())[0];
     }
 
+    public DBSItem asDBS() { return dbsItem; }
+
     public void setPrice(double price) { this.price = price; }
     public double getPrice() { return price; }
 

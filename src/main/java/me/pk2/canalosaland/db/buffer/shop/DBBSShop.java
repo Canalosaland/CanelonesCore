@@ -1,6 +1,9 @@
 package me.pk2.canalosaland.db.buffer.shop;
 
+import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.obj.shops.DBShop;
+
+import java.sql.Connection;
 
 public class DBBSShop {
     private final DBShop dbShop;
@@ -18,7 +21,24 @@ public class DBBSShop {
         shopData.updateLocal();
     }
 
-    public void updateDBS() {
+    public int updateDBS() {
         shopData.updateDBS();
+
+        Connection conn = DBApi.connect();
+
+        int exCode = DBApi.API.shops.updateData(conn, dbShop.getId(), shopData.getDbShopData());
+        if(exCode != 1) {
+            DBApi.disconnect(conn);
+            return exCode;
+        }
+
+        exCode = DBApi.API.shops.updateName(conn, dbShop.getId(), dbShop.getName());
+        if(exCode != 1) {
+            DBApi.disconnect(conn);
+            return exCode;
+        }
+
+        DBApi.disconnect(conn);
+        return 1;
     }
 }

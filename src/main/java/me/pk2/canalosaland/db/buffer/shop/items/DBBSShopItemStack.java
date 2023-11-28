@@ -1,5 +1,6 @@
 package me.pk2.canalosaland.db.buffer.shop.items;
 
+import me.pk2.canalosaland.db.obj.shops.items.DBSItem;
 import me.pk2.canalosaland.db.obj.shops.items.DBSItemStack;
 import me.pk2.canalosaland.util.BukkitSerialization;
 import org.bukkit.inventory.ItemStack;
@@ -33,4 +34,7 @@ public class DBBSShopItemStack extends DBBSShopItem {
         dbsItemStack.setMaterial(BukkitSerialization.serializeItems(getMaterial()));
         dbsItemStack.setItemStack(BukkitSerialization.serializeItems(itemStack));
     }
+
+    @Override
+    public DBSItem asDBS() { return dbsItemStack; }
 }

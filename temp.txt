@@ -5,9 +5,9 @@
 -/shopmanage item <shop> delete <item>
 -/shopmanage item <shop> add stack <price>
 -/shopmanage item <shop> add cmd <price> <command>
-/shopmanage item <shop> update <item> price <price>
-/shopmanage item <shop> update <item> content [command]
-/shopmanage shop <shop>
-/shopmanage shop <shop> delete
-/shopmanage shop <shop> rename <name>
-/shopmanage shop <shop> update <local/dbs>
+-/shopmanage item <shop> update <item> price <price>
+-/shopmanage item <shop> update <item> content [command]
+-/shopmanage shop <shop>
+-/shopmanage shop <shop> delete
+-/shopmanage shop <shop> rename <name>
+-/shopmanage shop <shop> migrate

@@ -35,4 +35,7 @@ public class DBBSShopItemCommand extends DBBSShopItem {
         dbsItemCommand.setMaterial(bytes);
         dbsItemCommand.setCommand(command);
     }
+
+    @Override
+    public DBSItem asDBS() { return dbsItemCommand; }
 }

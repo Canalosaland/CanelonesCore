@@ -20,4 +20,5 @@ public class DBShopData implements Serializable {
     public void removeItem(int idx) { items.remove(idx); }
     public void modifyItem(int idx, DBSItem item) { items.set(idx, item); }
     public ArrayList<DBSItem> getItems() { return items; }
+    public void setItems(ArrayList<DBSItem> dbsItems) { items = new ArrayList<>(dbsItems); }
 }

@@ -56,10 +56,16 @@ public class DBBSShopData {
     }
 
     public void updateDBS() {
-        for(DBBSShopItem item : items)
+        ArrayList<DBSItem> dbsItems = new ArrayList<>();
+        for(DBBSShopItem item : items) {
             item.updateDBS();
+            dbsItems.add(item.asDBS());
+        }
+
+        dbShopData.setItems(dbsItems);
         updateNeeded = false;
     }
 
     public boolean updateNeeded() { return updateNeeded; }
+    public void setUpdateNeeded() { updateNeeded = true; }
 }
