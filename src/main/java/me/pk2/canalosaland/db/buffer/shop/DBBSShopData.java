@@ -13,9 +13,11 @@ import java.util.ArrayList;
 public class DBBSShopData {
     private final DBShopData dbShopData;
     private ArrayList<DBBSShopItem> items;
+    private boolean updateNeeded;
     public DBBSShopData(DBShopData dbShopData) {
         this.dbShopData = dbShopData;
         this.items = new ArrayList<>();
+        this.updateNeeded = false;
 
         for(DBSItem item : dbShopData.getItems())
             if(item instanceof DBSItemCommand)
@@ -25,9 +27,26 @@ public class DBBSShopData {
 
     public DBShopData getDbShopData() { return dbShopData; }
 
-    public void insertItem(DBBSShopItem item) { items.add(item); }
-    public void removeItem(int idx) { items.remove(idx); }
-    public void modifyItem(int idx, DBBSShopItem item) { items.set(idx, item); }
+    public void insertItem(DBBSShopItem item) {
+        items.add(item);
+
+        updateNeeded = true;
+    }
+    public void removeItem(int idx) {
+        items.remove(idx);
+
+        updateNeeded = true;
+    }
+    public void modifyItem(int idx, DBBSShopItem item) {
+        items.set(idx, item);
+
+        updateNeeded = true;
+    }
+    public void clearItems() {
+        items.clear();
+
+        updateNeeded = true;
+    }
     public ArrayList<DBBSShopItem> getItems() { return items; }
 
     public void updateLocal() {
@@ -38,5 +57,8 @@ public class DBBSShopData {
     public void updateDBS() {
         for(DBBSShopItem item : items)
             item.updateDBS();
+        updateNeeded = false;
     }
+
+    public boolean updateNeeded() { return updateNeeded; }
 }

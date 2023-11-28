@@ -1,12 +1,12 @@
 -/shopmanage list
 -/shopmanage new <name>
-/shopmanage item <shop>
-/shopmanage item <shop> clear
-/shopmanage item <shop> delete <item>
-/shopmanage item <shop> add stack <price>
-/shopmanage item <shop> add cmd <price> <command>
-/shopmanage item <shop> update price <item> <price>
-/shopmanage item <shop> update content <item> [command]
+-/shopmanage item <shop>
+-/shopmanage item <shop> clear
+-/shopmanage item <shop> delete <item>
+-/shopmanage item <shop> add stack <price>
+-/shopmanage item <shop> add cmd <price> <command>
+/shopmanage item <shop> update <item> price <price>
+/shopmanage item <shop> update <item> content [command]
 /shopmanage shop <shop>
 /shopmanage shop <shop> delete
 /shopmanage shop <shop> rename <name>
