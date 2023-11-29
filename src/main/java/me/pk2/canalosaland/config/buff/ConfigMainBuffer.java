@@ -78,6 +78,7 @@ public class ConfigMainBuffer {
         }
         public static String test;
         public static long bizum_delay;
+        public static String appeal_link;
     }
 
     public static void load() {
@@ -157,6 +158,8 @@ public class ConfigMainBuffer {
         buffer.test = CONFIG.getString("test");
         // Bizum Delay
         buffer.bizum_delay = CONFIG.getLong("bizum_delay");
+        // Appeal Link
+        buffer.appeal_link = CONFIG.getString("appeal_link");
 
         _LOG("config.yml", "Config loaded!");
     }
@@ -230,6 +233,8 @@ public class ConfigMainBuffer {
         CONFIG.set("test", buffer.test);
         // Bizum delay
         CONFIG.set("bizum_delay", buffer.bizum_delay);
+        // Appeal link
+        CONFIG.set("appeal_link", buffer.appeal_link);
 
         try {
             CONFIG.save(_CONFIG("config.yml"));

@@ -4,6 +4,7 @@ import static me.pk2.canalosaland.util.Wrapper.*;
 
 import me.pk2.canalosaland.CanelonesCore;
 import me.pk2.canalosaland.config.buff.ConfigLangBuffer;
+import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
 import me.pk2.canalosaland.db.obj.*;
 import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxLocationObj;
@@ -154,7 +155,21 @@ public class User {
             this.locale = data.locale;
             this.job = data.job;
 
-            DBBanObj[] bans = DBApi.API.bans.getBans(conn, (short)0, player.getName().toLowerCase());
+            DBBanObj[] bansUser = DBApi.API.bans.getBans(conn, (short)0, player.getName().toLowerCase());
+            DBBanObj[] bansIP = new DBBanObj[0];
+            if(player.getAddress() != null)
+                bansIP = DBApi.API.bans.getBans(conn, (short)1, player.getAddress().getHostName());
+
+            DBBanObj[] bans = new DBBanObj[bansUser.length + bansIP.length];
+            for(int i = 0; i < bans.length; i++) {
+                if(i >= bansUser.length) {
+                    bans[i] = bansIP[i - bansUser.length];
+                    continue;
+                }
+
+                bans[i] = bansUser[i];
+            }
+
             for(DBBanObj ban : bans)
                 if(!ban.expired()) {
                     Bukkit.getScheduler().runTask(CanelonesCore.INSTANCE, () -> player.kick(Component.text(_COLOR(
@@ -162,9 +177,24 @@ public class User {
                                     &cYou are permanently banned from this server!
                                                                         
                                     &7Reason: &f%s
-                                    """, ban.getReason()) : """
-                                    """
+                                    &7Find out more: &f%s
+                                    
+                                    &7Ban ID: &f%d
+                                    &7Sharing your Ban ID may affect the processing of your appeal!
+                                    """, ban.getReason(), ConfigMainBuffer.buffer.appeal_link, ban.getId()) : String.format("""
+                                    &cYou are temporarily banned for %s from this server!
+                                                                        
+                                    &7Reason: &f%s
+                                    &7Find out more: &f%s
+                                    
+                                    &7Ban ID: &f%d
+                                    &7Sharing your Ban ID may affect the processing of your appeal!
+                                    """, ban.getTimeExp(), ban.getReason(), ConfigMainBuffer.buffer.appeal_link, ban.getId())
                     ))));
+
+                    DBApi.disconnect(conn);
+                    _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "User is banned(" + ban.getId() + ")");
+                    return;
                 }
 
             DBApi.disconnect(conn);
