@@ -842,6 +842,30 @@ public class DBApi {
                 }
             }
 
+            public static DBBanObj getBan(Connection conn, int id) {
+                if(conn == null)
+                    return null;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM bans WHERE id=?");
+                    stmt.setInt(1, id);
+                    ResultSet res = stmt.executeQuery();
+                    if(res.next()) {
+                        short type = res.getShort("type");
+                        String player = res.getString("player");
+                        long time = res.getLong("time");
+                        String reason = res.getString("reason");
+                        boolean pardon = res.getBoolean("pardon");
+
+                        return new DBBanObj(id, type, player, time, reason, pardon);
+                    }
+
+                    return null;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not obtain ban " + id + ". " + e.getMessage());
+                    return null;
+                }
+            }
+
             public static int addBan(Connection conn, short type, String p, long sec, String reason) {
                 if(conn == null)
                     return -1;
@@ -849,7 +873,7 @@ public class DBApi {
                     PreparedStatement stmt = conn.prepareStatement("INSERT INTO bans(type,player,time,reason) VALUES (?,?,?,?)");
                     stmt.setShort(1, type);
                     stmt.setString(2, p);
-                    stmt.setLong(3, sec*1000);
+                    stmt.setLong(3, sec==0L?sec:(System.currentTimeMillis() + sec*1000));
                     stmt.setString(4, reason);
                     stmt.executeUpdate();
 

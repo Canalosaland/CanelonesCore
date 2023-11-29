@@ -33,7 +33,6 @@ public class GInterfacePhoneBizum extends GInterface {
     @Override
     public void click(int slot) {
         if(slot <= 44) {
-            _SOUND_CLICK(owner.player);
             int index = (page - 1) * 45 + slot;
             if(index >= users.size())
                 return;
@@ -50,10 +49,11 @@ public class GInterfacePhoneBizum extends GInterface {
 
             if(user.player.getName().contentEquals(owner.player.getName())) {
                 owner.player.sendMessage(owner.translateC("INTERFACE_PHONE_BIZUM_CANNOT_SELF"));
-                _SOUND_CLICK(owner.player);
+                _SOUND_ERROR(owner.player);
                 return;
             }
 
+            _SOUND_CLICK(owner.player);
             owner.player.closeInventory();
             Bukkit.getScheduler().runTaskLater(CanelonesCore.INSTANCE, () -> {
                 SignMenuFactory.Menu menu = CanelonesCore.INSTANCE.signMenuFactory

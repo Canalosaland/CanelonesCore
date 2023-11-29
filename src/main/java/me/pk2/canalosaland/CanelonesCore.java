@@ -170,6 +170,10 @@ public class CanelonesCore extends JavaPlugin {
 
         Objects.requireNonNull(getCommand("shopmanage")).setExecutor(new CommandShopManage());
 
+        Objects.requireNonNull(getCommand("ban")).setExecutor(new CommandBan());
+        Objects.requireNonNull(getCommand("unban")).setExecutor(new CommandUnban());
+        Objects.requireNonNull(getCommand("baninfo")).setExecutor(new CommandBanInfo());
+
         _LOG("Enabled!");
     }
 

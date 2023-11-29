@@ -26,6 +26,8 @@ public class DBBanObj {
             return "FOREVER";
         long currentTime = System.currentTimeMillis();
         long diff = time - currentTime;
+        if(diff <= 0)
+            return "EXPIRED";
 
         long days, hours, minutes, seconds = minutes = hours = days = 0;
         seconds = diff / 1000;

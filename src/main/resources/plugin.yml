@@ -99,3 +99,12 @@ commands:
   shopmanage:
     description: Shop management command
     usage: /<command>
+  ban:
+    description: Ban a player
+    usage: /<command> <ip/user> <player> <sec> <reason>
+  unban:
+    description: Pardon a ban
+    usage: /<command> <banId>
+  baninfo:
+    description: Shows info about bans from id or user
+    usage: /<command> <id/user/ip> <player>

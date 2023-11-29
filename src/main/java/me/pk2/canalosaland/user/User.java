@@ -172,8 +172,20 @@ public class User {
 
             for(DBBanObj ban : bans)
                 if(!ban.expired()) {
-                    Bukkit.getScheduler().runTask(CanelonesCore.INSTANCE, () -> player.kick(Component.text(_COLOR(
-                            ban.getTime() == 0L ? String.format("""
+                    sendBanKick(ban);
+
+                    DBApi.disconnect(conn);
+                    _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "User is banned(" + ban.getId() + ")");
+                    return;
+                }
+
+            DBApi.disconnect(conn);
+            _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Data fetched from database");
+        });
+    }
+    public void sendBanKick(DBBanObj ban) {
+        Bukkit.getScheduler().runTask(CanelonesCore.INSTANCE, () -> player.kick(Component.text(_COLOR(
+                ban.getTime() == 0L ? String.format("""
                                     &cYou are permanently banned from this server!
                                                                         
                                     &7Reason: &f%s
@@ -190,16 +202,7 @@ public class User {
                                     &7Ban ID: &f%d
                                     &7Sharing your Ban ID may affect the processing of your appeal!
                                     """, ban.getTimeExp(), ban.getReason(), ConfigMainBuffer.buffer.appeal_link, ban.getId())
-                    ))));
-
-                    DBApi.disconnect(conn);
-                    _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "User is banned(" + ban.getId() + ")");
-                    return;
-                }
-
-            DBApi.disconnect(conn);
-            _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Data fetched from database");
-        });
+        ))));
     }
 
     public String translate(String key) { return ConfigLangBuffer.translate(this, key); }
