@@ -812,5 +812,9 @@ public class DBApi {
                 }
             }
         }
+
+        public static class bans {
+
+        }
     }
 }
