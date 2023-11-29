@@ -26,6 +26,36 @@ public class DBBanObj {
             return "FOREVER";
         long currentTime = System.currentTimeMillis();
         long diff = time - currentTime;
+
+        long days, hours, minutes, seconds = minutes = hours = days = 0;
+        seconds = diff / 1000;
+
+        if(seconds > 59) {
+            minutes += seconds / 60;
+            seconds -= minutes * 60;
+
+            if(minutes > 59) {
+                hours += minutes / 60;
+                minutes -= hours * 60;
+
+                if(hours > 24) {
+                    days += hours / 24;
+                    hours -= days * 24;
+                }
+            }
+        }
+
+        String ret = "";
+        if(days > 0)
+            ret += days + "d ";
+        if(hours > 0)
+            ret += hours + "h ";
+        if(minutes > 0)
+            ret += minutes + "m ";
+        if(seconds > 0)
+            ret += seconds + "s";
+
+        return ret;
     }
     public boolean expired() { return pardon || (time != 0 && System.currentTimeMillis() > time); }
 

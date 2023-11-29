@@ -4,17 +4,15 @@ import static me.pk2.canalosaland.util.Wrapper.*;
 
 import me.pk2.canalosaland.CanelonesCore;
 import me.pk2.canalosaland.config.buff.ConfigLangBuffer;
-import me.pk2.canalosaland.config.buff.ConfigMainBuffer;
 import me.pk2.canalosaland.db.DBApi;
-import me.pk2.canalosaland.db.obj.DBHomeObj;
-import me.pk2.canalosaland.db.obj.DBUserDataObj;
-import me.pk2.canalosaland.db.obj.DBUserKitObj;
-import me.pk2.canalosaland.db.obj.DBUserMBObj;
+import me.pk2.canalosaland.db.obj.*;
 import me.pk2.canalosaland.db.obj.mb.DBMysteryBoxLocationObj;
 import me.pk2.canalosaland.dependencies.DependencyLP;
 import me.pk2.canalosaland.interfaces.*;
 import me.pk2.canalosaland.interfaces.jobs.*;
 import me.pk2.canalosaland.jobs.Job;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -155,6 +153,19 @@ public class User {
             DBUserDataObj data = DBApi.API.users.getData(conn, this.userId);
             this.locale = data.locale;
             this.job = data.job;
+
+            DBBanObj[] bans = DBApi.API.bans.getBans(conn, (short)0, player.getName().toLowerCase());
+            for(DBBanObj ban : bans)
+                if(!ban.expired()) {
+                    Bukkit.getScheduler().runTask(CanelonesCore.INSTANCE, () -> player.kick(Component.text(_COLOR(
+                            ban.getTime() == 0L ? String.format("""
+                                    &cYou are permanently banned from this server!
+                                                                        
+                                    &7Reason: &f%s
+                                    """, ban.getReason()) : """
+                                    """
+                    ))));
+                }
 
             DBApi.disconnect(conn);
             _LOG(uuid + "[" + Thread.currentThread().getId() + "]", "Data fetched from database");

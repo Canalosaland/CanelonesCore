@@ -814,7 +814,82 @@ public class DBApi {
         }
 
         public static class bans {
+            public static DBBanObj[] getBans(Connection conn, short t, String p) {
+                if(conn == null)
+                    return new DBBanObj[0];
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM bans WHERE player=? AND type=?");
+                    stmt.setString(1, p);
+                    stmt.setShort(2, t);
+                    ResultSet set = stmt.executeQuery();
 
+                    ArrayList<DBBanObj> arr = new ArrayList<>();
+                    while(set.next()) {
+                        int id = set.getInt("id");
+                        short type = set.getShort("type");
+                        String player = set.getString("player");
+                        long time = set.getLong("time");
+                        String reason = set.getString("reason");
+                        boolean pardon = set.getBoolean("pardon");
+
+                        arr.add(new DBBanObj(id, type, player, time, reason, pardon));
+                    }
+
+                    return arr.toArray(DBBanObj[]::new);
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not obtain ban " + p + ". " + e.getMessage());
+                    return new DBBanObj[0];
+                }
+            }
+
+            public static int addBan(Connection conn, short type, String p, long sec, String reason) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("INSERT INTO bans(type,player,time,reason) VALUES (?,?,?,?)");
+                    stmt.setShort(1, type);
+                    stmt.setString(2, p);
+                    stmt.setLong(3, sec*1000);
+                    stmt.setString(4, reason);
+                    stmt.executeUpdate();
+
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not add ban " + p + ". " + e.getMessage());
+                    return 0;
+                }
+            }
+
+            public static int pardonBan(Connection conn, int id) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("UPDATE bans SET pardon=1 WHERE id=?");
+                    stmt.setInt(1, id);
+                    stmt.executeUpdate();
+
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not pardon ban " + id + ". " + e.getMessage());
+                    return 0;
+                }
+            }
+
+            public static int pardonBan(Connection conn, short type, String p) {
+                if(conn == null)
+                    return -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement("UPDATE bans SET pardon=1 WHERE player=? AND type=?");
+                    stmt.setString(1, p);
+                    stmt.setShort(2, type);
+                    stmt.executeUpdate();
+
+                    return 1;
+                } catch (SQLException e) {
+                    _LOG("DBApi", "Could not pardon ban " + p + ". " + e.getMessage());
+                    return 0;
+                }
+            }
         }
     }
 }
